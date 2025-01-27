@@ -126,6 +126,8 @@ In the case of an interlaced video stream, each JPEG XS frame is made of two con
 
 Note that the interlaced mode, as signaled by the `frat` field [ISO21122-3] in the video support box, indicates either progressive interlaced top-field-first or interlaced bottom-field-first mode. Thus, in the case of interlaced content, its value SHALL also be identical in both picture segments.
 
+Note that the `frat` field [ISO21122-3] in the video support box always signals the frame rate, even in the case of interlaced content. This should not be confused with the field rate.
+
 # RTP Payload Format
 
 This section specifies the payload format for JPEG XS streams over the Real-time Transport Protocol (RTP) [RFC3550].
@@ -287,7 +289,7 @@ Interlaced information (`I`) \[2 bits\]:
   11:   The payload is part of the second JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed image.
 
 `F` counter \[5 bits\]:
-: The Frame (`F`) counter identifies the video frame number modulo 32 to which a packet belongs. Frame numbers SHALL increment by 1 for each video frame transmitted. The frame number, in addition to the timestamp, may help the decoder manage its input buffer and bring packets back into their natural order. For interlaced frames, both field SHALL have the same `F` counter value.
+: The Frame (`F`) counter identifies the video frame number modulo 32 to which a packet belongs. Frame numbers SHALL increment by 1 for each video frame transmitted. The frame number, in addition to the timestamp, may help the decoder manage its input buffer and bring packets back into their natural order. For interlaced frames, both fields SHALL have the same `F` counter value.
 
 Slice and Extended Packet (`SEP`) counter \[11 bits\]:
 : The `SEP` counter is used differently depending on the packetization mode.
@@ -402,7 +404,7 @@ Each JPEG XS frame is the concatenation of one or more packetization unit(s), as
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=00
 +==========[ PU #2: Slice #1 ]==========+
 |  +---------------------------------+  |  SEP counter=0
-|  |           SLH Marker            |  |  P counter=0
+|  |        SLH or SLI Marker        |  |  P counter=0
 |  +---------------------------------+  |
 |  :       Entropy Coded Data        :  |
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=00
@@ -448,7 +450,7 @@ Each JPEG XS frame is the concatenation of one or more packetization unit(s), as
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=10
 +====[ PU #2: Slice #1 (1st field) ]====+
 |  +---------------------------------+  |  SEP counter=0
-|  |           SLH Marker            |  |  P counter=0
+|  |        SLH or SLI Marker        |  |  P counter=0
 |  +---------------------------------+  |
 |  :       Entropy Coded Data        :  |
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=10
@@ -490,7 +492,7 @@ Each JPEG XS frame is the concatenation of one or more packetization unit(s), as
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=11
 +===[ PU #N+2: Slice #1 (2nd field) ]===+
 |  +---------------------------------+  |  SEP counter=0
-|  |           SLH Marker            |  |  P counter=0
+|  |        SLH or SLI Marker        |  |  P counter=0
 |  +---------------------------------+  |
 |  :      Entropy Coded Data         :  |
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=11
