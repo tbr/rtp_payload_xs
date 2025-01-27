@@ -467,22 +467,31 @@ Table of Contents
       that designates the payload as JPEG XS video.
 
    Timestamp [32 bits]:
-      The RTP timestamp is set to the sampling timestamp of the content.
-      A 90 kHz clock rate SHALL be used.
+      The RTP timestamp is set to the sampling timestamp of the content
+      (see also [RFC3550] and [RFC4175]).  A 90 kHz clock rate SHALL be
+      used.  If the sampling instant does not correspond to an integer
+      value of the clock, the value SHALL be truncated to the next
+      lowest integer, with no ambiguity.
 
-      As specified in [RFC3550] and [RFC4175], the RTP timestamp
-      designates the sampling instant of the first octet of the video
-      frame to which the RTP packet belongs.  Packets SHALL NOT include
-      data from multiple video frames, and all packets belonging to the
-      same video frame SHALL have the same timestamp.  Several
-      successive RTP packets will consequently have equal timestamps if
-      they belong to the same video frame (that is until the marker bit
-      is set to 1, marking the last packet of the video frame), and the
-      timestamp is only increased when a new video frame begins.
+      For progressive scan video, the timestamp denotes the sampling
+      instant of the frame to which the RTP packet belongs.  Packets
+      SHALL NOT include data from multiple frames, and all packets
+      belonging to the same frame SHALL have the same timestamp.
 
-      If the sampling instant does not correspond to an integer value of
-      the clock, the value SHALL be truncated to the next lowest
-      integer, with no ambiguity.
+      For interlaced video, the timestamp denotes the sampling instant
+      of the field to which the RTP packet belongs.  Packets SHALL NOT
+      include data from multiple fields, and all packets belonging to
+      the same field SHALL have the same timestamp.  Use of field
+      timestamps, rather than a frame timestamp and field indicator bit,
+      is needed to support reverse 3-2 pulldown.
+
+      Several successive RTP packets will consequently have equal
+      timestamps if they belong to the same video field for interlace
+      content, or video frame for progressive content.  That is, the
+      time stamp does not change until the marker bit (M) is set to 1,
+      marking the last packet of the video frame or field.  The
+      timestamp is only increased when a new video field or video frame
+      begins.
 
 4.3.  Payload Header Usage
 
@@ -1461,7 +1470,7 @@ Authors' Addresses
    Thomas Richter
    Fraunhofer IIS
    Am Wolfsmantel 33
-   D-91048 Erlangen
+   D-91058 Erlangen
    Germany
    Phone: +49 9131 776 5126
    Email: thomas.richter@iis.fraunhofer.de
