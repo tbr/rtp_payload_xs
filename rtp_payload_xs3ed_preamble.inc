@@ -39,7 +39,7 @@ author:
     abbrev: Fraunhofer IIS
     street: Am Wolfsmantel 33
     city: Erlangen
-    code: D-91048
+    code: D-91058
     country: Germany
     phone: +49 9131 776 5126
     email: thomas.richter@iis.fraunhofer.de
