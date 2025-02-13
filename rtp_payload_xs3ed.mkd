@@ -13,7 +13,7 @@ stand_alone: yes
 
 This document specifies a Real-Time Transport Protocol (RTP) payload format to be used for transporting video encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency, lightweight image coding system. Compared to an uncompressed video use case, it allows higher resolutions and video frame rates while offering visually lossless quality, reduced power consumption, and encoding-decoding latency confined to a fraction of a video frame.
 
-This document is a necessary revision of [RFC9134] to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes [RFC9134] but the revised payload format is designed such that existing compliant implementations of [RFC9134] remain valid to the updated payload format. In addition, this document integrates the errata of [RFC9134] and provides improvements and clarifiactions to the text where applicable.
+This document is a necessary revision of [RFC9134] to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes [RFC9134] but the revised payload format is designed such that existing compliant implementations of [RFC9134] remain valid to the updated payload format. In addition, this document integrates the errata of [RFC9134] and provides improvements and clarifications to the text where applicable.
 
 --- middle
 
@@ -124,7 +124,7 @@ In the case of a progressive video stream, each JPEG XS frame consists of one si
 
 In the case of an interlaced video stream, each JPEG XS frame is made of two concatenated JPEG XS picture segments. The codestream of each picture segment corresponds exclusively to one of the two fields of the interlaced frame. Both picture segments SHALL contain identical boxes (i.e., the byte sequence that contains the concatenation of the video support box and the color specification box is exactly the same in both picture segments of the frame).
 
-Note that the interlaced mode, as signaled by the `frat` field [ISO21122-3] in the video support box, indicates either progressive interlaced top-field-first or interlaced bottom-field-first mode. Thus, in the case of interlaced content, its value SHALL also be identical in both picture segments.
+Note that the interlaced mode, as signaled by the `frat` field [ISO21122-3] in the video support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced content, its value SHALL also be identical in both picture segments.
 
 Note that the `frat` field [ISO21122-3] in the video support box always signals the frame rate, even in the case of interlaced content. This should not be confused with the field rate.
 
