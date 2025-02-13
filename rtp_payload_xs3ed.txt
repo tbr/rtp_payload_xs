@@ -29,7 +29,7 @@ Abstract
    [RFC9134] but the revised payload format is designed such that
    existing compliant implementations of [RFC9134] remain valid to the
    updated payload format.  In addition, this document integrates the
-   errata of [RFC9134] and provides improvements and clarifiactions to
+   errata of [RFC9134] and provides improvements and clarifications to
    the text where applicable.
 
 Status of This Memo
@@ -299,8 +299,8 @@ Table of Contents
    in both picture segments of the frame).
 
    Note that the interlaced mode, as signaled by the frat field
-   [ISO21122-3] in the video support box, indicates either progressive
-   interlaced top-field-first or interlaced bottom-field-first mode.
+   [ISO21122-3] in the video support box, indicates either progressive,
+   interlaced top-field-first, or interlaced bottom-field-first mode.
    Thus, in the case of interlaced content, its value SHALL also be
    identical in both picture segments.
 
@@ -603,9 +603,9 @@ Table of Contents
    support boxes and all of the color specification boxes SHALL retain
    their respective layouts for each JPEG XS frame.  Thus, each video
    support box in the RTP stream SHALL define the same sub boxes, in the
-   same order.  With the exception of the value of the Tcod field
-   [ISO21122-3], the effective values in the boxes SHALL be identical
-   across all JPEG XS frames of the RTP stream.
+   same order.  With the exception of the value of the Tcod field in the
+   Video Information box [ISO21122-3], the effective values in the boxes
+   SHALL be identical across all JPEG XS frames of the RTP stream.
 
    Each JPEG XS frame is the concatenation of one or more packetization
    unit(s), as explained in Section 4.1.  Figure 6 depicts this layout
