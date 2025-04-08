@@ -12,7 +12,7 @@ Expires: 10 October 2025                                       C. Damman
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-             draft-bruylants-payload-rtp-jpegxs-3ed-latest
+               draft-bruylants-payload-rtp-jpegxs-3ed-00
 
 Abstract
 
