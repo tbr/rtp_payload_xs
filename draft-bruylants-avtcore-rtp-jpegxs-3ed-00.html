@@ -10,7 +10,7 @@
 <meta content="Corentin Damman" name="author">
 <meta content="
        This document specifies a Real-Time Transport Protocol (RTP) payload format to be used for transporting video encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency, lightweight image coding system. Compared to an uncompressed video use case, it allows higher resolutions and video frame rates while offering visually lossless quality, reduced power consumption, and encoding-decoding latency confined to a fraction of a video frame. 
-       This document is a necessary revision of   to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes   but the revised payload format is designed such that existing compliant implementations of   remain valid to the updated payload format. In addition, this document integrates the errata of   and provides improvements and clarifications to the text where applicable. 
+       This document is a necessary revision of RFC9134 to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes RFC9134 but the revised payload format is designed such that existing compliant implementations of RFC9134 remain valid to the updated payload format. In addition, this document integrates the errata of RFC9134 and provides improvements and clarifications to the text where applicable. 
     " name="description">
 <meta content="xml2rfc 3.23.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
@@ -19,7 +19,7 @@
 <meta content="transport" name="keyword">
 <meta content="real-time" name="keyword">
 <meta content="protocol" name="keyword">
-<meta content="draft-bruylants-payload-rtp-jpegxs-3ed-00" name="ietf.draft">
+<meta content="draft-bruylants-avtcore-rtp-jpegxs-3ed-00" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.23.1
     Python 3.11.9
@@ -1234,7 +1234,7 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">avtcore</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-bruylants-payload-rtp-jpegxs-3ed-00</dd>
+<dd class="internet-draft">draft-bruylants-avtcore-rtp-jpegxs-3ed-00</dd>
 <dt class="label-obsoletes">Obsoletes:</dt>
 <dd class="obsoletes">
 <a href="https://www.rfc-editor.org/rfc/rfc9134" class="eref">9134</a> (if approved)</dd>
@@ -1267,7 +1267,7 @@ li > p:last-of-type:only-child {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document specifies a Real-Time Transport Protocol (RTP) payload format to be used for transporting video encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency, lightweight image coding system. Compared to an uncompressed video use case, it allows higher resolutions and video frame rates while offering visually lossless quality, reduced power consumption, and encoding-decoding latency confined to a fraction of a video frame.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">This document is a necessary revision of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> but the revised payload format is designed such that existing compliant implementations of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> remain valid to the updated payload format. In addition, this document integrates the errata of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and provides improvements and clarifications to the text where applicable.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document is a necessary revision of RFC9134 to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes RFC9134 but the revised payload format is designed such that existing compliant implementations of RFC9134 remain valid to the updated payload format. In addition, this document integrates the errata of RFC9134 and provides improvements and clarifications to the text where applicable.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1416,6 +1416,7 @@ li > p:last-of-type:only-child {
       </h2>
 <p id="section-1-1">This document specifies a payload format for packetization of video signals encoded with JPEG XS <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span> into the Real-time Transport Protocol (RTP) <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The JPEG XS coding system offers compression and recompression of image sequences with very moderate computational resources while remaining robust under multiple compression and decompression cycles as well as mixing of content sources, e.g., embedding of subtitles, overlays, or logos. Typical target compression ratios ensuring visually lossless quality are in the range of 2:1 to 10:1 depending on the nature of the source material. The latency that is introduced by the encoding-decoding process can be confined to a fraction of a video frame, typically between a small number of lines down to below a single line.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document is a necessary revision of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> but the revised payload format is designed such that existing compliant implementations of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> remain valid to the updated payload format. In addition, this document integrates the errata of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and provides improvements and clarifications to the text where applicable.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-definitions-and-abbreviations">
