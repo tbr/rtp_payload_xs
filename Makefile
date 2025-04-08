@@ -9,7 +9,7 @@ html:   $(HTML)
 xml:    $(XML)
 
 %.xml:	%.mkd
-	kramdown-rfc2629 $< >$@.new
+	kramdown-rfc $< >$@.new
 	mv $@.new $@
 
 %.html: %.xml
