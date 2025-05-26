@@ -835,7 +835,7 @@ This payload format may also be used in networks that provide quality-of-service
 
 # Acknowledgments
 
-The authors would like to thank the following people for their valuable contributions that made this memo possible: Antonin Descampe, Siegfried Foessel, Arnaud Germain, Jean-Baptise Lorent, S&eacute;bastien Lugan, Ga&euml;l Rouvroy, and Alexandre Will&egrave;me.
+The authors would like to thank the following people for their valuable contributions that made this memo possible: Antonin Descampe, Siegfried Foessel, Arnaud Germain, Jean-Baptiste Lorent, S&eacute;bastien Lugan, Ga&euml;l Rouvroy, and Alexandre Will&egrave;me.
 
 --- back
 
