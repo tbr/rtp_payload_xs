@@ -44,7 +44,7 @@ End of Codestream (EOC) marker:
 : A marker that consists of the two bytes `0xff11` indicating the end of a JPEG XS codestream, as defined in [ISO21122-1].
 
 JPEG XS codestream:
-: A sequence of bytes representing a compressed image formatted according to [ISO21122-1].
+: A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to [ISO21122-1].
 
 JPEG XS codestream header:
 : A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments that does not carry entropy coded data, but metadata such as the video frame dimension and component precision.
@@ -77,7 +77,7 @@ SLI (TDC enabling slice header) marker:
 : A marker that represents a TDC enabling slice header, as defined in [ISO21122-1].
 
 Slice:
-: The smallest independently decodable unit of a JPEG XS codestream, bearing in mind that it decodes to wavelet coefficients, which still require inverse wavelet filtering to give an image.
+: The smallest independently decodable unit of a JPEG XS codestream, bearing in mind that it decodes to wavelet coefficients, which still require inverse wavelet filtering for visualization.
 
 Start of a Codestream (SOC) marker:
 : A marker that consists of the two bytes `0xff10` indicating the start of a JPEG XS codestream, as defined in [ISO21122-1]. The SOC marker is considered an integral part of the JPEG XS codestream header.
@@ -92,15 +92,15 @@ Video Support (VS) box:
 
 This section explains the terminology and concepts used in this memo specific to JPEG XS as specified in [ISO21122-1], [ISO21122-2], and [ISO21122-3].
 
-## Image Data Structures
+## Picture Data Structures
 
-JPEG XS is a low-latency, lightweight image coding system for coding continuous-tone grayscale or continuous-tone color digital images.
+JPEG XS is a low-latency and lightweight coding system for compression of digital continuous-tone grayscale and color signals, like images and videos.
 
-This coding system provides an efficient representation of image signals through the mathematical tool of wavelet analysis. The wavelet filter process separates each component into multiple bands, where each band consists of multiple coefficients describing the image signal of a given component within a frequency domain specific to the wavelet filter type, i.e., the particular filter corresponding to the band.
+This coding system provides an efficient representation of visual content through the mathematical tool of wavelet analysis. The wavelet filter process separates each component into multiple bands, where each band consists of multiple coefficients describing the visual signal of a given component within a frequency domain specific to the wavelet filter type, i.e., the particular filter corresponding to the band.
 
-Wavelet coefficients are grouped into precincts, where each precinct includes all coefficients over all bands that contribute to a spatial region of the image.
+Wavelet coefficients are grouped into precincts, where each precinct includes all coefficients over all bands that contribute to a spatial region of the picture.
 
-One or multiple precincts are furthermore combined into slices consisting of an integer number of precincts. Precincts do not cross slice boundaries, and wavelet coefficients in precincts that are part of different slices can be decoded independently of each other. However, note that the wavelet transformation runs across slice boundaries. A slice always extends over the full width of the image but may only cover parts of its height.
+One or multiple precincts are furthermore combined into slices consisting of an integer number of precincts. Precincts do not cross slice boundaries, and wavelet coefficients in precincts that are part of different slices can be decoded independently of each other. However, note that the wavelet transformation runs across slice boundaries. A slice always extends over the full width of the picture segment but may only cover parts of its height.
 
 {: #sec-codestream}
 ## Codestream
@@ -111,17 +111,17 @@ A JPEG XS codestream is formed by (in the given order):
 * one or more slices, each starting with either an SLH or SLI marker,
 * an EOC marker to signal the end of the codestream.
 
-The JPEG XS codestream format, including the definition of all markers, is further defined in [ISO21122-1]. It represents sample values of a single image, without any interpretation relative to a color space.
+The JPEG XS codestream format, including the definition of all markers, is further provided in [ISO21122-1]. It represents sample values of a single picture, without any interpretation relative to a color space.
 
 As defined in [ISO21122-1], slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header SHALL be either an SLH or an SLI marker. The last byte of a slice in the codestream SHALL immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).
 
 ## Video Support Box and Color Specification Box
 
-While the information defined in the codestream is sufficient to reconstruct the sample values of one image, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the video support box and the color specification box, which contain significant information to correctly play the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in [ISO21122-3].
+While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the video support box and the color specification box, which contain significant information to correctly play the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in [ISO21122-3].
 
-The video support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the subsampling image format, the informative timecode of the current JPEG XS frame, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.
+The video support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.
 
-Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields [ISO21122-2], specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level, sublevel, and (optionally) frame buffer level defines a lower bound on the required throughput for a decoder in the image (or decoded) domain and the codestream (or coded) domain, respectively. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in [ISO21122-2].
+Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields [ISO21122-2], specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level, sublevel, and (optionally) frame buffer level defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in [ISO21122-2].
 
 The color specification box indicates the color primaries, transfer characteristics, matrix coefficients, and video full range flag needed to specify the color space of the video stream.
 
@@ -295,9 +295,9 @@ Interlaced information (`I`) \[2 bits\]:
 
   01:   This value is reserved for future use.
 
-  10:   The payload is part of the first JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed image.
+  10:   The payload is part of the first JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.
 
-  11:   The payload is part of the second JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed image.
+  11:   The payload is part of the second JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.
 
 `F` counter \[5 bits\]:
 : The Frame (`F`) counter identifies the video frame number modulo 32 to which a packet belongs. Frame numbers SHALL increment by 1 for each video frame transmitted. The frame number, in addition to the timestamp, may help the decoder manage its input buffer and bring packets back into their natural order. For interlaced frames, both fields SHALL have the same `F` counter value.
@@ -669,7 +669,7 @@ Optional parameters:
     : (Sampling signaled by the payload)
 
   colorimetry:
-  : Specifies the system colorimetry used by the image samples. Valid values and their specification are the following:
+  : Specifies the system colorimetry used by the video samples. Valid values and their specification are the following:
 
     `BT601-5`:
     : [BT601-5].
@@ -707,7 +707,7 @@ Optional parameters:
     Signals utilizing the [BT2100-2] colorimetry SHOULD also signal the representational range using the optional parameter RANGE defined below.  Signals utilizing the `UNSPECIFIED` colorimetry might require manual coordination between the sender and the receiver.
 
   TCS:
-  : Transfer Characteristic System. This parameter specifies the transfer characteristic system of the image samples.  Valid values and their specification are the following:
+  : Transfer Characteristic System. This parameter specifies the transfer characteristic system of the video samples.  Valid values and their specification are the following:
 
     `SDR`:
     : Standard Dynamic Range video streams that utilize the Optical Electrical Transfer Function (OETF) of [BT709-6] or [BT2020-2]. Such streams SHALL be assumed to target the Electro-Optical Transfer Function (EOTF) specified in [BT1886-0].
