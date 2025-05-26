@@ -15,9 +15,9 @@ Written in kramdown-rfc, sources available at: https://github.com/tbr/rtp_payloa
 
 --- abstract
 
-This document specifies a Real-Time Transport Protocol (RTP) payload format for transport of a video signal encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency and low-complexity video coding system. This format allows to for an encoding-decoding latency confined to a fraction of a video frame.
+This document specifies a Real-Time Transport Protocol (RTP) payload format for transport of a video signal encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency and low-complexity video coding system. Employing this format allows achieving encoding-decoding latencies confined to a fraction of a video frame.
 
-This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing compliant implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to enhance its clarity and effectiveness.
+This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing compliant implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to its implementers and users.
 
 --- middle
 
@@ -27,7 +27,7 @@ This document specifies a payload format for packetization of video signals enco
 
 The JPEG XS coding system offers compression and recompression of video signals with very moderate computational resources while remaining robust under multiple compression and decompression cycles as well as mixing of content sources, e.g., embedding of subtitles, overlays, or logos. Typical target compression ratios ensuring visually lossless quality are in the range of 2:1 to 18:1 depending on the nature of the source material. The latency that is introduced by the encoding-decoding process can be confined to a fraction of a video frame, typically expressed in a number of lines.
 
-This document is a necessary revision of [RFC9134] to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes [RFC9134]; however, the revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to enhance its clarity and effectiveness.
+This document is a necessary revision of [RFC9134] to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes [RFC9134]; however, the revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to its implementers and users.
 
 # Conventions, Definitions, and Abbreviations
 
@@ -38,10 +38,13 @@ Application Data Unit (ADU):
 : The unit of source data provided as payload to the transport layer. In this RTP payload definition, it corresponds to a single JPEG XS video frame.
 
 Color Specification (CS) box:
-: An ISO color specification box defined in [ISO21122-3] that includes color-related metadata required to correctly display JPEG XS video frames, such as color primaries, transfer characteristics, and matrix coefficients.
+: An ISO Color Specification box defined in [ISO21122-3] that includes color-related metadata required to correctly display JPEG XS video frames, such as color primaries, transfer characteristics, and matrix coefficients.
 
 End of Codestream (EOC) marker:
 : A marker that consists of the two bytes `0xff11` indicating the end of a JPEG XS codestream, as defined in [ISO21122-1].
+
+Frame Buffer Bandwidth (FBB):
+: The bandwidth defined in [ISO21122-2] needed to read from and write to the internal frame buffer when employing the TDC coding mode. This bandwidth is modeled and capped based on an FBB level parameter.
 
 JPEG XS codestream:
 : A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to [ISO21122-1].
@@ -53,10 +56,10 @@ JPEG XS frame:
 : In the case of progressive video, a single JPEG XS picture segment. In the case of interlaced video, the concatenation of two JPEG XS picture segments.
 
 JPEG XS header segment:
-: The concatenation of a video support box [ISO21122-3], a color specification box [ISO21122-3], and a JPEG XS codestream header.
+: The concatenation of a Video Support box [ISO21122-3], a Color Specification box [ISO21122-3], and a JPEG XS codestream header.
 
 JPEG XS picture segment:
-: The concatenation of a video support box [ISO21122-3], a color specification box [ISO21122-3], and a JPEG XS codestream.
+: The concatenation of a Video Support box [ISO21122-3], a Color Specification box [ISO21122-3], and a JPEG XS codestream.
 
 JPEG XS stream:
 : A sequence of JPEG XS frames.
@@ -77,7 +80,7 @@ SLI (TDC enabling slice header) marker:
 : A marker that represents a TDC enabling slice header, as defined in [ISO21122-1].
 
 Slice:
-: The smallest independently decodable unit of a JPEG XS codestream, bearing in mind that it decodes to wavelet coefficients, which still require inverse wavelet filtering for visualization.
+: The smallest independently decodable unit of a JPEG XS codestream, bearing in mind that it decodes to wavelet coefficients, which still require inverse wavelet filtering before visualization.
 
 Start of a Codestream (SOC) marker:
 : A marker that consists of the two bytes `0xff10` indicating the start of a JPEG XS codestream, as defined in [ISO21122-1]. The SOC marker is considered an integral part of the JPEG XS codestream header.
@@ -86,13 +89,13 @@ Temporal Differential Coding (TDC):
 : An inter-frame coding mode used by certain JPEG XS profiles, as defined in [ISO21122-2].
 
 Video Support (VS) box:
-: An ISO video support box, as defined in [ISO21122-3], that includes metadata required to play back a JPEG XS stream; such metadata could include its maximum bit rate, its subsampling structure, its buffer model, and its frame rate.
+: An ISO Video Support box, as defined in [ISO21122-3], that includes metadata required to play back a JPEG XS stream; such metadata could include its maximum bit rate, its subsampling structure, its buffer model, and its frame rate.
 
 # Media Format Description
 
 This section explains the terminology and concepts used in this memo specific to JPEG XS as specified in [ISO21122-1], [ISO21122-2], and [ISO21122-3].
 
-## Picture Data Structures
+## Data Structures
 
 JPEG XS is a low-latency and lightweight coding system for compression of digital continuous-tone grayscale and color signals, like images and videos.
 
@@ -115,29 +118,29 @@ The JPEG XS codestream format, including the definition of all markers, is furth
 
 As defined in [ISO21122-1], slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header SHALL be either an SLH or an SLI marker. The last byte of a slice in the codestream SHALL immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).
 
-## Video Support Box and Color Specification Box
+## Video Support box and Color Specification box
 
-While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the video support box and the color specification box, which contain significant information to correctly play the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in [ISO21122-3].
+While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the Video Support box and the Color Specification box, which contain significant information to correctly play back the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in [ISO21122-3].
 
-The video support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.
+The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.
 
-Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields [ISO21122-2], specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level, sublevel, and (optionally) frame buffer level defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in [ISO21122-2].
+Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields [ISO21122-2], specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in [ISO21122-2].
 
-The color specification box indicates the color primaries, transfer characteristics, matrix coefficients, and video full range flag needed to specify the color space of the video stream.
+The Color Specification box indicates the color primaries, transfer characteristics, matrix coefficients, and video full range flag needed to specify the color space of the video stream.
 
 ## JPEG XS Frame
 
-The concatenation of a video support box, a color specification box, and a JPEG XS codestream forms a JPEG XS picture segment.
+The concatenation of a Video Support box, a Color Specification box, and a JPEG XS codestream forms a JPEG XS picture segment.
 
 In the case of a progressive video stream, each JPEG XS frame consists of one single JPEG XS picture segment.
 
-In the case of an interlaced video stream, each JPEG XS frame is made of two concatenated JPEG XS picture segments. The codestream of each picture segment corresponds exclusively to one of the two fields of the interlaced frame. 
+In the case of an interlaced video stream, each JPEG XS frame consists of two concatenated JPEG XS picture segments. Each JPEG XS picture segment corresponds exclusively to one of the two fields of the interlaced frame.
 
 Note that {{sec_payload_data}} further mandates that the boxes in both picture segments, and their respective layouts, SHALL be identical with the exception of the value of the Tcod field in the Video Information box [ISO21122-3].
 
-Note that the interlaced mode, as signaled by the `frat` field [ISO21122-3] in the video support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value SHALL also be identical in both picture segments.
+Note that the interlaced mode, as signaled by the `frat` field [ISO21122-3] in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value SHALL also be identical in both picture segments.
 
-Note that the `frat` field [ISO21122-3] in the video support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.
+Note that the `frat` field [ISO21122-3] in the Video Support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.
 
 # RTP Payload Format
 
@@ -182,7 +185,7 @@ Codestream packetization mode:
 : In this mode, the packetization unit SHALL be the entire JPEG XS picture segment (i.e., codestream preceded by boxes).  This means that a progressive frame will have a single packetization unit, while an interlaced frame will have two. The progressive case is illustrated in {{fig_ex_cs_packetization}}.
 
 Slice packetization mode:
-: In this mode, the packetization unit SHALL be the slice, i.e., there SHALL be data from no more than one slice per RTP packet. The first packetization unit SHALL be made of the JPEG XS header segment (i.e., the concatenation of the VS box, the CS box, and the JPEG XS codestream header). This first unit is then followed by successive units, each containing one and only one slice. The packetization unit containing the last slice of a JPEG XS codestream SHALL also contain the EOC marker immediately following this last slice. This is illustrated in {{fig_ex_sl_packetization}}. In the case of an interlaced frame, the JPEG XS header segment of the second field SHALL be in its own packetization unit.
+: In this mode, the packetization unit SHALL be the slice, i.e., there SHALL be data from no more than one slice per RTP packet. The first packetization unit of each JPEG XS picture segment SHALL contain the JPEG XS header segment (i.e., the concatenation of the VS box, the CS box, and the JPEG XS codestream header). This first unit is then followed by successive units, each containing one and only one slice. The packetization unit containing the last slice of a JPEG XS picture segment SHALL also contain the EOC marker immediately following this last slice. This is illustrated in {{fig_ex_sl_packetization}}. In the case of an interlaced frame, the JPEG XS header segment of the second field SHALL be in its own packetization unit.
 
 ~~~~~~~~~~
 RTP        +-----+--------------------------------------------------+
@@ -248,7 +251,7 @@ The remaining RTP header information to be set according to this RTP payload for
 
 {: vspace="0"}
 Marker (`M`) \[1 bit\]:
-: If progressive scan video is being transmitted, the marker bit denotes the end of a video frame. If interlaced video is being transmitted, it denotes the end of the field. The marker bit SHALL be set to 1 for the last packet of the video frame/field. It SHALL be set to 0 for all other packets.
+: If progressive scan video is being transmitted, the marker bit denotes the end of a video frame. If interlaced video is being transmitted, it denotes the end of a field. The marker bit SHALL be set to 1 for the last packet of a JPEG XS picture segment. It SHALL be set to 0 for all other packets.
 
 Payload Type (`PT`) \[7 bits\]:
 : The payload type is a dynamically allocated payload type field that designates the payload as JPEG XS video.
@@ -260,7 +263,7 @@ Timestamp \[32 bits\]:
 
   For interlaced video, the timestamp denotes the sampling instant of the field to which the RTP packet belongs.  Packets SHALL NOT include data from multiple fields, and all packets belonging to the same field SHALL have the same timestamp. Use of field timestamps, rather than a frame timestamp and field indicator bit, is needed to support reverse 3-2 pulldown.
 
-  Several successive RTP packets will consequently have equal timestamps if they belong to the same video field for interlace content, or video frame for progressive content. That is, the time stamp does not change until the marker bit (`M`) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video field or video frame begins.
+  Several successive RTP packets will consequently have equal timestamps if they belong to the same video frame for progressive content, or the same video field for interlace content. That is, the time stamp does not change until after the marker bit (`M`) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video field or video frame begins.
 
 {: #sec_payload_header_usage}
 ## Payload Header Usage
@@ -315,18 +318,18 @@ Slice and Extended Packet (`SEP`) counter \[11 bits\]:
 {: #sec_payload_data}
 ## Payload Data
 
-The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the video support boxes and all of the color specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each video support box in the RTP stream SHALL define the same sub boxes, in the same order. With the exception of the value of the `Tcod` field in the Video Information box [ISO21122-3], the effective values in the boxes SHALL be identical across all JPEG XS picture segments of the RTP stream.
+The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. With the exception of the value of the `Tcod` field in the Video Information box [ISO21122-3], the effective values in the boxes SHALL be identical across all JPEG XS picture segments of the RTP stream.
 
 Each JPEG XS frame is represented by one or more packetization unit(s), as explained in {{sec_rtp_packetization}}. {{fig_cs_pack_mode_prog}} depicts this layout for a progressive video frame in the codestream packetization mode, {{fig_cs_pack_mode_int}} depicts this layout for an interlaced video frame in the codestream packetization mode, {{fig_sl_pack_mode_prog}} depicts this layout for a progressive video frame in the slice packetization mode, and {{fig_sl_pack_mode_int}} depicts this layout for an interlaced video frame in the slice packetization mode. The Frame (`F`) counter value is not indicated because the value is constant for all packetization units of a given video frame.
 
 ~~~~~~~~~~
 +=====[ Packetization unit (PU) #1 ]====+
-|           Video support box           |  SEP counter=0
+|           Video Support box           |  SEP counter=0
 |  +---------------------------------+  |  P counter=0
 |  :      Sub boxes of the VS box    :  |
 |  +---------------------------------+  |
 +- - - - - - - - - - - - - - - - - - - -+
-|        Color specification box        |
+|        Color Specification box        |
 |  +---------------------------------+  |
 |  :      Fields of the CS box       :  |
 |  +---------------------------------+  |
@@ -359,9 +362,9 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 
 ~~~~~~~~~~
 +=====[ Packetization unit (PU) #1 ]====+
-|           Video support box           |  SEP counter=0
+|           Video Support box           |  SEP counter=0
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
-|        Color specification box        |
+|        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |     JPEG XS codestream (1st field)    |
 :             (part 1/q)                :  M=0, K=0, L=0, I=10
@@ -382,9 +385,9 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |             (part q/q)                |  P counter=(q-1) mod 2048
 :                                       :  M=1, K=0, L=1, I=10
 +=====[ Packetization unit (PU) #2 ]====+
-|           Video support box           |  SEP counter=0
+|           Video Support box           |  SEP counter=0
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
-|        Color specification box        |
+|        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |     JPEG XS codestream (2nd field)    |
 |             (part 1/q)                |
@@ -405,9 +408,9 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 
 ~~~~~~~~~~
 +===[ PU #1: JPEG XS Header segment ]===+
-|           Video support box           |  SEP counter=0x07FF
+|           Video Support box           |  SEP counter=0x07FF
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
-|        Color specification box        |
+|        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |      JPEG XS codestream header        |
 |  +---------------------------------+  |
@@ -451,9 +454,9 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 
 ~~~~~~~~~~
 +==[ PU #1: JPEG XS Header segment 1 ]==+
-|           Video support box           |  SEP counter=0x07FF
+|           Video Support box           |  SEP counter=0x07FF
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
-|        Color specification box        |
+|        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |      JPEG XS codestream header 1      |
 |  +---------------------------------+  |
@@ -493,9 +496,9 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 :            + EOC marker               :  M=1, T=0, K=1, L=1, I=10
 +=======================================+
 +=[ PU #N+1: JPEG XS Header segment 2 ]=+
-|           Video support box           |  SEP counter=0x07FF
+|           Video Support box           |  SEP counter=0x07FF
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
-|        Color specification box        |
+|        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |       JPEG XS codestream header 2     |
 |  +---------------------------------+  |
@@ -702,7 +705,7 @@ Optional parameters:
     : [ISO11664-1], section titled "1931 Observer".
 
     `UNSPECIFIED`:
-    : Colorimetry is signaled in the payload by the color specification box of [ISO21122-3], or it must be manually coordinated between sender and receiver.
+    : Colorimetry SHALL either be signaled in the payload by the Color Specification box of [ISO21122-3], or be manually coordinated between sender and receiver.
 
     Signals utilizing the [BT2100-2] colorimetry SHOULD also signal the representational range using the optional parameter RANGE defined below.  Signals utilizing the `UNSPECIFIED` colorimetry might require manual coordination between the sender and the receiver.
 
@@ -719,7 +722,7 @@ Optional parameters:
     : High dynamic range video streams that utilize the Hybrid Log-Gamma system of [BT2100-2].
 
     `UNSPECIFIED`:
-    : Video streams whose transfer characteristics are signaled by the payload as specified in [ISO21122-3], or that must be manually coordinated between sender and receiver.
+    : Video streams whose transfer characteristics SHALL either be signaled by the payload as specified in [ISO21122-3], or be manually coordinated between sender and receiver.
 
   RANGE:
   : This parameter SHOULD be used to signal the encoding range of the sample values within the stream. When paired with [BT2100-2] colorimetry, this parameter has two allowed values, `NARROW` and `FULL`, corresponding to the ranges specified in TABLE 9 of [BT2100-2]. In any other context, this parameter has three allowed values: `NARROW`, `FULLPROTECT`, and `FULL`, which correspond to the ranges specified in [SMPTE2077]. In the absence of this parameter, and for all but the `UNSPECIFIED` colorimetry, `NARROW` SHALL be the assumed value. When paired with the UNSPECIFIED colorimetry, `FULL` SHALL be the default assumed value.
@@ -838,8 +841,8 @@ Most of this RFC is identical to [RFC9134]. There are no changes in the packet f
 
 A summary of the changes:
 
-- For the TDC profile, [ISO21122-1] relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content; however, this information is not directly relevant to this specification. For the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in {{sec_rtp_packetization}}.
-- In addition to the level and sublevel, the TDC profile introduces an fbblevel in [ISO21122-2] that needs to be supported as an optional payload parameter, and is defined in {{sec-payload-params}}.
+- For TDC profiles, [ISO21122-1] relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content; however, this information is not directly relevant to this specification. For the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in {{sec_rtp_packetization}}.
+- In addition to the level and sublevel, the TDC coding mode introduces an fbblevel in [ISO21122-2] that needs to be supported as an optional payload parameter, and is defined in {{sec-payload-params}}.
 - Multiple clarifications and improved descriptions for correctly handling interlaced video were added.
 - {{sec-codestream}} provides a more detailed definition of a Slice to clarify that this RTP payload format supports the optional slice-based extension marker functionality defined in [ISO21122-1].
 - The erratum of [RFC9134] concerning the RTP timestamp for interlaced video signals has been incorporated into this specification.
