@@ -841,7 +841,7 @@ The authors would like to thank the following people for their valuable contribu
 
 # Changes from [RFC9134]
 
-Most of this RFC is identical to [RFC9134]. There are no changes in the packet formating or headers defined by this RTP payload specification, only new provisions are added to support new features in the third edition of [ISO21122-1], [ISO21122-2], and [ISO21122-3], in particular the new Temporal Differential Coding (TDC) profile. The revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to enhance its clarity and effectiveness.
+Most of this RFC is identical to [RFC9134]. There are no changes in the packet formatting or headers defined by this RTP payload specification, only new provisions are added to support new features in the third edition of [ISO21122-1], [ISO21122-2], and [ISO21122-3], in particular the new Temporal Differential Coding (TDC) profile. The revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to enhance its clarity and effectiveness.
 
 A summary of the changes:
 
