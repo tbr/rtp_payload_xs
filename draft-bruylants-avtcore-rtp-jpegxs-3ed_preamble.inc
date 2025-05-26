@@ -45,8 +45,8 @@ author:
     email: thomas.richter@iis.fraunhofer.de
     uri: https://www.iis.fraunhofer.de/
   -
-    ins: C. Damman
-    name: Corentin Damman
+    ins: C. Damman Geeroms
+    name: Corentin Damman Geeroms
     org: intoPIX S.A.
     abbrev: intoPIX
     street: Rue Emile Francqui 9
