@@ -267,7 +267,7 @@ Timestamp \[32 bits\]:
 
   For interlaced video, the timestamp denotes the sampling instant of the field to which the RTP packet belongs.  Packets SHALL NOT include data from multiple fields, and all packets belonging to the same field SHALL have the same timestamp. Use of field timestamps, rather than a frame timestamp and field indicator bit, is needed to support reverse 3-2 pulldown.
 
-  Several successive RTP packets will consequently have equal timestamps if they belong to the same video frame for progressive content, or the same video field for interlaced content. That is, the time stamp does not change until after the marker bit (`M`) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video field or video frame begins.
+  Several successive RTP packets will consequently have equal timestamps if they belong to the same video frame for progressive content, or the same video field for interlaced content. That is, the time stamp does not change until after the marker bit (`M`) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video frame or field begins.
 
 {: #sec_payload_header_usage}
 ## Payload Header Usage
