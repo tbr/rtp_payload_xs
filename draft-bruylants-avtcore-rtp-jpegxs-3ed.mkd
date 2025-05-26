@@ -17,7 +17,7 @@ Written in kramdown-rfc, sources available at: https://github.com/tbr/rtp_payloa
 
 This document specifies a Real-Time Transport Protocol (RTP) payload format for transport of a video signal encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency and low-complexity video coding system. Employing this format allows achieving encoding-decoding latencies confined to a fraction of a video frame.
 
-This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing compliant implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to its implementers and users.
+This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it the necessary providions to support the TDC coding mode. This document obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing compliant implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to its implementers and users.
 
 --- middle
 
@@ -27,7 +27,9 @@ This document specifies a payload format for packetization of video signals enco
 
 The JPEG XS coding system offers compression and recompression of video signals with very moderate computational resources while remaining robust under multiple compression and decompression cycles as well as mixing of content sources, e.g., embedding of subtitles, overlays, or logos. Typical target compression ratios ensuring visually lossless quality are in the range of 2:1 to 18:1 depending on the nature of the source material. The latency that is introduced by the encoding-decoding process can be confined to a fraction of a video frame, typically expressed in a number of lines.
 
-This document is a necessary revision of [RFC9134] to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes [RFC9134]; however, the revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to its implementers and users.
+Initially, the first and second editions of JPEG XS only supported intra coding for video content. However, the third edition of the standard introduced the so-called Temporal Differential Coding (TDC) mode that provides a temporal decorrelation step in the wavelet-domain. For progressive video content, a single frame buffer is used for the decorrelation of successive video frames. For interlaced content, two seprate frame buffers are used, one for per video field.
+
+This document is a necessary revision of [RFC9134] to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it the necessary providions to support the TDC coding mode. This document obsoletes [RFC9134]; however, the revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to its implementers and users.
 
 # Conventions, Definitions, and Abbreviations
 
@@ -118,17 +120,19 @@ The JPEG XS codestream format, including the definition of all markers, is furth
 
 As defined in [ISO21122-1], slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header SHALL be either an SLH or an SLI marker. The last byte of a slice in the codestream SHALL immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).
 
+A JPEG XS codestream not using the TDC coding mode can be decoded without any dependencies. However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in [ISO21122-1]. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced video streams, two seprate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).
+
 ## Video Support box and Color Specification box
 
 While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the Video Support box and the Color Specification box, which contain significant information to correctly play back the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in [ISO21122-3].
 
 The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.
 
-Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields [ISO21122-2], specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in [ISO21122-2].
+Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields [ISO21122-2], specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer(s) when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in [ISO21122-2].
 
 The Color Specification box indicates the color primaries, transfer characteristics, matrix coefficients, and video full range flag needed to specify the color space of the video stream.
 
-## JPEG XS Frame
+## JPEG XS frame and picture segment
 
 The concatenation of a Video Support box, a Color Specification box, and a JPEG XS codestream forms a JPEG XS picture segment.
 
@@ -263,7 +267,7 @@ Timestamp \[32 bits\]:
 
   For interlaced video, the timestamp denotes the sampling instant of the field to which the RTP packet belongs.  Packets SHALL NOT include data from multiple fields, and all packets belonging to the same field SHALL have the same timestamp. Use of field timestamps, rather than a frame timestamp and field indicator bit, is needed to support reverse 3-2 pulldown.
 
-  Several successive RTP packets will consequently have equal timestamps if they belong to the same video frame for progressive content, or the same video field for interlace content. That is, the time stamp does not change until after the marker bit (`M`) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video field or video frame begins.
+  Several successive RTP packets will consequently have equal timestamps if they belong to the same video frame for progressive content, or the same video field for interlaced content. That is, the time stamp does not change until after the marker bit (`M`) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video field or video frame begins.
 
 {: #sec_payload_header_usage}
 ## Payload Header Usage
