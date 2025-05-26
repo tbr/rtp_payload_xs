@@ -115,7 +115,8 @@ Table of Contents
    mode that provides a temporal decorrelation step in the wavelet-
    domain.  For progressive video content, a single frame buffer is used
    for the decorrelation of successive video frames.  For interlaced
-   content, two seprate frame buffers are used, one for per video field.
+   content, two separate frame buffers are used, one for per video
+   field.
 
    This document is a necessary revision of [RFC9134] to incorporate
    support for new features introduced in the third edition of JPEG XS.
@@ -293,8 +294,8 @@ Table of Contents
    quantized version of all wavelet coefficients that were reconstructed
    from decoding the previous codestream.  For progressive video
    streams, a single frame buffer is maintained.  For interlaced video
-   streams, two seprate frame buffers are maintained, one for each video
-   field (i.e. video fields are independent of each other).
+   streams, two separate frame buffers are maintained, one for each
+   video field (i.e. video fields are independent of each other).
 
 3.3.  Video Support box and Color Specification box
 
@@ -511,8 +512,8 @@ Table of Contents
    payload format is set as follows:
 
    Marker (M) [1 bit]:
-      If progressive scan video is being transmitted, the marker bit
-      denotes the end of a video frame.  If interlaced video is being
+      If progressive video is being transmitted, the marker bit denotes
+      the end of a video frame.  If interlaced video is being
       transmitted, it denotes the end of a field.  The marker bit SHALL
       be set to 1 for the last packet of a JPEG XS picture segment.  It
       SHALL be set to 0 for all other packets.
@@ -525,13 +526,13 @@ Table of Contents
       The RTP timestamp is set to the sampling timestamp of the content
       (see also [RFC3550] and [RFC4175]).  A 90 kHz clock rate SHALL be
       used.  If the sampling instant does not correspond to an integer
-      value of the clock, the value SHALL be truncated to the next
+      value of the clock, the value SHALL be rounded up to the next
       lowest integer, with no ambiguity.
 
-      For progressive scan video, the timestamp denotes the sampling
-      instant of the frame to which the RTP packet belongs.  Packets
-      SHALL NOT include data from multiple frames, and all packets
-      belonging to the same frame SHALL have the same timestamp.
+      For progressive video, the timestamp denotes the sampling instant
+      of the frame to which the RTP packet belongs.  Packets SHALL NOT
+      include data from multiple frames, and all packets belonging to
+      the same frame SHALL have the same timestamp.
 
       For interlaced video, the timestamp denotes the sampling instant
       of the field to which the RTP packet belongs.  Packets SHALL NOT
@@ -545,8 +546,8 @@ Table of Contents
       content, or the same video field for interlaced content.  That is,
       the time stamp does not change until after the marker bit (M) is
       set to 1, marking the last packet of the video frame or field.
-      The timestamp is only increased when a new video field or video
-      frame begins.
+      The timestamp is only increased when a new video frame or field
+      begins.
 
 4.3.  Payload Header Usage
 
@@ -1321,7 +1322,7 @@ Table of Contents
 
    The authors would like to thank the following people for their
    valuable contributions that made this memo possible: Antonin
-   Descampe, Siegfried Foessel, Arnaud Germain, Jean-Baptise Lorent,
+   Descampe, Siegfried Foessel, Arnaud Germain, Jean-Baptiste Lorent,
    Sébastien Lugan, Gaël Rouvroy, and Alexandre Willème.
 
 12.  References
@@ -1517,7 +1518,7 @@ Table of Contents
 Appendix A.  Changes from [RFC9134]
 
    Most of this RFC is identical to [RFC9134].  There are no changes in
-   the packet formating or headers defined by this RTP payload
+   the packet formatting or headers defined by this RTP payload
    specification, only new provisions are added to support new features
    in the third edition of [ISO21122-1], [ISO21122-2], and [ISO21122-3],
    in particular the new Temporal Differential Coding (TDC) profile.
