@@ -381,7 +381,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |     JPEG XS codestream (1st field)    |  SEP counter=(q-1) div 2048
 |             (part q/q)                |  P counter=(q-1) mod 2048
 :                                       :  M=1, K=0, L=1, I=10
-+===============[ PU #2 ]===============+
++=====[ Packetization unit (PU) #2 ]====+
 |           Video support box           |  SEP counter=0
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
 |        Color specification box        |
@@ -450,7 +450,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 {: #fig_sl_pack_mode_prog title="Example of JPEG XS Payload Data using Slice Packetization Mode with Progressive Video Frames"}
 
 ~~~~~~~~~~
-+====[ PU #1: JPEG XS Hdr segment 1 ]===+
++==[ PU #1: JPEG XS Header segment 1 ]==+
 |           Video support box           |  SEP counter=0x07FF
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
 |        Color specification box        |
@@ -492,7 +492,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |             (part r/r)                |  P counter=r-1
 :            + EOC marker               :  M=1, T=0, K=1, L=1, I=10
 +=======================================+
-+===[ PU #N+1: JPEG XS Hdr segment 2 ]==+
++=[ PU #N+1: JPEG XS Header segment 2 ]=+
 |           Video support box           |  SEP counter=0x07FF
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
 |        Color specification box        |
