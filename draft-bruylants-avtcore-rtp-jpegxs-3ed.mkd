@@ -25,9 +25,9 @@ This document is a necessary revision of RFC 9134 to incorporate support for new
 
 This document specifies a payload format for packetization of video signals encoded with JPEG XS {{ISO21122-1}} into the Real-time Transport Protocol (RTP) {{RFC3550}}.
 
-The JPEG XS coding system offers compression and recompression of image sequences with very moderate computational resources while remaining robust under multiple compression and decompression cycles as well as mixing of content sources, e.g., embedding of subtitles, overlays, or logos. Typical target compression ratios ensuring visually lossless quality are in the range of 2:1 to 10:1 depending on the nature of the source material. The latency that is introduced by the encoding-decoding process can be confined to a fraction of a video frame, typically between a small number of lines down to below a single line.
+The JPEG XS coding system offers compression and recompression of video signals with very moderate computational resources while remaining robust under multiple compression and decompression cycles as well as mixing of content sources, e.g., embedding of subtitles, overlays, or logos. Typical target compression ratios ensuring visually lossless quality are in the range of 2:1 to 18:1 depending on the nature of the source material. The latency that is introduced by the encoding-decoding process can be confined to a fraction of a video frame, typically expressed in a number of lines.
 
-This document is a necessary revision of [RFC9134] to add support for new features introduced by the 3rd edition of JPEG XS. It obsoletes [RFC9134] but the revised payload format is designed such that existing compliant implementations of [RFC9134] remain valid to the updated payload format. In addition, this document integrates the errata of [RFC9134] and provides improvements and clarifications to the text where applicable.
+This document is a necessary revision of [RFC9134] to incorporate support for new features introduced in the third edition of JPEG XS. It obsoletes [RFC9134]; however, the revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to enhance its clarity and effectiveness.
 
 # Conventions, Definitions, and Abbreviations
 
@@ -102,15 +102,18 @@ Wavelet coefficients are grouped into precincts, where each precinct includes al
 
 One or multiple precincts are furthermore combined into slices consisting of an integer number of precincts. Precincts do not cross slice boundaries, and wavelet coefficients in precincts that are part of different slices can be decoded independently of each other. However, note that the wavelet transformation runs across slice boundaries. A slice always extends over the full width of the image but may only cover parts of its height.
 
+{: #sec-codestream}
 ## Codestream
 
 A JPEG XS codestream is formed by (in the given order):
 
 * a JPEG XS codestream header, which starts with a Start of Codestream (SOC) marker,
-* one or more slices,
+* one or more slices, each starting with either an SLH or SLI marker,
 * an EOC marker to signal the end of the codestream.
 
 The JPEG XS codestream format, including the definition of all markers, is further defined in [ISO21122-1]. It represents sample values of a single image, without any interpretation relative to a color space.
+
+As defined in [ISO21122-1], slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header SHALL be either an SLH or an SLI marker. The last byte of a slice in the codestream SHALL immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).
 
 ## Video Support Box and Color Specification Box
 
@@ -547,6 +550,7 @@ In addition, [RFC8083] is an update to [RFC3550] that defines criteria for when 
 
 [RFC8085] provides additional information on the best practices for applying congestion control to UDP streams.
 
+{: #sec-payload-params}
 # Payload Format Parameters
 
 This section specifies the required and optional parameters of the payload format and/or the RTP stream. All parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see {{sec_payload_header_usage}}) or in the JPEG XS header segment [ISO21122-1] [ISO21122-3]. When provided, their respective values SHALL be consistent with the payload.
@@ -823,3 +827,17 @@ This payload format may also be used in networks that provide quality-of-service
 # Acknowledgments
 
 The authors would like to thank the following people for their valuable contributions that made this memo possible: Antonin Descampe, Siegfried Foessel, Arnaud Germain, Jean-Baptise Lorent, S&eacute;bastien Lugan, Ga&euml;l Rouvroy, and Alexandre Will&egrave;me.
+
+--- back
+
+# Changes from [RFC9134]
+
+Most of this RFC is identical to [RFC9134]. There are no changes in the packet formating or headers defined by this RTP payload specification, only new provisions are added to support new features in the third edition of [ISO21122-1], [ISO21122-2], and [ISO21122-3], in particular the new Temporal Differential Coding (TDC) profile. The revised payload format is designed to ensure that existing compliant implementations of [RFC9134] remain valid under the updated specification. Additionally, this document consolidates the errata of [RFC9134] and includes improvements and clarifications to enhance its clarity and effectiveness.
+
+A summary of the changes:
+
+- For the TDC profile, [ISO21122-1] relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content; however, this information is not directly relevant to this specification. For the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in {{sec_rtp_packetization}}.
+- In addition to the level and sublevel, the TDC profile introduces an fbblevel in [ISO21122-2] that needs to be supported as an optional payload parameter, and is defined in {{sec-payload-params}}.
+- Clarifications and improved descriptions for correctly handling interlaced video sequences were added.
+- {{sec-codestream}} provides a more detailed definition of a Slice to clarify that this RTP payload format supports the optional slice-based extension marker functionality defined in [ISO21122-1].
+- The erratum of [RFC9134] concerning the RTP timestamp for interlaced video signals has been incorporated into this specification.
