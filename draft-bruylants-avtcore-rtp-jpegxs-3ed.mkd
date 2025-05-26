@@ -255,7 +255,7 @@ The remaining RTP header information to be set according to this RTP payload for
 
 {: vspace="0"}
 Marker (`M`) \[1 bit\]:
-: If progressive scan video is being transmitted, the marker bit denotes the end of a video frame. If interlaced video is being transmitted, it denotes the end of a field. The marker bit SHALL be set to 1 for the last packet of a JPEG XS picture segment. It SHALL be set to 0 for all other packets.
+: If progressive video is being transmitted, the marker bit denotes the end of a video frame. If interlaced video is being transmitted, it denotes the end of a field. The marker bit SHALL be set to 1 for the last packet of a JPEG XS picture segment. It SHALL be set to 0 for all other packets.
 
 Payload Type (`PT`) \[7 bits\]:
 : The payload type is a dynamically allocated payload type field that designates the payload as JPEG XS video.
@@ -263,7 +263,7 @@ Payload Type (`PT`) \[7 bits\]:
 Timestamp \[32 bits\]:
 : The RTP timestamp is set to the sampling timestamp of the content (see also [RFC3550] and [RFC4175]). A 90 kHz clock rate SHALL be used. If the sampling instant does not correspond to an integer value of the clock, the value SHALL be truncated to the next lowest integer, with no ambiguity.
 
-  For progressive scan video, the timestamp denotes the sampling instant of the frame to which the RTP packet belongs. Packets SHALL NOT include data from multiple frames, and all packets belonging to the same frame SHALL have the same timestamp.
+  For progressive video, the timestamp denotes the sampling instant of the frame to which the RTP packet belongs. Packets SHALL NOT include data from multiple frames, and all packets belonging to the same frame SHALL have the same timestamp.
 
   For interlaced video, the timestamp denotes the sampling instant of the field to which the RTP packet belongs.  Packets SHALL NOT include data from multiple fields, and all packets belonging to the same field SHALL have the same timestamp. Use of field timestamps, rather than a frame timestamp and field indicator bit, is needed to support reverse 3-2 pulldown.
 
