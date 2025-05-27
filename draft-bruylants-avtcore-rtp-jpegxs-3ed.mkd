@@ -52,7 +52,7 @@ JPEG XS codestream:
 : A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to [ISO21122-1].
 
 JPEG XS codestream header:
-: A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments that does not carry entropy coded data, but metadata such as the video frame dimension and component precision.
+: A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but metadata such as the video frame dimension and component precision.
 
 JPEG XS frame:
 : In the case of progressive video, a single JPEG XS picture segment. In the case of interlaced video, the concatenation of two JPEG XS picture segments.
@@ -120,7 +120,7 @@ The JPEG XS codestream format, including the definition of all markers, is furth
 
 As defined in [ISO21122-1], slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header SHALL be either an SLH or an SLI marker. The last byte of a slice in the codestream SHALL immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).
 
-A JPEG XS codestream not using the TDC coding mode can be decoded without any dependencies. However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in [ISO21122-1]. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).
+A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in [ISO21122-1]. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).
 
 ## Video Support box and Color Specification box
 
@@ -287,10 +287,10 @@ The payload header consists of the following fields:
 
 {: vspace="0"}
 Transmission mode (`T`) \[1 bit\]:
-: The `T` bit is set to indicate that packets are sent sequentially by the transmitter. This information allows a receiver to dimension its input buffer(s) accordingly. If `T=0`, nothing can be assumed about the transmission order and packets may be sent out of order by the transmitter. If `T=1`, packets SHALL be sent sequentially by the transmitter. The `T` bit value SHALL be identical for all packets of the RTP stream.
+: The `T` bit is set to indicate that packets are sent sequentially by the transmitter. This information allows a receiver to dimension its input buffer(s) accordingly. If `T=0`, nothing can be assumed about the transmission order and the transmitter may send out its packets in any order. If `T=1`, the transmitter SHALL send out the packets as a monotonically increasing sequence according to the F, SEP, and P fields. The `T` bit value SHALL be identical for all packets of the RTP stream. Note that even with `T=1`, packets may still arrive out of order relative to the sequence in which they were sent.
 
 pacKetization mode (`K`) \[1 bit\]:
-: The `K` bit is set to indicate which packetization mode is used. `K=0` indicates codestream packetization mode, while `K=1` indicates slice packetization mode. In the case that the Transmission mode (`T`) is set to 0 (out of order), the slice packetization mode SHALL be used and `K` SHALL be set to 1. This is required because only the slice packetization mode supports out-of-order packet transmission. The `K` bit value SHALL be identical for all packets of the RTP stream.
+: The `K` bit is set to indicate which packetization mode is used. `K=0` indicates codestream packetization mode, while `K=1` indicates slice packetization mode. In the case that the Transmission mode (`T`) is set to 0 (arbitrary sending order), then `K` SHALL be set to 1 (slice packetization mode). The `K` bit value SHALL be identical for all packets of the RTP stream.
 
 Last (`L`) \[1 bit\]:
 : The `L` bit is set to indicate the last packet of a packetization unit. As the end of the video frame also ends the packet containing the last unit of the video frame, the `L` bit is set whenever the `M` bit is set. In the codestream packetization mode, the `L` bit and `M` bit get an equivalent meaning, so they SHALL have identical values in each packet.
