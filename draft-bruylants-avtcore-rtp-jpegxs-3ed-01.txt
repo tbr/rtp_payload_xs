@@ -6,9 +6,9 @@ avtcore                                                     T. Bruylants
 Internet-Draft                                                   intoPIX
 Obsoletes: 9134 (if approved)                                 T. Richter
 Intended status: Standards Track                          Fraunhofer IIS
-Expires: 28 November 2025                              C. Damman Geeroms
+Expires: 4 December 2025                               C. Damman Geeroms
                                                                  intoPIX
-                                                             27 May 2025
+                                                             2 June 2025
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 November 2025.
+   This Internet-Draft will expire on 4 December 2025.
 
 Copyright Notice
 
@@ -126,7 +126,8 @@ Table of Contents
    implementations of [RFC9134] remain valid under the updated
    specification.  Additionally, this document consolidates the errata
    of [RFC9134] and includes improvements and clarifications to its
-   implementers and users.
+   implementers and users.  Appendix A provides more details on the
+   changes between [RFC9134] and this revision.
 
 2.  Conventions, Definitions, and Abbreviations
 
@@ -1517,18 +1518,18 @@ Table of Contents
               DOI 10.5594/SMPTE.ST428-1.2019, March 2019,
               <https://doi.org/10.5594/SMPTE.ST428-1.2019>.
 
-Appendix A.  Changes from [RFC9134]
+Appendix A.  Changes from RFC9134
 
    Most of this RFC is identical to [RFC9134].  There are no changes in
    the packet formatting or headers defined by this RTP payload
-   specification, only new provisions are added to support new features
-   in the third edition of [ISO21122-1], [ISO21122-2], and [ISO21122-3],
-   in particular the new Temporal Differential Coding (TDC) profile.
-   The revised payload format is designed to ensure that existing
-   compliant implementations of [RFC9134] remain valid under the updated
-   specification.  Additionally, this document consolidates the errata
-   of [RFC9134] and includes improvements and clarifications to enhance
-   its clarity and effectiveness.
+   specification, only new provisions are added to support the features
+   that were added by the third edition of [ISO21122-1], [ISO21122-2],
+   and [ISO21122-3], in particular the new Temporal Differential Coding
+   (TDC) profile.  The revised payload format is designed to ensure that
+   existing compliant implementations of [RFC9134] remain valid under
+   the updated specification.  Additionally, this document consolidates
+   the errata of [RFC9134] and includes improvements and clarifications
+   to enhance its clarity and effectiveness.
 
    A summary of the changes:
 
