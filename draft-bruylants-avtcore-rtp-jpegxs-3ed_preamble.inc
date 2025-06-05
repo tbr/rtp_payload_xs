@@ -56,6 +56,18 @@ author:
     phone: +32 10 23 84 70
     email: c.damman@intopix.com
     uri: https://www.intopix.com/
+  -
+    ins: A. Descampe
+    name: Antonin Descampe
+    org: Université Catholique de Louvain
+    abbrev: UCLouvain
+    street: Ruelle de la Lanterne Magique, 14
+    city: Louvain-la-Neuve
+    code: B-1348
+    country: Belgium
+    phone: +32 10 47 27 87
+    email: antonin.descampe@uclouvain.be
+    uri: https://uclouvain.be/antonin.descampe
 
 normative:
   RFC3264:
