@@ -1,13 +1,13 @@
 ---
 title: RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-date: 2025-06-11
-docname: draft-bruylants-avtcore-rtp-jpegxs-3ed-02
+date: 2025-10-21
+docname: draft-ietf-avtcore-rtp-jpegxs-3ed-00
 abbrev: RTP Payload Format for JPEG XS
 
 stand_alone: yes
 
 # Import configuration, authors, references, etc.
-{::include ./draft-bruylants-avtcore-rtp-jpegxs-3ed_preamble.inc}
+{::include ./draft-ietf-avtcore-rtp-jpegxs-3ed_preamble.inc}
 
 --- fluff
 
