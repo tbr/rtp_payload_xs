@@ -140,7 +140,7 @@ In the case of a progressive video stream, each JPEG XS frame consists of one si
 
 In the case of an interlaced video stream, each JPEG XS frame consists of two concatenated JPEG XS picture segments. Each JPEG XS picture segment corresponds exclusively to one of the two fields of the interlaced frame.
 
-Note that {{sec_payload_data}} further mandates that the boxes in both picture segments, and their respective layouts, SHALL be identical with the exception of the value of the Tcod field in the Video Information box {{ISO21122-3}}.
+Note that {{sec_payload_data}} further mandates that the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame SHALL have the same respective layouts.
 
 Note that the interlaced mode, as signaled by the `frat` field {{ISO21122-3}} in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value SHALL also be identical in both picture segments.
 
@@ -322,7 +322,7 @@ Slice and Extended Packet (`SEP`) counter \[11 bits\]:
 {: #sec_payload_data}
 ## Payload Data
 
-The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. With the exception of the value of the `Tcod` field in the Video Information box {{ISO21122-3}}, the effective values in the boxes SHALL be identical across all JPEG XS picture segments of the RTP stream.
+The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets SHALL NOT change.
 
 Each JPEG XS frame is represented by one or more packetization unit(s), as explained in {{sec_rtp_packetization}}. {{fig_cs_pack_mode_prog}} depicts this layout for a progressive video frame in the codestream packetization mode, {{fig_cs_pack_mode_int}} depicts this layout for an interlaced video frame in the codestream packetization mode, {{fig_sl_pack_mode_prog}} depicts this layout for a progressive video frame in the slice packetization mode, and {{fig_sl_pack_mode_int}} depicts this layout for an interlaced video frame in the slice packetization mode. The Frame (`F`) counter value is not indicated because the value is constant for all packetization units of a given video frame.
 
