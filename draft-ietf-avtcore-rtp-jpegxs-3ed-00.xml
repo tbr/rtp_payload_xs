@@ -16,7 +16,7 @@
 <?rfc compact="yes"?>
 <?rfc comments="yes"?>
 
-<rfc ipr="trust200902" docName="draft-bruylants-avtcore-rtp-jpegxs-3ed-02" category="std" consensus="true" submissionType="IETF" obsoletes="9134" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true">
+<rfc ipr="trust200902" docName="draft-ietf-avtcore-rtp-jpegxs-3ed-00" category="std" consensus="true" submissionType="IETF" obsoletes="9134" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true">
   <front>
     <title abbrev="RTP Payload Format for JPEG XS">RTP Payload Format for ISO/IEC 21122 (JPEG XS)</title>
 
@@ -77,7 +77,7 @@
       </address>
     </author>
 
-    <date year="2025" month="June" day="11"/>
+    <date year="2025" month="October" day="21"/>
 
     <area>General</area>
     <workgroup>avtcore</workgroup>
@@ -113,7 +113,7 @@
 
 <t>Initially, the first and second editions of JPEG XS only supported intra coding for video content. However, the third edition of the standard introduced the so-called Temporal Differential Coding (TDC) mode that provides a temporal decorrelation step in the wavelet-domain. For progressive video content, a single frame buffer is used for the decorrelation of successive video frames. For interlaced content, two separate frame buffers are used, one for per video field.</t>
 
-<t>This document is a necessary revision of <xref target="RFC9134"></xref> to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes <xref target="RFC9134"></xref>; however, the revised payload format is designed to ensure that existing compliant implementations of <xref target="RFC9134"></xref> remain valid under the updated specification. Additionally, this document consolidates the errata of <xref target="RFC9134"></xref> and includes improvements and clarifications to its implementers and users. <xref target="annex-a"/> provides more details on the changes between <xref target="RFC9134"></xref> and this revision.</t>
+<t>This document is a necessary revision of <xref target="RFC9134"/> to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes <xref target="RFC9134"/>; however, the revised payload format is designed to ensure that existing compliant implementations of <xref target="RFC9134"/> remain valid under the updated specification. Additionally, this document consolidates the errata of <xref target="RFC9134"/> and includes improvements and clarifications to its implementers and users. <xref target="annex-a"/> provides more details on the changes between <xref target="RFC9134"/> and this revision.</t>
 
 </section>
 <section anchor="conventions-definitions-and-abbreviations"><name>Conventions, Definitions, and Abbreviations</name>
@@ -133,19 +133,19 @@ appear in all capitals, as shown here.</t>
   </dd>
   <dt>Color Specification (CS) box:</dt>
   <dd>
-    <t>An ISO Color Specification box defined in <xref target="ISO21122-3"></xref> that includes color-related metadata required to correctly display JPEG XS video frames, such as color primaries, transfer characteristics, and matrix coefficients.</t>
+    <t>An ISO Color Specification box defined in <xref target="ISO21122-3"/> that includes color-related metadata required to correctly display JPEG XS video frames, such as color primaries, transfer characteristics, and matrix coefficients.</t>
   </dd>
   <dt>End of Codestream (EOC) marker:</dt>
   <dd>
-    <t>A marker that consists of the two bytes <spanx style="verb">0xff11</spanx> indicating the end of a JPEG XS codestream, as defined in <xref target="ISO21122-1"></xref>.</t>
+    <t>A marker that consists of the two bytes <spanx style="verb">0xff11</spanx> indicating the end of a JPEG XS codestream, as defined in <xref target="ISO21122-1"/>.</t>
   </dd>
   <dt>Frame Buffer Bandwidth (FBB):</dt>
   <dd>
-    <t>The bandwidth defined in <xref target="ISO21122-2"></xref> needed to read from and write to the internal frame buffer when employing the TDC coding mode. This bandwidth is modeled and capped based on an FBB level parameter.</t>
+    <t>The bandwidth defined in <xref target="ISO21122-2"/> needed to read from and write to the internal frame buffer when employing the TDC coding mode. This bandwidth is modeled and capped based on an FBB level parameter.</t>
   </dd>
   <dt>JPEG XS codestream:</dt>
   <dd>
-    <t>A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to <xref target="ISO21122-1"></xref>.</t>
+    <t>A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to <xref target="ISO21122-1"/>.</t>
   </dd>
   <dt>JPEG XS codestream header:</dt>
   <dd>
@@ -157,11 +157,11 @@ appear in all capitals, as shown here.</t>
   </dd>
   <dt>JPEG XS header segment:</dt>
   <dd>
-    <t>The concatenation of a Video Support box <xref target="ISO21122-3"></xref>, a Color Specification box <xref target="ISO21122-3"></xref>, and a JPEG XS codestream header.</t>
+    <t>The concatenation of a Video Support box <xref target="ISO21122-3"/>, a Color Specification box <xref target="ISO21122-3"/>, and a JPEG XS codestream header.</t>
   </dd>
   <dt>JPEG XS picture segment:</dt>
   <dd>
-    <t>The concatenation of a Video Support box <xref target="ISO21122-3"></xref>, a Color Specification box <xref target="ISO21122-3"></xref>, and a JPEG XS codestream.</t>
+    <t>The concatenation of a Video Support box <xref target="ISO21122-3"/>, a Color Specification box <xref target="ISO21122-3"/>, and a JPEG XS codestream.</t>
   </dd>
   <dt>JPEG XS stream:</dt>
   <dd>
@@ -181,11 +181,11 @@ appear in all capitals, as shown here.</t>
   </dd>
   <dt>SLH (Slice header) marker:</dt>
   <dd>
-    <t>A marker that represents a slice header, as defined in <xref target="ISO21122-1"></xref>.</t>
+    <t>A marker that represents a slice header, as defined in <xref target="ISO21122-1"/>.</t>
   </dd>
   <dt>SLI (TDC enabling slice header) marker:</dt>
   <dd>
-    <t>A marker that represents a TDC enabling slice header, as defined in <xref target="ISO21122-1"></xref>.</t>
+    <t>A marker that represents a TDC enabling slice header, as defined in <xref target="ISO21122-1"/>.</t>
   </dd>
   <dt>Slice:</dt>
   <dd>
@@ -193,22 +193,22 @@ appear in all capitals, as shown here.</t>
   </dd>
   <dt>Start of a Codestream (SOC) marker:</dt>
   <dd>
-    <t>A marker that consists of the two bytes <spanx style="verb">0xff10</spanx> indicating the start of a JPEG XS codestream, as defined in <xref target="ISO21122-1"></xref>. The SOC marker is considered an integral part of the JPEG XS codestream header.</t>
+    <t>A marker that consists of the two bytes <spanx style="verb">0xff10</spanx> indicating the start of a JPEG XS codestream, as defined in <xref target="ISO21122-1"/>. The SOC marker is considered an integral part of the JPEG XS codestream header.</t>
   </dd>
   <dt>Temporal Differential Coding (TDC):</dt>
   <dd>
-    <t>An inter-frame coding mode used by certain JPEG XS profiles, as defined in <xref target="ISO21122-2"></xref>.</t>
+    <t>An inter-frame coding mode used by certain JPEG XS profiles, as defined in <xref target="ISO21122-2"/>.</t>
   </dd>
   <dt>Video Support (VS) box:</dt>
   <dd>
-    <t>An ISO Video Support box, as defined in <xref target="ISO21122-3"></xref>, that includes metadata required to play back a JPEG XS stream; such metadata could include its maximum bit rate, its subsampling structure, its buffer model, and its frame rate.</t>
+    <t>An ISO Video Support box, as defined in <xref target="ISO21122-3"/>, that includes metadata required to play back a JPEG XS stream; such metadata could include its maximum bit rate, its subsampling structure, its buffer model, and its frame rate.</t>
   </dd>
 </dl>
 
 </section>
 <section anchor="media-format-description"><name>Media Format Description</name>
 
-<t>This section explains the terminology and concepts used in this memo specific to JPEG XS as specified in <xref target="ISO21122-1"></xref>, <xref target="ISO21122-2"></xref>, and <xref target="ISO21122-3"></xref>.</t>
+<t>This section explains the terminology and concepts used in this memo specific to JPEG XS as specified in <xref target="ISO21122-1"/>, <xref target="ISO21122-2"/>, and <xref target="ISO21122-3"/>.</t>
 
 <section anchor="data-structures"><name>Data Structures</name>
 
@@ -231,20 +231,20 @@ appear in all capitals, as shown here.</t>
   <t>an EOC marker to signal the end of the codestream.</t>
 </list></t>
 
-<t>The JPEG XS codestream format, including the definition of all markers, is further provided in <xref target="ISO21122-1"></xref>. It represents sample values of a single picture, without any interpretation relative to a color space.</t>
+<t>The JPEG XS codestream format, including the definition of all markers, is further provided in <xref target="ISO21122-1"/>. It represents sample values of a single picture, without any interpretation relative to a color space.</t>
 
-<t>As defined in <xref target="ISO21122-1"></xref>, slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header <bcp14>SHALL</bcp14> be either an SLH or an SLI marker. The last byte of a slice in the codestream <bcp14>SHALL</bcp14> immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).</t>
+<t>As defined in <xref target="ISO21122-1"/>, slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header <bcp14>SHALL</bcp14> be either an SLH or an SLI marker. The last byte of a slice in the codestream <bcp14>SHALL</bcp14> immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).</t>
 
-<t>A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in <xref target="ISO21122-1"></xref>. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).</t>
+<t>A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in <xref target="ISO21122-1"/>. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).</t>
 
 </section>
 <section anchor="video-support-box-and-color-specification-box"><name>Video Support box and Color Specification box</name>
 
-<t>While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the Video Support box and the Color Specification box, which contain significant information to correctly play back the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in <xref target="ISO21122-3"></xref>.</t>
+<t>While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. This interpretation is given by the Video Support box and the Color Specification box, which contain significant information to correctly play back the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in <xref target="ISO21122-3"/>.</t>
 
 <t>The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.</t>
 
-<t>Note that the profile and level/sublevel/fbblevel, specified respectively by the <spanx style="verb">Ppih</spanx> and <spanx style="verb">Plev</spanx> fields <xref target="ISO21122-2"></xref>, specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer(s) when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the <spanx style="verb">Ppih</spanx> and <spanx style="verb">Plev</spanx> fields, are defined in <xref target="ISO21122-2"></xref>.</t>
+<t>Note that the profile and level/sublevel/fbblevel, specified respectively by the <spanx style="verb">Ppih</spanx> and <spanx style="verb">Plev</spanx> fields <xref target="ISO21122-2"/>, specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer(s) when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the <spanx style="verb">Ppih</spanx> and <spanx style="verb">Plev</spanx> fields, are defined in <xref target="ISO21122-2"/>.</t>
 
 <t>The Color Specification box indicates the color primaries, transfer characteristics, matrix coefficients, and video full range flag needed to specify the color space of the video stream.</t>
 
@@ -257,25 +257,25 @@ appear in all capitals, as shown here.</t>
 
 <t>In the case of an interlaced video stream, each JPEG XS frame consists of two concatenated JPEG XS picture segments. Each JPEG XS picture segment corresponds exclusively to one of the two fields of the interlaced frame.</t>
 
-<t>Note that <xref target="sec_payload_data"/> further mandates that the boxes in both picture segments, and their respective layouts, <bcp14>SHALL</bcp14> be identical with the exception of the value of the Tcod field in the Video Information box <xref target="ISO21122-3"></xref>.</t>
+<t>Note that <xref target="sec_payload_data"/> further mandates that the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame <bcp14>SHALL</bcp14> have the same respective layouts.</t>
 
-<t>Note that the interlaced mode, as signaled by the <spanx style="verb">frat</spanx> field <xref target="ISO21122-3"></xref> in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value <bcp14>SHALL</bcp14> also be identical in both picture segments.</t>
+<t>Note that the interlaced mode, as signaled by the <spanx style="verb">frat</spanx> field <xref target="ISO21122-3"/> in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value <bcp14>SHALL</bcp14> also be identical in both picture segments.</t>
 
-<t>Note that the <spanx style="verb">frat</spanx> field <xref target="ISO21122-3"></xref> in the Video Support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.</t>
+<t>Note that the <spanx style="verb">frat</spanx> field <xref target="ISO21122-3"/> in the Video Support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.</t>
 
 </section>
 </section>
 <section anchor="rtp-payload-format"><name>RTP Payload Format</name>
 
-<t>This section specifies the payload format for JPEG XS streams over the Real-time Transport Protocol (RTP) <xref target="RFC3550"></xref>.</t>
+<t>This section specifies the payload format for JPEG XS streams over the Real-time Transport Protocol (RTP) <xref target="RFC3550"/>.</t>
 
-<t>In order to be transported over RTP, each JPEG XS stream is transported in a distinct RTP stream, identified by a distinct synchronization source (SSRC) <xref target="RFC3550"></xref>.</t>
+<t>In order to be transported over RTP, each JPEG XS stream is transported in a distinct RTP stream, identified by a distinct synchronization source (SSRC) <xref target="RFC3550"/>.</t>
 
 <t>A JPEG XS stream is divided into Application Data Units (ADUs), each ADU corresponding to a single JPEG XS frame.</t>
 
 <section anchor="sec_rtp_packetization"><name>RTP Packetization</name>
 
-<t>An ADU is made of several packetization units. If a packetization unit is bigger than the maximum size of an RTP packet payload, the unit is split into multiple RTP packet payloads, as illustrated in <xref target="fig_adu_packetization"/>. As seen there, each packet <bcp14>SHALL</bcp14> contain (part of) one, and only one, packetization unit. A packetization unit may extend over multiple packets. The payload of every packet <bcp14>SHALL</bcp14> have the same size (based, e.g., on the Maximum Transfer Unit of the network) with the possible exception of the last packet of a packetization unit. The boundaries of a packetization unit <bcp14>SHALL</bcp14> coincide with the boundaries of the payload of a packet (excluding the payload header), i.e., the first (or, respectively, last) byte of the packetization unit <bcp14>SHALL</bcp14> be the first (or, respectively, last) byte of the payload (excluding its header).</t>
+<t>An ADU is made of several packetization units. If a packetization unit is bigger than the maximum size of an RTP packet payload, the unit is split into multiple RTP packet payloads, as illustrated in <xref target="fig_adu_packetization"/>. As seen there, each packet <bcp14>SHALL</bcp14> contain (part of) one, and only one, packetization unit. A packetization unit may extend over multiple packets. The payload of every packet <bcp14>SHALL</bcp14> have the same size (based, e.g., on the Maximum Transfer Unit of the network) with the possible exception of the last packet of a packetization unit. The boundaries of a packetization unit <bcp14>SHALL</bcp14> coincide with the boundaries of the payload of a packet (excluding the payload header), i.e., the first (or, respectively, last) byte of the packetization unit <bcp14>SHALL</bcp14> be the first (or, respectively, last) byte of the payload (excluding its header). Note that for interlaced frames the requirements of the RTP packetization imply that each packet will only contain data corresponding to exactly one field.</t>
 
 <figure title="Example of ADU Packetization" anchor="fig_adu_packetization"><artwork><![CDATA[
 RTP        +-----+------------------------+
@@ -349,7 +349,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </section>
 <section anchor="rtp-header-usage"><name>RTP Header Usage</name>
 
-<t>The format of the RTP header is specified in <xref target="RFC3550"></xref> and reprinted in <xref target="fig_rtp_header"/> for convenience. This RTP payload format uses the fields of the header in a manner consistent with that specification.</t>
+<t>The format of the RTP header is specified in <xref target="RFC3550"/> and reprinted in <xref target="fig_rtp_header"/> for convenience. This RTP payload format uses the fields of the header in a manner consistent with that specification.</t>
 
 <t>The RTP payload (and the settings for some RTP header bits) for packetization units are specified in <xref target="sec_payload_header_usage"/>.</t>
 
@@ -368,7 +368,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork></figure>
 
-<t>The version (<spanx style="verb">V</spanx>), padding (<spanx style="verb">P</spanx>), extension (<spanx style="verb">X</spanx>), CSRC count (<spanx style="verb">CC</spanx>), sequence number, synchronization source (SSRC), and contributing source (CSRC) fields follow their respective definitions in <xref target="RFC3550"></xref>.</t>
+<t>The version (<spanx style="verb">V</spanx>), padding (<spanx style="verb">P</spanx>), extension (<spanx style="verb">X</spanx>), CSRC count (<spanx style="verb">CC</spanx>), sequence number, synchronization source (SSRC), and contributing source (CSRC) fields follow their respective definitions in <xref target="RFC3550"/>.</t>
 
 <t>The remaining RTP header information to be set according to this RTP payload format is set as follows:</t>
 
@@ -383,7 +383,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
   </dd>
   <dt>Timestamp [32 bits]:</dt>
   <dd>
-    <t>The RTP timestamp is set to the sampling timestamp of the content (see also <xref target="RFC3550"></xref> and <xref target="RFC4175"></xref>). A 90 kHz clock rate <bcp14>SHALL</bcp14> be used. If the sampling instant does not correspond to an integer value of the clock, the value <bcp14>SHALL</bcp14> be rounded up to the next lowest integer, with no ambiguity.
+    <t>The RTP timestamp is set to the sampling timestamp of the content (see also <xref target="RFC3550"/> and <xref target="RFC4175"/>). A 90 kHz clock rate <bcp14>SHALL</bcp14> be used. If the sampling instant does not correspond to an integer value of the clock, the value <bcp14>SHALL</bcp14> be rounded up to the next lowest integer, with no ambiguity.
 </t>
 
     <t>For progressive video, the timestamp denotes the sampling instant of the frame to which the RTP packet belongs. Packets <bcp14>SHALL NOT</bcp14> include data from multiple frames, and all packets belonging to the same frame <bcp14>SHALL</bcp14> have the same timestamp.</t>
@@ -458,7 +458,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </section>
 <section anchor="sec_payload_data"><name>Payload Data</name>
 
-<t>The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes <bcp14>SHALL</bcp14> retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream <bcp14>SHALL</bcp14> define the same sub boxes, in the same order. With the exception of the value of the <spanx style="verb">Tcod</spanx> field in the Video Information box <xref target="ISO21122-3"></xref>, the effective values in the boxes <bcp14>SHALL</bcp14> be identical across all JPEG XS picture segments of the RTP stream.</t>
+<t>The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes <bcp14>SHALL</bcp14> retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream <bcp14>SHALL</bcp14> define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets <bcp14>SHALL NOT</bcp14> change.</t>
 
 <t>Each JPEG XS frame is represented by one or more packetization unit(s), as explained in <xref target="sec_rtp_packetization"/>. <xref target="fig_cs_pack_mode_prog"/> depicts this layout for a progressive video frame in the codestream packetization mode, <xref target="fig_cs_pack_mode_int"/> depicts this layout for an interlaced video frame in the codestream packetization mode, <xref target="fig_sl_pack_mode_prog"/> depicts this layout for a progressive video frame in the slice packetization mode, and <xref target="fig_sl_pack_mode_int"/> depicts this layout for an interlaced video frame in the slice packetization mode. The Frame (<spanx style="verb">F</spanx>) counter value is not indicated because the value is constant for all packetization units of a given video frame.</t>
 
@@ -680,27 +680,27 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </section>
 <section anchor="sec-traffic-shaping"><name>Traffic Shaping and Delivery Timing</name>
 
-<t>In order to facilitate proper synchronization between senders and receivers, it is <bcp14>RECOMMENDED</bcp14> to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in <xref target="SMPTE2110-21"></xref>. In such a case, the session description <bcp14>SHALL</bcp14> signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.</t>
+<t>In order to facilitate proper synchronization between senders and receivers, it is <bcp14>RECOMMENDED</bcp14> to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in <xref target="SMPTE2110-21"/>. In such a case, the session description <bcp14>SHALL</bcp14> signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.</t>
 
 </section>
 <section anchor="congestion-control-considerations"><name>Congestion Control Considerations</name>
 
-<t>Congestion control for RTP <bcp14>SHALL</bcp14> be used in accordance with <xref target="RFC3550"></xref> and with any applicable RTP profile, e.g., RTP/AVP <xref target="RFC3551"></xref> or RTP/AVPF <xref target="RFC4585"></xref>.</t>
+<t>Congestion control for RTP <bcp14>SHALL</bcp14> be used in accordance with <xref target="RFC3550"/> and with any applicable RTP profile, e.g., RTP/AVP <xref target="RFC3551"/> or RTP/AVPF <xref target="RFC4585"/>.</t>
 
-<t>While JPEG XS is mainly designed to be used in controlled network environments, it can also be employed in best-effort network environments, like the Internet. However, in this case, the users of this payload format <bcp14>SHALL</bcp14> monitor packet loss to ensure that the packet loss rate is within acceptable parameters. This can be achieved, for example, by means of RTP Control Protocol (RTCP) Feedback for Congestion Control <xref target="RFC8888"></xref>.</t>
+<t>While JPEG XS is mainly designed to be used in controlled network environments, it can also be employed in best-effort network environments, like the Internet. However, in this case, the users of this payload format <bcp14>SHALL</bcp14> monitor packet loss to ensure that the packet loss rate is within acceptable parameters. This can be achieved, for example, by means of RTP Control Protocol (RTCP) Feedback for Congestion Control <xref target="RFC8888"/>.</t>
 
-<t>In addition, <xref target="RFC8083"></xref> is an update to <xref target="RFC3550"></xref> that defines criteria for when one is required to stop sending RTP Packet Streams and for when applications implementing this standard <bcp14>SHALL</bcp14> comply with it.</t>
+<t>In addition, <xref target="RFC8083"/> is an update to <xref target="RFC3550"/> that defines criteria for when one is required to stop sending RTP Packet Streams and for when applications implementing this standard <bcp14>SHALL</bcp14> comply with it.</t>
 
-<t><xref target="RFC8085"></xref> provides additional information on the best practices for applying congestion control to UDP streams.</t>
+<t><xref target="RFC8085"/> provides additional information on the best practices for applying congestion control to UDP streams.</t>
 
 </section>
 <section anchor="sec-payload-params"><name>Payload Format Parameters</name>
 
-<t>This section specifies the required and optional parameters of the payload format and/or the RTP stream. All parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see <xref target="sec_payload_header_usage"/>) or in the JPEG XS header segment <xref target="ISO21122-3">ISO21122-1</xref>. When provided, their respective values <bcp14>SHALL</bcp14> be consistent with the payload.</t>
+<t>This section specifies the required and optional parameters of the payload format and/or the RTP stream. All parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see <xref target="sec_payload_header_usage"/>) or in the JPEG XS header segment. When provided, their respective values <bcp14>SHALL</bcp14> be consistent with the payload.</t>
 
 <section anchor="sec-media-type-reg"><name>Media Type Registration</name>
 
-<t>This registration is done using the template defined in <xref target="RFC6838"></xref> and following <xref target="RFC4855"></xref>.</t>
+<t>This registration is done using the template defined in <xref target="RFC6838"/> and following <xref target="RFC4855"/>.</t>
 
 <t>The receiver <bcp14>SHALL</bcp14> ignore any unrecognized parameter.</t>
 
@@ -735,19 +735,19 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
       </dd>
       <dt>profile:</dt>
       <dd>
-        <t>The JPEG XS profile <xref target="ISO21122-2"></xref> in use. Any white space Unicode character in the profile name <bcp14>SHALL</bcp14> be omitted. Examples of valid profile names are 'Main444.12', 'High444.12', 'CHigh444.12', or 'TDC444.12'.</t>
+        <t>The JPEG XS profile <xref target="ISO21122-2"/> in use. Any white space Unicode character in the profile name <bcp14>SHALL</bcp14> be omitted. Examples of valid profile names are 'Main444.12', 'High444.12', 'CHigh444.12', or 'TDC444.12'.</t>
       </dd>
       <dt>level:</dt>
       <dd>
-        <t>The JPEG XS level <xref target="ISO21122-2"></xref> in use. Any white space Unicode character in the level name <bcp14>SHALL</bcp14> be omitted. Examples of valid levels are '2k-1' or '4k-2'.</t>
+        <t>The JPEG XS level <xref target="ISO21122-2"/> in use. Any white space Unicode character in the level name <bcp14>SHALL</bcp14> be omitted. Examples of valid levels are '2k-1' or '4k-2'.</t>
       </dd>
       <dt>sublevel:</dt>
       <dd>
-        <t>The JPEG XS sublevel <xref target="ISO21122-2"></xref> in use. Any white space Unicode character in the sublevel name <bcp14>SHALL</bcp14> be omitted. Examples of valid sublevels are 'Sublev3bpp' or 'Sublev6bpp'.</t>
+        <t>The JPEG XS sublevel <xref target="ISO21122-2"/> in use. Any white space Unicode character in the sublevel name <bcp14>SHALL</bcp14> be omitted. Examples of valid sublevels are 'Sublev3bpp' or 'Sublev6bpp'.</t>
       </dd>
       <dt>fbblevel:</dt>
       <dd>
-        <t>The JPEG XS frame buffer level <xref target="ISO21122-2"></xref> in use. Any white space Unicode character in the fbblevel name <bcp14>SHALL</bcp14> be omitted. Examples of valid frame buffer levels are 'Fbblev3bpp' or 'Fbblev12bpp'.</t>
+        <t>The JPEG XS frame buffer level <xref target="ISO21122-2"/> in use. Any white space Unicode character in the fbblevel name <bcp14>SHALL</bcp14> be omitted. Examples of valid frame buffer levels are 'Fbblev3bpp' or 'Fbblev12bpp'.</t>
       </dd>
       <dt>depth:</dt>
       <dd>
@@ -778,7 +778,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
         <t>Signals the color difference signal sub-sampling structure.
 </t>
 
-        <t>Signals utilizing the non-constant luminance <spanx style="verb">Y'C'B C'R</spanx> signal format of <xref target="BT601-7"></xref>, <xref target="BT709-6"></xref>, <xref target="BT2020-2"></xref>, or <xref target="BT2100-2"></xref> <bcp14>SHALL</bcp14> use the appropriate one of the following values for the Media Type Parameter "sampling":</t>
+        <t>Signals utilizing the non-constant luminance <spanx style="verb">Y'C'B C'R</spanx> signal format of <xref target="BT601-7"/>, <xref target="BT709-6"/>, <xref target="BT2020-2"/>, or <xref target="BT2100-2"/> <bcp14>SHALL</bcp14> use the appropriate one of the following values for the Media Type Parameter "sampling":</t>
 
         <dl>
           <dt><spanx style="verb">YCbCr-4:4:4</spanx></dt>
@@ -795,7 +795,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           </dd>
         </dl>
 
-        <t>Signals utilizing the Constant Luminance <spanx style="verb">Y'C C'BC C'RC</spanx> signal format of <xref target="BT2020-2"></xref> <bcp14>SHALL</bcp14> use the appropriate one of the following values for the Media Type Parameter "sampling":</t>
+        <t>Signals utilizing the Constant Luminance <spanx style="verb">Y'C C'BC C'RC</spanx> signal format of <xref target="BT2020-2"/> <bcp14>SHALL</bcp14> use the appropriate one of the following values for the Media Type Parameter "sampling":</t>
 
         <dl>
           <dt><spanx style="verb">CLYCbCr-4:4:4</spanx></dt>
@@ -812,7 +812,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           </dd>
         </dl>
 
-        <t>Signals utilizing the constant intensity <spanx style="verb">I CT CP</spanx> signal format of <xref target="BT2100-2"></xref> <bcp14>SHALL</bcp14> use the appropriate one of the following values for the Media Type Parameter "sampling":</t>
+        <t>Signals utilizing the constant intensity <spanx style="verb">I CT CP</spanx> signal format of <xref target="BT2100-2"/> <bcp14>SHALL</bcp14> use the appropriate one of the following values for the Media Type Parameter "sampling":</t>
 
         <dl>
           <dt><spanx style="verb">ICtCp-4:4:4</spanx></dt>
@@ -829,7 +829,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           </dd>
         </dl>
 
-        <t>Signals utilizing the 4:4:4 <spanx style="verb">R' G' B'</spanx> or RGB signal format (such as that of <xref target="BT601-7"></xref>, <xref target="BT709-6"></xref>, <xref target="BT2020-2"></xref>, <xref target="BT2100-2"></xref>, <xref target="SMPTE2065-1"></xref>, or <xref target="SMPTE2065-3"></xref>) <bcp14>SHALL</bcp14> use the following value for the Media Type Parameter "sampling":</t>
+        <t>Signals utilizing the 4:4:4 <spanx style="verb">R' G' B'</spanx> or RGB signal format (such as that of <xref target="BT601-7"/>, <xref target="BT709-6"/>, <xref target="BT2020-2"/>, <xref target="BT2100-2"/>, <xref target="SMPTE2065-1"/>, or <xref target="SMPTE2065-3"/>) <bcp14>SHALL</bcp14> use the following value for the Media Type Parameter "sampling":</t>
 
         <dl>
           <dt><spanx style="verb">RGB</spanx></dt>
@@ -838,7 +838,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           </dd>
         </dl>
 
-        <t>Signals utilizing the 4:4:4 <spanx style="verb">X' Y' Z'</spanx> signal format (such as defined in <xref target="SMPTE428-1"></xref>) <bcp14>SHALL</bcp14> use the following value for the Media Type Parameter "sampling":</t>
+        <t>Signals utilizing the 4:4:4 <spanx style="verb">X' Y' Z'</spanx> signal format (such as defined in <xref target="SMPTE428-1"/>) <bcp14>SHALL</bcp14> use the following value for the Media Type Parameter "sampling":</t>
 
         <dl>
           <dt><spanx style="verb">XYZ</spanx></dt>
@@ -847,7 +847,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           </dd>
         </dl>
 
-        <t>Key signals as defined in <xref target="SMPTE157"></xref> <bcp14>SHALL</bcp14> use the value key for the Media Type Parameter "sampling". The key signal is represented as a single component:</t>
+        <t>Key signals as defined in <xref target="SMPTE157"/> <bcp14>SHALL</bcp14> use the value key for the Media Type Parameter "sampling". The key signal is represented as a single component:</t>
 
         <dl>
           <dt><spanx style="verb">KEY</spanx></dt>
@@ -873,51 +873,51 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
         <dl>
           <dt><spanx style="verb">BT601-5</spanx>:</dt>
           <dd>
-            <t><xref target="BT601-5"></xref>.</t>
+            <t><xref target="BT601-5"/>.</t>
           </dd>
           <dt><spanx style="verb">BT709-2</spanx>:</dt>
           <dd>
-            <t><xref target="BT709-2"></xref>.</t>
+            <t><xref target="BT709-2"/>.</t>
           </dd>
           <dt><spanx style="verb">SMPTE240M</spanx>:</dt>
           <dd>
-            <t><xref target="SMPTE240M"></xref>.</t>
+            <t><xref target="SMPTE240M"/>.</t>
           </dd>
           <dt><spanx style="verb">BT601</spanx>:</dt>
           <dd>
-            <t><xref target="BT601-7"></xref>.</t>
+            <t><xref target="BT601-7"/>.</t>
           </dd>
           <dt><spanx style="verb">BT709</spanx>:</dt>
           <dd>
-            <t><xref target="BT709-6"></xref>.</t>
+            <t><xref target="BT709-6"/>.</t>
           </dd>
           <dt><spanx style="verb">BT2020</spanx>:</dt>
           <dd>
-            <t><xref target="BT2020-2"></xref>.</t>
+            <t><xref target="BT2020-2"/>.</t>
           </dd>
           <dt><spanx style="verb">BT2100</spanx>:</dt>
           <dd>
-            <t><xref target="BT2100-2"></xref>, Table 2 titled "System colorimetry".</t>
+            <t><xref target="BT2100-2"/>, Table 2 titled "System colorimetry".</t>
           </dd>
           <dt><spanx style="verb">ST2065-1</spanx>:</dt>
           <dd>
-            <t>Academy Color Encoding Specification (ACES) <xref target="SMPTE2065-1"></xref>.</t>
+            <t>Academy Color Encoding Specification (ACES) <xref target="SMPTE2065-1"/>.</t>
           </dd>
           <dt><spanx style="verb">ST2065-3</spanx>:</dt>
           <dd>
-            <t>Academy Density Exchange Encoding (ADX) <xref target="SMPTE2065-3"></xref>.</t>
+            <t>Academy Density Exchange Encoding (ADX) <xref target="SMPTE2065-3"/>.</t>
           </dd>
           <dt><spanx style="verb">XYZ</spanx>:</dt>
           <dd>
-            <t><xref target="ISO11664-1"></xref>, section titled "1931 Observer".</t>
+            <t><xref target="ISO11664-1"/>, section titled "1931 Observer".</t>
           </dd>
           <dt><spanx style="verb">UNSPECIFIED</spanx>:</dt>
           <dd>
-            <t>Colorimetry <bcp14>SHALL</bcp14> either be signaled in the payload by the Color Specification box of <xref target="ISO21122-3"></xref>, or be manually coordinated between sender and receiver.</t>
+            <t>Colorimetry <bcp14>SHALL</bcp14> either be signaled in the payload by the Color Specification box of <xref target="ISO21122-3"/>, or be manually coordinated between sender and receiver.</t>
           </dd>
         </dl>
 
-        <t>Signals utilizing the <xref target="BT2100-2"></xref> colorimetry <bcp14>SHOULD</bcp14> also signal the representational range using the optional parameter RANGE defined below.  Signals utilizing the <spanx style="verb">UNSPECIFIED</spanx> colorimetry might require manual coordination between the sender and the receiver.</t>
+        <t>Signals utilizing the <xref target="BT2100-2"/> colorimetry <bcp14>SHOULD</bcp14> also signal the representational range using the optional parameter RANGE defined below.  Signals utilizing the <spanx style="verb">UNSPECIFIED</spanx> colorimetry might require manual coordination between the sender and the receiver.</t>
       </dd>
       <dt>TCS:</dt>
       <dd>
@@ -927,31 +927,31 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
         <dl>
           <dt><spanx style="verb">SDR</spanx>:</dt>
           <dd>
-            <t>Standard Dynamic Range video streams that utilize the Optical Electrical Transfer Function (OETF) of <xref target="BT709-6"></xref> or <xref target="BT2020-2"></xref>. Such streams <bcp14>SHALL</bcp14> be assumed to target the Electro-Optical Transfer Function (EOTF) specified in <xref target="BT1886-0"></xref>.</t>
+            <t>Standard Dynamic Range video streams that utilize the Optical Electrical Transfer Function (OETF) of <xref target="BT709-6"/> or <xref target="BT2020-2"/>. Such streams <bcp14>SHALL</bcp14> be assumed to target the Electro-Optical Transfer Function (EOTF) specified in <xref target="BT1886-0"/>.</t>
           </dd>
           <dt><spanx style="verb">PQ</spanx>:</dt>
           <dd>
-            <t>High dynamic range video streams that utilize the Perceptual Quantization system of <xref target="BT2100-2"></xref>.</t>
+            <t>High dynamic range video streams that utilize the Perceptual Quantization system of <xref target="BT2100-2"/>.</t>
           </dd>
           <dt><spanx style="verb">HLG</spanx>:</dt>
           <dd>
-            <t>High dynamic range video streams that utilize the Hybrid Log-Gamma system of <xref target="BT2100-2"></xref>.</t>
+            <t>High dynamic range video streams that utilize the Hybrid Log-Gamma system of <xref target="BT2100-2"/>.</t>
           </dd>
           <dt><spanx style="verb">UNSPECIFIED</spanx>:</dt>
           <dd>
-            <t>Video streams whose transfer characteristics <bcp14>SHALL</bcp14> either be signaled by the payload as specified in <xref target="ISO21122-3"></xref>, or be manually coordinated between sender and receiver.</t>
+            <t>Video streams whose transfer characteristics <bcp14>SHALL</bcp14> either be signaled by the payload as specified in <xref target="ISO21122-3"/>, or be manually coordinated between sender and receiver.</t>
           </dd>
         </dl>
       </dd>
       <dt>RANGE:</dt>
       <dd>
-        <t>This parameter <bcp14>SHOULD</bcp14> be used to signal the encoding range of the sample values within the stream. When paired with <xref target="BT2100-2"></xref> colorimetry, this parameter has two allowed values, <spanx style="verb">NARROW</spanx> and <spanx style="verb">FULL</spanx>, corresponding to the ranges specified in TABLE 9 of <xref target="BT2100-2"></xref>. In any other context, this parameter has three allowed values: <spanx style="verb">NARROW</spanx>, <spanx style="verb">FULLPROTECT</spanx>, and <spanx style="verb">FULL</spanx>, which correspond to the ranges specified in <xref target="SMPTE2077"></xref>. In the absence of this parameter, and for all but the <spanx style="verb">UNSPECIFIED</spanx> colorimetry, <spanx style="verb">NARROW</spanx> <bcp14>SHALL</bcp14> be the assumed value. When paired with the UNSPECIFIED colorimetry, <spanx style="verb">FULL</spanx> <bcp14>SHALL</bcp14> be the default assumed value.</t>
+        <t>This parameter <bcp14>SHOULD</bcp14> be used to signal the encoding range of the sample values within the stream. When paired with <xref target="BT2100-2"/> colorimetry, this parameter has two allowed values, <spanx style="verb">NARROW</spanx> and <spanx style="verb">FULL</spanx>, corresponding to the ranges specified in TABLE 9 of <xref target="BT2100-2"/>. In any other context, this parameter has three allowed values: <spanx style="verb">NARROW</spanx>, <spanx style="verb">FULLPROTECT</spanx>, and <spanx style="verb">FULL</spanx>, which correspond to the ranges specified in <xref target="SMPTE2077"/>. In the absence of this parameter, and for all but the <spanx style="verb">UNSPECIFIED</spanx> colorimetry, <spanx style="verb">NARROW</spanx> <bcp14>SHALL</bcp14> be the assumed value. When paired with the UNSPECIFIED colorimetry, <spanx style="verb">FULL</spanx> <bcp14>SHALL</bcp14> be the default assumed value.</t>
       </dd>
     </dl>
   </dd>
   <dt>Encoding considerations:</dt>
   <dd>
-    <t>This media type is framed in RTP and contains binary data; see Section 4.8 of <xref target="RFC6838"></xref>.</t>
+    <t>This media type is framed in RTP and contains binary data; see Section 4.8 of <xref target="RFC6838"/>.</t>
   </dd>
   <dt>Security considerations:</dt>
   <dd>
@@ -987,7 +987,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
   </dd>
   <dt>Restrictions on usage:</dt>
   <dd>
-    <t>This media type depends on RTP framing; hence, it is only defined for transfer via RTP <xref target="RFC3550"></xref>.</t>
+    <t>This media type depends on RTP framing; hence, it is only defined for transfer via RTP <xref target="RFC3550"/>.</t>
   </dd>
   <dt>Author:</dt>
   <dd>
@@ -1003,11 +1003,11 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </section>
 <section anchor="sdp-parameters"><name>SDP Parameters</name>
 
-<t>A mapping of the parameters into the Session Description Protocol (SDP) <xref target="RFC8866"></xref> is provided for applications that use SDP.</t>
+<t>A mapping of the parameters into the Session Description Protocol (SDP) <xref target="RFC8866"/> is provided for applications that use SDP.</t>
 
 <section anchor="mapping-of-payload-type-parameters-to-sdp"><name>Mapping of Payload Type Parameters to SDP</name>
 
-<t>The media type video/jxsv string is mapped to fields in the Session Description Protocol (SDP) <xref target="RFC8866"></xref> as follows:</t>
+<t>The media type video/jxsv string is mapped to fields in the Session Description Protocol (SDP) <xref target="RFC8866"/> as follows:</t>
 
 <t>The media type ("video") goes in SDP "m=" as the media name.</t>
 
@@ -1034,7 +1034,7 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
 </section>
 <section anchor="usage-with-sdp-offeranswer-model"><name>Usage with SDP Offer/Answer Model</name>
 
-<t>When JPEG XS is offered over RTP using SDP in an offer/answer model <xref target="RFC3264"></xref> for negotiation for unicast usage, the following limitations and rules apply:</t>
+<t>When JPEG XS is offered over RTP using SDP in an offer/answer model <xref target="RFC3264"/> for negotiation for unicast usage, the following limitations and rules apply:</t>
 
 <t>The "a=fmtp" attribute <bcp14>SHALL</bcp14> be present specifying the required parameter "packetmode" and <bcp14>MAY</bcp14> specify any of the optional parameters, as described in <xref target="sec-media-type-reg"/>.</t>
 
@@ -1043,7 +1043,7 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
 <t>An answerer of the SDP is required to support all parameters and values of the parameters provided by the offerer; otherwise, the answerer <bcp14>SHALL</bcp14> reject the session. It falls on the offerer to use values that are expected to be supported by the answerer. If the answerer accepts the session, it <bcp14>SHALL</bcp14> reply with the exact same
   parameter values in the "a=fmtp" attribute as they were initially offered.</t>
 
-<t>The same RTP payload type number used in the offer <bcp14>SHOULD</bcp14> be used in the answer, as specified in <xref target="RFC3264"></xref>.</t>
+<t>The same RTP payload type number used in the offer <bcp14>SHOULD</bcp14> be used in the answer, as specified in <xref target="RFC3264"/>.</t>
 
 </section>
 </section>
@@ -1054,9 +1054,9 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
 </section>
 <section anchor="security-considerations"><name>Security Considerations</name>
 
-<t>RTP packets using the payload format defined in this memo are subject to the security considerations discussed in <xref target="RFC3550"></xref> and in any applicable RTP profile such as RTP/AVP <xref target="RFC3551"></xref>, RTP/AVPF <xref target="RFC4585"></xref>, RTP/SAVP <xref target="RFC3711"></xref>, or RTP/SAVPF <xref target="RFC5124"></xref>. This implies that confidentiality of the media streams is achieved by encryption.</t>
+<t>RTP packets using the payload format defined in this memo are subject to the security considerations discussed in <xref target="RFC3550"/> and in any applicable RTP profile such as RTP/AVP <xref target="RFC3551"/>, RTP/AVPF <xref target="RFC4585"/>, RTP/SAVP <xref target="RFC3711"/>, or RTP/SAVPF <xref target="RFC5124"/>. This implies that confidentiality of the media streams is achieved by encryption.</t>
 
-<t>However, as "Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution" <xref target="RFC7202"></xref> discusses, it is not an RTP payload format's responsibility to discuss or mandate what solutions are used to meet the basic security goals like confidentiality, integrity, and source authenticity for RTP in general. This responsibility lies on anyone using RTP in an application. They can find guidance on available security mechanisms and important considerations in "Options for Securing RTP Sessions" <xref target="RFC7201"></xref>. Applications <bcp14>SHOULD</bcp14> use one or more appropriate strong security
+<t>However, as "Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution" <xref target="RFC7202"/> discusses, it is not an RTP payload format's responsibility to discuss or mandate what solutions are used to meet the basic security goals like confidentiality, integrity, and source authenticity for RTP in general. This responsibility lies on anyone using RTP in an application. They can find guidance on available security mechanisms and important considerations in "Options for Securing RTP Sessions" <xref target="RFC7201"/>. Applications <bcp14>SHOULD</bcp14> use one or more appropriate strong security
 mechanisms.</t>
 
 <t>Implementations of this RTP payload format need to take appropriate security considerations into account. It is important for the decoder to be robust against malicious or malformed payloads and ensure that they do not cause the decoder to overrun its allocated memory or otherwise misbehave. An overrun in allocated memory could lead to arbitrary code execution by an attacker. The same applies to the encoder, even though problems in encoders are typically rarer.</t>
@@ -1557,16 +1557,16 @@ mechanisms.</t>
 
 <section anchor="annex-a"><name>Changes from RFC9134</name>
 
-<t>Most of this RFC is identical to <xref target="RFC9134"></xref>. There are no changes in the packet formatting or headers defined by this RTP payload specification, only new provisions are added to support the features that were added by the third edition of <xref target="ISO21122-1"></xref>, <xref target="ISO21122-2"></xref>, and <xref target="ISO21122-3"></xref>, in particular the new Temporal Differential Coding (TDC) profile. The revised payload format is designed to ensure that existing compliant implementations of <xref target="RFC9134"></xref> remain valid under the updated specification. Additionally, this document consolidates the errata of <xref target="RFC9134"></xref> and includes improvements and clarifications to enhance its clarity and effectiveness.</t>
+<t>Most of this RFC is identical to <xref target="RFC9134"/>. There are no changes in the packet formatting or headers defined by this RTP payload specification, only new provisions are added to support the features that were added by the third edition of <xref target="ISO21122-1"/>, <xref target="ISO21122-2"/>, and <xref target="ISO21122-3"/>, in particular the new Temporal Differential Coding (TDC) profile. The revised payload format is designed to ensure that existing compliant implementations of <xref target="RFC9134"/> remain valid under the updated specification. Additionally, this document consolidates the errata of <xref target="RFC9134"/> and includes improvements and clarifications to enhance its clarity and effectiveness.</t>
 
 <t>A summary of the changes:</t>
 
 <t><list style="symbols">
-  <t>For TDC profiles, <xref target="ISO21122-1"></xref> relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content. This distinction is not directly relevant to this specification, and for the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in <xref target="sec_rtp_packetization"/>. Yet, this document was updated to reflect the possibility for using either SLH and SLI markers.</t>
-  <t>In addition to the level and sublevel, the TDC coding mode introduces an fbblevel in <xref target="ISO21122-2"></xref> that needs to be supported as an optional payload parameter. A new parameter for signaling the fbblevel is defined in <xref target="sec-payload-params"/>.</t>
+  <t>For TDC profiles, <xref target="ISO21122-1"/> relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content. This distinction is not directly relevant to this specification, and for the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in <xref target="sec_rtp_packetization"/>. Yet, this document was updated to reflect the possibility for using either SLH and SLI markers.</t>
+  <t>In addition to the level and sublevel, the TDC coding mode introduces an fbblevel in <xref target="ISO21122-2"/> that needs to be supported as an optional payload parameter. A new parameter for signaling the fbblevel is defined in <xref target="sec-payload-params"/>.</t>
   <t>This document now provides more clarifications and improved descriptions for correctly handling interlaced video.</t>
-  <t><xref target="sec-codestream"/> provides a more detailed definition of a Slice to clarify that this RTP payload format supports the optional slice-based extension marker functionality defined in <xref target="ISO21122-1"></xref>.</t>
-  <t>The erratum of <xref target="RFC9134"></xref> concerning the RTP timestamp for interlaced video signals has been incorporated into this specification.</t>
+  <t><xref target="sec-codestream"/> provides a more detailed definition of a Slice to clarify that this RTP payload format supports the optional slice-based extension marker functionality defined in <xref target="ISO21122-1"/>.</t>
+  <t>The erratum of <xref target="RFC9134"/> concerning the RTP timestamp for interlaced video signals has been incorporated into this specification.</t>
 </list></t>
 
 </section>
@@ -1575,384 +1575,385 @@ mechanisms.</t>
   </back>
 
 <!-- ##markdown-source:
-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
+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
+vt34f1M6BGj1AQEA
 
 -->
 
