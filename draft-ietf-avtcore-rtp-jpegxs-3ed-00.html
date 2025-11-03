@@ -13,7 +13,7 @@
        This document specifies a Real-Time Transport Protocol (RTP) payload format for transport of a video signal encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency and low-complexity video coding system. Employing this format allows achieving encoding-decoding latencies confined to a fraction of a video frame. 
        This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing compliant implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to its implementers and users. 
     " name="description">
-<meta content="xml2rfc 3.23.1" name="generator">
+<meta content="xml2rfc 3.28.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="JPEG XS" name="keyword">
 <meta content="video" name="keyword">
@@ -22,21 +22,19 @@
 <meta content="protocol" name="keyword">
 <meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-00" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.1
-    Python 3.11.9
+  xml2rfc 3.28.0
+    Python 3.10.13
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
-    lxml 4.9.4
+    Jinja2 3.1.6
+    lxml 5.3.1
     platformdirs 4.3.6
     pycountry 24.6.1
-    pydyf 0.9.0
-    PyYAML 6.0.2
-    requests 2.32.3
+    PyYAML 6.0.1
+    requests 2.31.0
     setuptools 65.5.0
     wcwidth 0.2.13
-    weasyprint 61.2
 -->
 <link href="draft-ietf-avtcore-rtp-jpegxs-3ed.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -413,7 +411,7 @@ hr {
 /* Fix PDF info block run off issue */
 @media print {
   #identifiers dd {
-    float: none;
+    max-width: 100%;
   }
 }
 #identifiers .authors .author {
@@ -1752,7 +1750,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           <dd style="margin-left: 1.5em" id="section-4.2-6.6">
             <p id="section-4.2-6.6.1">The RTP timestamp is set to the sampling timestamp of the content (see also <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> and <span>[<a href="#RFC4175" class="cite xref">RFC4175</a>]</span>). A 90 kHz clock rate <span class="bcp14">SHALL</span> be used. If the sampling instant does not correspond to an integer value of the clock, the value <span class="bcp14">SHALL</span> be rounded up to the next lowest integer, with no ambiguity.<a href="#section-4.2-6.6.1" class="pilcrow">¶</a></p>
 <p id="section-4.2-6.6.2">For progressive video, the timestamp denotes the sampling instant of the frame to which the RTP packet belongs. Packets <span class="bcp14">SHALL NOT</span> include data from multiple frames, and all packets belonging to the same frame <span class="bcp14">SHALL</span> have the same timestamp.<a href="#section-4.2-6.6.2" class="pilcrow">¶</a></p>
-<p id="section-4.2-6.6.3">For interlaced video, the timestamp denotes the sampling instant of the field to which the RTP packet belongs.  Packets <span class="bcp14">SHALL NOT</span> include data from multiple fields, and all packets belonging to the same field <span class="bcp14">SHALL</span> have the same timestamp. Use of field timestamps, rather than a frame timestamp and field indicator bit, is needed to support reverse 3-2 pulldown.<a href="#section-4.2-6.6.3" class="pilcrow">¶</a></p>
+<p id="section-4.2-6.6.3">For interlaced video, the timestamp denotes the sampling instant of the field to which the RTP packet belongs. Packets <span class="bcp14">SHALL NOT</span> include data from multiple fields, and all packets belonging to the same field <span class="bcp14">SHALL</span> have the same timestamp. Use of field timestamps, rather than a frame timestamp and field indicator bit, is needed to support reverse 3-2 pulldown.<a href="#section-4.2-6.6.3" class="pilcrow">¶</a></p>
 <p id="section-4.2-6.6.4">Several successive RTP packets will consequently have equal timestamps if they belong to the same video frame for progressive content, or the same video field for interlaced content. That is, the time stamp does not change until after the marker bit (<code>M</code>) is set to 1, marking the last packet of the video frame or field.  The timestamp is only increased when a new video frame or field begins.<a href="#section-4.2-6.6.4" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -1764,7 +1762,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
         <h3 id="name-payload-header-usage">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-payload-header-usage" class="section-name selfRef">Payload Header Usage</a>
         </h3>
-<p id="section-4.3-1">The first four bytes of the payload of an RTP packet in this RTP payload format are referred to as the "payload header".  <a href="#fig_payload_header" class="auto internal xref">Figure 5</a> illustrates the structure of this payload header.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">The first four bytes of the payload of an RTP packet in this RTP payload format are referred to as the "payload header". <a href="#fig_payload_header" class="auto internal xref">Figure 5</a> illustrates the structure of this payload header.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <span id="name-payload-header"></span><div id="fig_payload_header">
 <figure id="figure-5">
           <div class="alignLeft art-text artwork" id="section-4.3-2.1">
@@ -2523,7 +2521,7 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">IANA has registered the media type registration "video/jxsv" as specified in <a href="#sec-media-type-reg" class="auto internal xref">Section 7.1</a>. The media type has also been added to the IANA registry for "RTP Payload Format Media Types" (see https://www.iana.org/assignments/rtp-parameters).<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">Because this document obsoletes <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>, IANA is asked to change all registration information that references <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> to instead reference [RFCXXXX]. IANA is asked to update the media type registration "video/jxsv" as specified in <a href="#sec-media-type-reg" class="auto internal xref">Section 7.1</a> (see https://www.iana.org/assignments/media-types).<a href="#section-9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">

@@ -1255,10 +1255,11 @@ Table of Contents
 
 9.  IANA Considerations
 
-   IANA has registered the media type registration "video/jxsv" as
-   specified in Section 7.1.  The media type has also been added to the
-   IANA registry for "RTP Payload Format Media Types" (see
-   https://www.iana.org/assignments/rtp-parameters).
+   Because this document obsoletes [RFC9134], IANA is asked to change
+   all registration information that references [RFC9134] to instead
+   reference [RFCXXXX].  IANA is asked to update the media type
+   registration "video/jxsv" as specified in Section 7.1 (see
+   https://www.iana.org/assignments/media-types).
 
 10.  Security Considerations
 
