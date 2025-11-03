@@ -1219,11 +1219,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RTP Payload Format for JPEG XS</td>
-<td class="right">October 2025</td>
+<td class="right">November 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bruylants, et al.</td>
-<td class="center">Expires 24 April 2026</td>
+<td class="center">Expires 7 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1239,12 +1239,12 @@ li > p:last-of-type:only-child {
 <a href="https://www.rfc-editor.org/rfc/rfc9134" class="eref">9134</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-21" class="published">21 October 2025</time>
+<time datetime="2025-11-03" class="published">3 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-24">24 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-05-07">7 May 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1291,7 +1291,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1392,7 +1392,7 @@ li > p:last-of-type:only-child {
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-rfc-editor-considerations" class="internal xref">RFC Editor Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
             <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-references" class="internal xref">References</a></p>
@@ -1409,7 +1409,10 @@ li > p:last-of-type:only-child {
             <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-changes-from-rfc9134" class="internal xref">Changes from RFC9134</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1422,7 +1425,7 @@ li > p:last-of-type:only-child {
       </h2>
 <p id="section-1-1">This document specifies a payload format for packetization of video signals encoded with JPEG XS <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span> into the Real-time Transport Protocol (RTP) <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The JPEG XS coding system offers compression and recompression of video signals with very moderate computational resources while remaining robust under multiple compression and decompression cycles as well as mixing of content sources, e.g., embedding of subtitles, overlays, or logos. Typical target compression ratios ensuring visually lossless quality are in the range of 2:1 to 18:1 depending on the nature of the source material. The latency that is introduced by the encoding-decoding process can be confined to a fraction of a video frame, typically expressed in a number of lines.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Initially, the first and second editions of JPEG XS only supported intra coding for video content. However, the third edition of the standard introduced the so-called Temporal Differential Coding (TDC) mode that provides a temporal decorrelation step in the wavelet-domain. For progressive video content, a single frame buffer is used for the decorrelation of successive video frames. For interlaced content, two separate frame buffers are used, one for per video field.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">Initially, the first and second editions of JPEG XS only supported intra coding for video content. However, the third edition of the standard introduced the so-called Temporal Differential Coding (TDC) mode that provides a temporal decorrelation step in the wavelet domain. For progressive video content, a single frame buffer is used for the decorrelation of successive video frames. For interlaced content, two separate frame buffers are used, one for per video field.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">This document is a necessary revision of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>; however, the revised payload format is designed to ensure that existing compliant implementations of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> remain valid under the updated specification. Additionally, this document consolidates the errata of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and includes improvements and clarifications to its implementers and users. <a href="#annex-a" class="auto internal xref">Appendix A</a> provides more details on the changes between <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and this revision.<a href="#section-1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1463,7 +1466,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dd class="break"></dd>
 <dt id="section-2-2.11">JPEG XS codestream header:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.12">
-          <p id="section-2-2.12.1">A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but metadata such as the video frame dimension and component precision.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.12.1">A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but only metadata such as the video frame dimension and component precision.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.13">JPEG XS frame:</dt>
@@ -1701,7 +1704,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 <a href="#name-example-of-slice-packetizat" class="selfRef">Example of Slice Packetization Mode</a>
           </figcaption></figure>
 </div>
-<p id="section-4.1-7">In a constant bitrate (CBR) scenario of JPEG XS, the codestream packetization mode guarantees that a JPEG XS RTP stream will produce both a constant number of bytes per video frame and a constant number of RTP packets per video frame.  However, to provide similar guarantees with JPEG XS in a variable bitrate (VBR) mode or when using the slice packetization mode (for either CBR or VBR), additional mechanisms are needed. This can involve a constraint at the rate allocation stage in the JPEG XS encoder to impose a CBR at the slice level, the usage of padding data, or the insertion of empty RTP packets (i.e., an RTP packet whose payload data is empty). But, management of the amount of produced packets per video frame is application dependent and not a strict requirement of this RTP payload specification.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">In a constant bitrate (CBR) scenario of JPEG XS, the codestream packetization mode guarantees that a JPEG XS RTP stream will produce both a constant number of bytes per video frame and a constant number of RTP packets per video frame.  However, to provide similar guarantees with JPEG XS in a variable bitrate (VBR) mode or when using the slice packetization mode (for either CBR or VBR), additional mechanisms are needed. This can involve a constraint at the rate allocation stage in the JPEG XS encoder to impose a CBR at the slice level, the usage of padding data, or the insertion of empty RTP packets (i.e., an RTP packet whose payload data is empty). But, management of the amount of produced packets per video frame depends on the application and not a strict requirement of this RTP payload specification.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="rtp-header-usage">
@@ -1837,7 +1840,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
         <h3 id="name-payload-data">
 <a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-payload-data" class="section-name selfRef">Payload Data</a>
         </h3>
-<p id="section-4.4-1">The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes <span class="bcp14">SHALL</span> retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream <span class="bcp14">SHALL</span> define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets <span class="bcp14">SHALL NOT</span> change.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.4-1">The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes <span class="bcp14">SHALL</span> retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream <span class="bcp14">SHALL</span> define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets <span class="bcp14">SHALL NOT</span> change. Moreover, any changed value in the boxes <span class="bcp14">SHALL NOT</span> violate other restrictions or conflict with the respective previous value.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 <p id="section-4.4-2">Each JPEG XS frame is represented by one or more packetization unit(s), as explained in <a href="#sec_rtp_packetization" class="auto internal xref">Section 4.1</a>. <a href="#fig_cs_pack_mode_prog" class="auto internal xref">Figure 6</a> depicts this layout for a progressive video frame in the codestream packetization mode, <a href="#fig_cs_pack_mode_int" class="auto internal xref">Figure 7</a> depicts this layout for an interlaced video frame in the codestream packetization mode, <a href="#fig_sl_pack_mode_prog" class="auto internal xref">Figure 8</a> depicts this layout for a progressive video frame in the slice packetization mode, and <a href="#fig_sl_pack_mode_int" class="auto internal xref">Figure 9</a> depicts this layout for an interlaced video frame in the slice packetization mode. The Frame (<code>F</code>) counter value is not indicated because the value is constant for all packetization units of a given video frame.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
 <span id="name-example-of-jpeg-xs-payload-"></span><div id="fig_cs_pack_mode_prog">
 <figure id="figure-6">
@@ -2540,12 +2543,13 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <p id="section-10-8">This payload format may also be used in networks that provide quality-of-service guarantees. If enhanced service is being used, receivers <span class="bcp14">SHOULD</span> monitor packet loss to ensure that the service that was requested is actually being delivered. If it is not, then they <span class="bcp14">SHOULD</span> assume that they are receiving best-effort service and behave accordingly.<a href="#section-10-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="acknowledgments">
+<div id="rfc-editor-considerations">
 <section id="section-11">
-      <h2 id="name-acknowledgments">
-<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      <h2 id="name-rfc-editor-considerations">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-rfc-editor-considerations" class="section-name selfRef">RFC Editor Considerations</a>
       </h2>
-<p id="section-11-1">The authors would like to thank the following people for their valuable contributions that made this memo possible: Antonin Descampe, Siegfried Foessel, Arnaud Germain, Jean-Baptiste Lorent, Sébastien Lugan, Gaël Rouvroy, and Alexandre Willème.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-1">Note to RFC Editor: This section may be removed after carrying out all the instructions of this section.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-2">[RFCXXXX] is to be replaced by the RFC number this specification receives when published.<a href="#section-11-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -2743,8 +2747,16 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
       </ul>
 </section>
 </div>
-<div id="authors-addresses">
+<div id="Acknowledgements">
 <section id="appendix-B">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-B-1">This document is a revision of <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>. As such the authors would like to thank the following people for their valuable contributions that made <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and this document possible: Siegfried Foessel, Arnaud Germain, Jean-Baptiste Lorent, Sébastien Lugan, Gaël Rouvroy, and Alexandre Willème.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
