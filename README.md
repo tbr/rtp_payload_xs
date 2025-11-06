@@ -13,8 +13,10 @@ The `mkd` file is the source reference used to build txt, xml, html, and pdf out
 
 ## Building
 
-Run `make` on command line.
+Run `make` on command line (builds XML and TXT).
+
+Optionally run `make html` on command line (builds HTML).
 
 ## Recovering source from XML
 
-`sed -n '/markdown-source/,/==/p' draft-bruylants-avtcore-rtp-jpegxs-3ed.xml | tail -n +2 | base64 -d | gunzip`
+`sed -n '/markdown-source/,/==/p' draft-ietf-avtcore-rtp-jpegxs-3ed.xml | tail -n +2 | base64 -d | gunzip`
