@@ -11,7 +11,7 @@ stand_alone: yes
 
 --- fluff
 
-Written in kramdown-rfc, sources available at: https://github.com/tbr/rtp_payload_xs .
+Written in kramdown-rfc, sources available at: https://github.com/tbr/rtp_payload_xs.
 
 --- abstract
 
