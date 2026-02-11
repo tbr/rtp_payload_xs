@@ -6,15 +6,15 @@ avtcore                                                     T. Bruylants
 Internet-Draft                                                   intoPIX
 Obsoletes: 9134 (if approved)                                 T. Richter
 Intended status: Standards Track                          Fraunhofer IIS
-Expires: 7 May 2026                                    C. Damman Geeroms
+Expires: 15 August 2026                                C. Damman Geeroms
                                                                  intoPIX
                                                              A. Descampe
                                                                UCLouvain
-                                                         3 November 2025
+                                                        11 February 2026
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-                  draft-ietf-avtcore-rtp-jpegxs-3ed-00
+                  draft-ietf-avtcore-rtp-jpegxs-3ed-01
 
 Abstract
 
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 May 2026.
+   This Internet-Draft will expire on 15 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -668,8 +668,8 @@ Table of Contents
    the RTP stream SHALL define the same sub boxes, in the same order.
    The effective values in the boxes are allowed to change under the
    condition that their relative byte offsets SHALL NOT change.
-   Moreover, any changed value in the boxes SHALL NOT violate other
-   restrictions or conflict with the respective previous value.
+   Moreover, any changed value in the boxes SHOULD NOT violate any
+   restrictions imposed by the application layer.
 
    Each JPEG XS frame is represented by one or more packetization
    unit(s), as explained in Section 4.1.  Figure 6 depicts this layout

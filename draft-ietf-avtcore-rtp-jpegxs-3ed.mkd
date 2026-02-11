@@ -1,7 +1,7 @@
 ---
 title: RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-date: 2025-11-03
-docname: draft-ietf-avtcore-rtp-jpegxs-3ed-00
+date: 2026-02-11
+docname: draft-ietf-avtcore-rtp-jpegxs-3ed-01
 abbrev: RTP Payload Format for JPEG XS
 
 stand_alone: yes
@@ -322,7 +322,7 @@ Slice and Extended Packet (`SEP`) counter \[11 bits\]:
 {: #sec_payload_data}
 ## Payload Data
 
-The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets SHALL NOT change. Moreover, any changed value in the boxes SHALL NOT violate other restrictions or conflict with the respective previous value.
+The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets SHALL NOT change. Moreover, any changed value in the boxes SHOULD NOT violate any restrictions imposed by the application layer.
 
 Each JPEG XS frame is represented by one or more packetization unit(s), as explained in {{sec_rtp_packetization}}. {{fig_cs_pack_mode_prog}} depicts this layout for a progressive video frame in the codestream packetization mode, {{fig_cs_pack_mode_int}} depicts this layout for an interlaced video frame in the codestream packetization mode, {{fig_sl_pack_mode_prog}} depicts this layout for a progressive video frame in the slice packetization mode, and {{fig_sl_pack_mode_int}} depicts this layout for an interlaced video frame in the slice packetization mode. The Frame (`F`) counter value is not indicated because the value is constant for all packetization units of a given video frame.
 
