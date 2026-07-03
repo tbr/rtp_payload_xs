@@ -75,8 +75,6 @@ normative:
   RFC3551:
   RFC4855:
   RFC6838:
-  RFC8083:
-  RFC8085:
   RFC8866:
   ISO21122-1:
     title: 'Information technology - JPEG XS low-latency lightweight image coding system - Part 1: Core coding system'
@@ -113,6 +111,8 @@ informative:
   RFC5124:
   RFC7201:
   RFC7202:
+  RFC8083:
+  RFC8085:
   RFC8888:
   RFC9134:
   BT1886-0:
