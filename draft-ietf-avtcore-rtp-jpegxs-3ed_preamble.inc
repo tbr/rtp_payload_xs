@@ -25,9 +25,9 @@ author:
     name: Tim Bruylants
     org: intoPIX S.A.
     abbrev: intoPIX
-    street: Rue Emile Francqui 9
-    city: Mont-Saint-Guibert
-    code: B-1435
+    street: Rue de Rodeuhaie 1
+    city: Louvain-la-Neuve
+    code: B-1348
     country: Belgium
     phone: +32 10 23 84 70
     email: t.bruylants@intopix.com
@@ -49,9 +49,9 @@ author:
     name: Corentin Damman Geeroms
     org: intoPIX S.A.
     abbrev: intoPIX
-    street: Rue Emile Francqui 9
-    city: Mont-Saint-Guibert
-    code: B-1435
+    street: Rue de Rodeuhaie 1
+    city: Louvain-la-Neuve
+    code: B-1348
     country: Belgium
     phone: +32 10 23 84 70
     email: c.damman@intopix.com
