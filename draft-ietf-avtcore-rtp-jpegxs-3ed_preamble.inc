@@ -80,28 +80,31 @@ normative:
   RFC8866:
   ISO21122-1:
     title: 'Information technology - JPEG XS low-latency lightweight image coding system - Part 1: Core coding system'
+    target: 'https://www.iso.org/standard/85247.html'
     author:
       -
         org: 'ISO/IEC'
     seriesinfo:
-      "ISO/IEC": 'IS 21122-1'
-    date: false
+      "ISO/IEC": 'IS 21122-1:2024'
+    date: "July 2024"
   ISO21122-2:
     title: 'Information technology - JPEG XS low-latency lightweight image coding system - Part 2: Profiles and buffer models'
+    target: 'https://www.iso.org/standard/85250.html'
     author:
       -
         org: 'ISO/IEC'
     seriesinfo:
-      "ISO/IEC": 'IS 21122-2'
-    date: false
+      "ISO/IEC": 'IS 21122-2:2024'
+    date: "August 2024"
   ISO21122-3:
     title: 'Information technology - JPEG XS low-latency lightweight image coding system - Part 3: Transport and container formats'
+    target: 'https://www.iso.org/standard/86420.html'
     author:
       -
         org: 'ISO/IEC'
     seriesinfo:
-      "ISO/IEC": 'IS 21122-3'
-    date: false
+      "ISO/IEC": 'IS 21122-3:2024'
+    date: "August 2024"
 
 informative:
   RFC3711:
