@@ -1,7 +1,7 @@
 ---
 title: RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-date: 2026-06-08
-docname: draft-ietf-avtcore-rtp-jpegxs-3ed-02
+date: 2026-07-03
+docname: draft-ietf-avtcore-rtp-jpegxs-3ed-03
 abbrev: RTP Payload Format for JPEG XS
 
 stand_alone: yes
@@ -547,17 +547,15 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 {: #sec-traffic-shaping}
 # Traffic Shaping and Delivery Timing
 
-In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHALL signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.
+In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHOULD signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.
 
 # Congestion Control Considerations
 
 Congestion control for RTP SHALL be used in accordance with {{RFC3550}} and with any applicable RTP profile, e.g., RTP/AVP {{RFC3551}} or RTP/AVPF {{RFC4585}}.
 
-While JPEG XS is mainly designed to be used in controlled network environments, it can also be employed in best-effort network environments, like the Internet. However, in this case, the users of this payload format SHALL monitor packet loss to ensure that the packet loss rate is within acceptable parameters. This can be achieved, for example, by means of RTP Control Protocol (RTCP) Feedback for Congestion Control {{RFC8888}}.
+While JPEG XS is mainly designed to be used in controlled network environments, it can also be employed in best-effort network environments, like the Internet. However, if best-effort service is being used, users of this payload format SHALL monitor packet loss to ensure that the packet loss rate is within acceptable parameters. Packet loss is considered acceptable if a TCP flow across the same network path, and experiencing the same network conditions, would achieve an average throughput, measured on a reasonable timescale, that is not less than the RTP flow is achieving. This condition can be satisfied by implementing congestion control mechanisms, for example by means of RTP Control Protocol (RTCP) Feedback for Congestion Control {{RFC8888}}, to allow adapting the transmission rate (or the number of layers subscribed for a layered multicast session) or by arranging for a receiver to leave the session if the loss rate is unacceptably high.
 
-Accordingly, if best-effort service is being used, users of this payload format SHALL monitor packet loss to ensure that the packet loss rate is within acceptable parameters. Packet loss is considered acceptable if a TCP flow across the same network path, and experiencing the same network conditions, would achieve an average throughput, measured on a reasonable timescale, that is not less than the RTP flow is achieving. This condition can be satisfied by implementing congestion control mechanisms to adapt the transmission rate (or the number of layers subscribed for a layered multicast session) or by arranging for a receiver to leave the session if the loss rate is unacceptably high.
-
-This payload format may also be used in networks that provide quality-of-service guarantees. If enhanced service is being used, receivers SHOULD monitor packet loss to ensure that the service that was requested is actually being delivered. If it is not, then they SHOULD assume that they are receiving best-effort service and behave accordingly.
+Alternatively, this payload format may also be used in networks that provide quality-of-service guarantees. If enhanced service is being used, receivers SHOULD monitor packet loss to ensure that the service that was requested is actually being delivered. If enhanced service is not used, then users of this payload SHOULD assume a best-effort service and behave accordingly.
 
 In addition, {{RFC8083}} is an update to {{RFC3550}} that defines criteria for when one is required to stop sending RTP Packet Streams and which can be used for relevant applications.
 
@@ -624,9 +622,9 @@ Optional parameters:
   : If this parameter name is present, and the interlace parameter name is also present, then the video is a Progressive segmented Frame (PsF). Signaling of this parameter without the interlace parameter is forbidden.
 
   sampling:
-  : Signals the color difference signal sub-sampling structure.
+  : Specifies the color difference signal sub-sampling structure. Valid values and their specification are the following:
 
-    Signals utilizing the non-constant luminance `Y'C'B C'R` signal format of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, or {{BT2100-2}} SHALL use the appropriate one of the following values for the Media Type Parameter "sampling":
+    For signals utilizing the non-constant luminance `Y'C'B C'R` signal format of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, or {{BT2100-2}}:
 
     `YCbCr-4:4:4`
     : (4:4:4 sampling)
@@ -637,7 +635,7 @@ Optional parameters:
     `YCbCr-4:2:0`
     : (4:2:0 sampling)
 
-    Signals utilizing the Constant Luminance `Y'C C'BC C'RC` signal format of {{BT2020-2}} SHALL use the appropriate one of the following values for the Media Type Parameter "sampling":
+    For signals utilizing the constant luminance `Y'C C'BC C'RC` signal format of {{BT2020-2}}:
 
     `CLYCbCr-4:4:4`
     : (4:4:4 sampling)
@@ -648,7 +646,7 @@ Optional parameters:
     `CLYCbCr-4:2:0`
     : (4:2:0 sampling)
 
-    Signals utilizing the constant intensity `I CT CP` signal format of {{BT2100-2}} SHALL use the appropriate one of the following values for the Media Type Parameter "sampling":
+    For signals utilizing the constant intensity `I CT CP` signal format of {{BT2100-2}}:
 
     `ICtCp-4:4:4`
     : (4:4:4 sampling)
@@ -664,12 +662,12 @@ Optional parameters:
     `RGB`
     : (RGB or R' G' B' samples)
 
-    Signals utilizing the 4:4:4 `X' Y' Z'` signal format (such as defined in {{SMPTE428-1}}) SHALL use the following value for the Media Type Parameter "sampling":
+    For signals utilizing the 4:4:4 `X' Y' Z'` signal format (such as defined in {{SMPTE428-1}}):
 
     `XYZ`
     : (`X' Y' Z'` samples)
 
-    Key signals as defined in {{SMPTE157}} SHALL use the value key for the Media Type Parameter "sampling". The key signal is represented as a single component:
+    For single-component key signals (such as defined in {{SMPTE157}}):
 
     `KEY`
     : (Samples of the key signal)
