@@ -6,15 +6,15 @@ avtcore                                                     T. Bruylants
 Internet-Draft                                                   intoPIX
 Obsoletes: 9134 (if approved)                                 T. Richter
 Intended status: Standards Track                          Fraunhofer IIS
-Expires: 10 December 2026                              C. Damman Geeroms
+Expires: 4 January 2027                                C. Damman Geeroms
                                                                  intoPIX
                                                              A. Descampe
                                                                UCLouvain
-                                                             8 June 2026
+                                                             3 July 2026
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-                  draft-ietf-avtcore-rtp-jpegxs-3ed-02
+                  draft-ietf-avtcore-rtp-jpegxs-3ed-03
 
 Abstract
 
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 December 2026.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
@@ -576,32 +576,35 @@ Table of Contents
    The payload header consists of the following fields:
 
    Transmission mode (T) [1 bit]:
-      The T bit is set to indicate that packets are sent sequentially by
-      the transmitter.  This information allows a receiver to dimension
-      its input buffer(s) accordingly.  If T=0, nothing can be assumed
-      about the transmission order and the transmitter may send out its
-      packets in any order.  If T=1, the transmitter SHALL send out the
-      packets as a monotonically increasing sequence according to the F,
-      SEP, and P fields.  The T bit value SHALL be identical for all
-      packets of the RTP stream.  Note that even with T=1, packets may
-      still arrive out of order relative to the sequence in which they
-      were sent.
+      The T bit SHALL indicate whether the transmitter guarantees
+      sequential packet transmission or whether packets may be
+      transmitted out of order.  This information allows a receiver to
+      dimension its input buffer(s) accordingly.  If T=0, nothing can be
+      assumed about the transmission order and the transmitter may send
+      out its packets in any order.  If T=1, the transmitter SHALL send
+      out the packets as a monotonically increasing sequence according
+      to the F, SEP, and P fields.  The T bit value SHALL be identical
+      for all packets of the RTP stream.  Note that even with T=1,
+      packets may still arrive out of order relative to the sequence in
+      which they were sent.
 
    pacKetization mode (K) [1 bit]:
-      The K bit is set to indicate which packetization mode is used.
-      K=0 indicates codestream packetization mode, while K=1 indicates
-      slice packetization mode.  In the case that the Transmission mode
-      (T) is set to 0 (arbitrary sending order), then K SHALL be set to
-      1 (slice packetization mode).  The K bit value SHALL be identical
+      The K bit SHALL indicate which packetization mode is used.  K=0
+      indicates codestream packetization mode, while K=1 indicates slice
+      packetization mode.  In the case that the Transmission mode (T) is
+      set to 0 (arbitrary sending order), then K SHALL be set to 1
+      (slice packetization mode).  The K bit value SHALL be identical
       for all packets of the RTP stream.
 
    Last (L) [1 bit]:
-      The L bit is set to indicate the last packet of a packetization
-      unit.  As the end of the video frame also ends the packet
-      containing the last unit of the video frame, the L bit is set
-      whenever the M bit is set.  In the codestream packetization mode,
-      the L bit and M bit get an equivalent meaning, so they SHALL have
-      identical values in each packet.
+      The L bit SHALL be set to 1 to indicate that a packet is the last
+      packet of a packetization unit.  The L bit SHALL be set to 0 for
+      all other packets.  As the end of the video frame also ends the
+      packet containing the last unit of the video frame, the L bit
+      SHALL be set to 1 whenever the M bit is set to 1.  In the
+      codestream packetization mode, the L bit and M bit get an
+      equivalent meaning, so they SHALL have identical values in each
+      packet.
 
    Interlaced information (I) [2 bits]:
       These two I bits are used to indicate how the JPEG XS frame is
@@ -909,7 +912,7 @@ Table of Contents
    receivers, it is RECOMMENDED to implement traffic shaping and
    delivery timing in accordance with the Network Compatibility Model
    compliance definitions specified in [SMPTE2110-21].  In such a case,
-   the session description SHALL signal the compliance with the media
+   the session description SHOULD signal the compliance with the media
    type parameter TP.  The actual applied traffic shaping and timing
    delivery mechanism is outside the scope of this memo and does not
    influence the payload packetization.
@@ -922,30 +925,26 @@ Table of Contents
 
    While JPEG XS is mainly designed to be used in controlled network
    environments, it can also be employed in best-effort network
-   environments, like the Internet.  However, in this case, the users of
-   this payload format SHALL monitor packet loss to ensure that the
-   packet loss rate is within acceptable parameters.  This can be
-   achieved, for example, by means of RTP Control Protocol (RTCP)
-   Feedback for Congestion Control [RFC8888].
+   environments, like the Internet.  However, if best-effort service is
+   being used, users of this payload format SHALL monitor packet loss to
+   ensure that the packet loss rate is within acceptable parameters.
+   Packet loss is considered acceptable if a TCP flow across the same
+   network path, and experiencing the same network conditions, would
+   achieve an average throughput, measured on a reasonable timescale,
+   that is not less than the RTP flow is achieving.  This condition can
+   be satisfied by implementing congestion control mechanisms, for
+   example by means of RTP Control Protocol (RTCP) Feedback for
+   Congestion Control [RFC8888], to allow adapting the transmission rate
+   (or the number of layers subscribed for a layered multicast session)
+   or by arranging for a receiver to leave the session if the loss rate
+   is unacceptably high.
 
-   Accordingly, if best-effort service is being used, users of this
-   payload format SHALL monitor packet loss to ensure that the packet
-   loss rate is within acceptable parameters.  Packet loss is considered
-   acceptable if a TCP flow across the same network path, and
-   experiencing the same network conditions, would achieve an average
-   throughput, measured on a reasonable timescale, that is not less than
-   the RTP flow is achieving.  This condition can be satisfied by
-   implementing congestion control mechanisms to adapt the transmission
-   rate (or the number of layers subscribed for a layered multicast
-   session) or by arranging for a receiver to leave the session if the
-   loss rate is unacceptably high.
-
-   This payload format may also be used in networks that provide
-   quality-of-service guarantees.  If enhanced service is being used,
-   receivers SHOULD monitor packet loss to ensure that the service that
-   was requested is actually being delivered.  If it is not, then they
-   SHOULD assume that they are receiving best-effort service and behave
-   accordingly.
+   Alternatively, this payload format may also be used in networks that
+   provide quality-of-service guarantees.  If enhanced service is being
+   used, receivers SHOULD monitor packet loss to ensure that the service
+   that was requested is actually being delivered.  If enhanced service
+   is not used, then users of this payload SHOULD assume a best-effort
+   service and behave accordingly.
 
    In addition, [RFC8083] is an update to [RFC3550] that defines
    criteria for when one is required to stop sending RTP Packet Streams
@@ -1039,13 +1038,13 @@ Table of Contents
          segmented Frame (PsF).  Signaling of this parameter without the
          interlace parameter is forbidden.
 
-      sampling:  Signals the color difference signal sub-sampling
-         structure.
+      sampling:  Specifies the color difference signal sub-sampling
+         structure.  Valid values and their specification are the
+         following:
 
-         Signals utilizing the non-constant luminance Y'C'B C'R signal
-         format of [BT601-7], [BT709-6], [BT2020-2], or [BT2100-2] SHALL
-         use the appropriate one of the following values for the Media
-         Type Parameter "sampling":
+         For signals utilizing the non-constant luminance Y'C'B C'R
+         signal format of [BT601-7], [BT709-6], [BT2020-2], or
+         [BT2100-2]:
 
          YCbCr-4:4:4  (4:4:4 sampling)
 
@@ -1053,9 +1052,8 @@ Table of Contents
 
          YCbCr-4:2:0  (4:2:0 sampling)
 
-         Signals utilizing the Constant Luminance Y'C C'BC C'RC signal
-         format of [BT2020-2] SHALL use the appropriate one of the
-         following values for the Media Type Parameter "sampling":
+         For signals utilizing the constant luminance Y'C C'BC C'RC
+         signal format of [BT2020-2]:
 
          CLYCbCr-4:4:4  (4:4:4 sampling)
 
@@ -1063,9 +1061,8 @@ Table of Contents
 
          CLYCbCr-4:2:0  (4:2:0 sampling)
 
-         Signals utilizing the constant intensity I CT CP signal format
-         of [BT2100-2] SHALL use the appropriate one of the following
-         values for the Media Type Parameter "sampling":
+         For signals utilizing the constant intensity I CT CP signal
+         format of [BT2100-2]:
 
          ICtCp-4:4:4  (4:4:4 sampling)
 
@@ -1080,15 +1077,13 @@ Table of Contents
 
          RGB  (RGB or R' G' B' samples)
 
-         Signals utilizing the 4:4:4 X' Y' Z' signal format (such as
-         defined in [SMPTE428-1]) SHALL use the following value for the
-         Media Type Parameter "sampling":
+         For signals utilizing the 4:4:4 X' Y' Z' signal format (such as
+         defined in [SMPTE428-1]):
 
          XYZ  (X' Y' Z' samples)
 
-         Key signals as defined in [SMPTE157] SHALL use the value key
-         for the Media Type Parameter "sampling".  The key signal is
-         represented as a single component:
+         For single-component key signals (such as defined in
+         [SMPTE157]):
 
          KEY  (Samples of the key signal)
 
@@ -1401,17 +1396,20 @@ Table of Contents
    [ISO21122-1]
               ISO/IEC, "Information technology - JPEG XS low-latency
               lightweight image coding system - Part 1: Core coding
-              system", ISO/IEC IS 21122-1.
+              system", ISO/IEC IS 21122-1:2024, July 2024,
+              <https://www.iso.org/standard/85247.html>.
 
    [ISO21122-2]
               ISO/IEC, "Information technology - JPEG XS low-latency
               lightweight image coding system - Part 2: Profiles and
-              buffer models", ISO/IEC IS 21122-2.
+              buffer models", ISO/IEC IS 21122-2:2024, August 2024,
+              <https://www.iso.org/standard/85250.html>.
 
    [ISO21122-3]
               ISO/IEC, "Information technology - JPEG XS low-latency
               lightweight image coding system - Part 3: Transport and
-              container formats", ISO/IEC IS 21122-3.
+              container formats", ISO/IEC IS 21122-3:2024, August 2024,
+              <https://www.iso.org/standard/86420.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1441,15 +1439,6 @@ Table of Contents
               Specifications and Registration Procedures", BCP 13,
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
-
-   [RFC8083]  Perkins, C. and V. Singh, "Multimedia Congestion Control:
-              Circuit Breakers for Unicast RTP Sessions", RFC 8083,
-              DOI 10.17487/RFC8083, March 2017,
-              <https://www.rfc-editor.org/rfc/rfc8083>.
-
-   [RFC8085]  Eggert, L., Fairhurst, G., and G. Shepherd, "UDP Usage
-              Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
-              March 2017, <https://www.rfc-editor.org/rfc/rfc8085>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1533,6 +1522,15 @@ Table of Contents
               Security Solution", RFC 7202, DOI 10.17487/RFC7202, April
               2014, <https://www.rfc-editor.org/rfc/rfc7202>.
 
+   [RFC8083]  Perkins, C. and V. Singh, "Multimedia Congestion Control:
+              Circuit Breakers for Unicast RTP Sessions", RFC 8083,
+              DOI 10.17487/RFC8083, March 2017,
+              <https://www.rfc-editor.org/rfc/rfc8083>.
+
+   [RFC8085]  Eggert, L., Fairhurst, G., and G. Shepherd, "UDP Usage
+              Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
+              March 2017, <https://www.rfc-editor.org/rfc/rfc8085>.
+
    [RFC8888]  Sarker, Z., Perkins, C., Singh, V., and M. Ramalho, "RTP
               Control Protocol (RTCP) Feedback for Congestion Control",
               RFC 8888, DOI 10.17487/RFC8888, January 2021,
@@ -1596,8 +1594,8 @@ Authors' Addresses
 
    Tim Bruylants
    intoPIX S.A.
-   Rue Emile Francqui 9
-   B-1435 Mont-Saint-Guibert
+   Rue de Rodeuhaie 1
+   B-1348 Louvain-la-Neuve
    Belgium
    Phone: +32 10 23 84 70
    Email: t.bruylants@intopix.com
@@ -1616,8 +1614,8 @@ Authors' Addresses
 
    Corentin Damman Geeroms
    intoPIX S.A.
-   Rue Emile Francqui 9
-   B-1435 Mont-Saint-Guibert
+   Rue de Rodeuhaie 1
+   B-1348 Louvain-la-Neuve
    Belgium
    Phone: +32 10 23 84 70
    Email: c.damman@intopix.com

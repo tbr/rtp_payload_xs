@@ -20,7 +20,7 @@
 <meta content="transport" name="keyword">
 <meta content="real-time" name="keyword">
 <meta content="protocol" name="keyword">
-<meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-02" name="ietf.draft">
+<meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-03" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.23.1
     Python 3.11.9
@@ -1221,11 +1221,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RTP Payload Format for JPEG XS</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bruylants, et al.</td>
-<td class="center">Expires 10 December 2026</td>
+<td class="center">Expires 4 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1235,18 +1235,18 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">avtcore</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-avtcore-rtp-jpegxs-3ed-02</dd>
+<dd class="internet-draft">draft-ietf-avtcore-rtp-jpegxs-3ed-03</dd>
 <dt class="label-obsoletes">Obsoletes:</dt>
 <dd class="obsoletes">
 <a href="https://www.rfc-editor.org/rfc/rfc9134" class="eref">9134</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-08" class="published">8 June 2026</time>
+<time datetime="2026-07-03" class="published">3 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-10">10 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-04">4 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1293,7 +1293,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1787,17 +1787,17 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 <span class="break"></span><dl class="dlNewline" id="section-4.3-4">
           <dt id="section-4.3-4.1">Transmission mode (<code>T</code>) [1 bit]:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.2">
-            <p id="section-4.3-4.2.1">The <code>T</code> bit is set to indicate that packets are sent sequentially by the transmitter. This information allows a receiver to dimension its input buffer(s) accordingly. If <code>T=0</code>, nothing can be assumed about the transmission order and the transmitter may send out its packets in any order. If <code>T=1</code>, the transmitter <span class="bcp14">SHALL</span> send out the packets as a monotonically increasing sequence according to the F, SEP, and P fields. The <code>T</code> bit value <span class="bcp14">SHALL</span> be identical for all packets of the RTP stream. Note that even with <code>T=1</code>, packets may still arrive out of order relative to the sequence in which they were sent.<a href="#section-4.3-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-4.2.1">The <code>T</code> bit <span class="bcp14">SHALL</span> indicate whether the transmitter guarantees sequential packet transmission or whether packets may be transmitted out of order. This information allows a receiver to dimension its input buffer(s) accordingly. If <code>T=0</code>, nothing can be assumed about the transmission order and the transmitter may send out its packets in any order. If <code>T=1</code>, the transmitter <span class="bcp14">SHALL</span> send out the packets as a monotonically increasing sequence according to the F, SEP, and P fields. The <code>T</code> bit value <span class="bcp14">SHALL</span> be identical for all packets of the RTP stream. Note that even with <code>T=1</code>, packets may still arrive out of order relative to the sequence in which they were sent.<a href="#section-4.3-4.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.3-4.3">pacKetization mode (<code>K</code>) [1 bit]:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.4">
-            <p id="section-4.3-4.4.1">The <code>K</code> bit is set to indicate which packetization mode is used. <code>K=0</code> indicates codestream packetization mode, while <code>K=1</code> indicates slice packetization mode. In the case that the Transmission mode (<code>T</code>) is set to 0 (arbitrary sending order), then <code>K</code> <span class="bcp14">SHALL</span> be set to 1 (slice packetization mode). The <code>K</code> bit value <span class="bcp14">SHALL</span> be identical for all packets of the RTP stream.<a href="#section-4.3-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-4.4.1">The <code>K</code> bit <span class="bcp14">SHALL</span> indicate which packetization mode is used. <code>K=0</code> indicates codestream packetization mode, while <code>K=1</code> indicates slice packetization mode. In the case that the Transmission mode (<code>T</code>) is set to 0 (arbitrary sending order), then <code>K</code> <span class="bcp14">SHALL</span> be set to 1 (slice packetization mode). The <code>K</code> bit value <span class="bcp14">SHALL</span> be identical for all packets of the RTP stream.<a href="#section-4.3-4.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.3-4.5">Last (<code>L</code>) [1 bit]:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.6">
-            <p id="section-4.3-4.6.1">The <code>L</code> bit is set to indicate the last packet of a packetization unit. As the end of the video frame also ends the packet containing the last unit of the video frame, the <code>L</code> bit is set whenever the <code>M</code> bit is set. In the codestream packetization mode, the <code>L</code> bit and <code>M</code> bit get an equivalent meaning, so they <span class="bcp14">SHALL</span> have identical values in each packet.<a href="#section-4.3-4.6.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-4.6.1">The <code>L</code> bit <span class="bcp14">SHALL</span> be set to 1 to indicate that a packet is the last packet of a packetization unit. The <code>L</code> bit <span class="bcp14">SHALL</span> be set to 0 for all other packets. As the end of the video frame also ends the packet containing the last unit of the video frame, the <code>L</code> bit <span class="bcp14">SHALL</span> be set to 1 whenever the <code>M</code> bit is set to 1. In the codestream packetization mode, the <code>L</code> bit and <code>M</code> bit get an equivalent meaning, so they <span class="bcp14">SHALL</span> have identical values in each packet.<a href="#section-4.3-4.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.3-4.7">Interlaced information (<code>I</code>) [2 bits]:</dt>
@@ -2095,7 +2095,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
       <h2 id="name-traffic-shaping-and-deliver">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-traffic-shaping-and-deliver" class="section-name selfRef">Traffic Shaping and Delivery Timing</a>
       </h2>
-<p id="section-5-1">In order to facilitate proper synchronization between senders and receivers, it is <span class="bcp14">RECOMMENDED</span> to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span>. In such a case, the session description <span class="bcp14">SHALL</span> signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">In order to facilitate proper synchronization between senders and receivers, it is <span class="bcp14">RECOMMENDED</span> to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span>. In such a case, the session description <span class="bcp14">SHOULD</span> signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.<a href="#section-5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="congestion-control-considerations">
@@ -2104,11 +2104,10 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-congestion-control-consider" class="section-name selfRef">Congestion Control Considerations</a>
       </h2>
 <p id="section-6-1">Congestion control for RTP <span class="bcp14">SHALL</span> be used in accordance with <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> and with any applicable RTP profile, e.g., RTP/AVP <span>[<a href="#RFC3551" class="cite xref">RFC3551</a>]</span> or RTP/AVPF <span>[<a href="#RFC4585" class="cite xref">RFC4585</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">While JPEG XS is mainly designed to be used in controlled network environments, it can also be employed in best-effort network environments, like the Internet. However, in this case, the users of this payload format <span class="bcp14">SHALL</span> monitor packet loss to ensure that the packet loss rate is within acceptable parameters. This can be achieved, for example, by means of RTP Control Protocol (RTCP) Feedback for Congestion Control <span>[<a href="#RFC8888" class="cite xref">RFC8888</a>]</span>.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Accordingly, if best-effort service is being used, users of this payload format <span class="bcp14">SHALL</span> monitor packet loss to ensure that the packet loss rate is within acceptable parameters. Packet loss is considered acceptable if a TCP flow across the same network path, and experiencing the same network conditions, would achieve an average throughput, measured on a reasonable timescale, that is not less than the RTP flow is achieving. This condition can be satisfied by implementing congestion control mechanisms to adapt the transmission rate (or the number of layers subscribed for a layered multicast session) or by arranging for a receiver to leave the session if the loss rate is unacceptably high.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">This payload format may also be used in networks that provide quality-of-service guarantees. If enhanced service is being used, receivers <span class="bcp14">SHOULD</span> monitor packet loss to ensure that the service that was requested is actually being delivered. If it is not, then they <span class="bcp14">SHOULD</span> assume that they are receiving best-effort service and behave accordingly.<a href="#section-6-4" class="pilcrow">¶</a></p>
-<p id="section-6-5">In addition, <span>[<a href="#RFC8083" class="cite xref">RFC8083</a>]</span> is an update to <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> that defines criteria for when one is required to stop sending RTP Packet Streams and which can be used for relevant applications.<a href="#section-6-5" class="pilcrow">¶</a></p>
-<p id="section-6-6">Finally, <span>[<a href="#RFC8085" class="cite xref">RFC8085</a>]</span> provides additional information on the best practices for applying congestion control to UDP streams.<a href="#section-6-6" class="pilcrow">¶</a></p>
+<p id="section-6-2">While JPEG XS is mainly designed to be used in controlled network environments, it can also be employed in best-effort network environments, like the Internet. However, if best-effort service is being used, users of this payload format <span class="bcp14">SHALL</span> monitor packet loss to ensure that the packet loss rate is within acceptable parameters. Packet loss is considered acceptable if a TCP flow across the same network path, and experiencing the same network conditions, would achieve an average throughput, measured on a reasonable timescale, that is not less than the RTP flow is achieving. This condition can be satisfied by implementing congestion control mechanisms, for example by means of RTP Control Protocol (RTCP) Feedback for Congestion Control <span>[<a href="#RFC8888" class="cite xref">RFC8888</a>]</span>, to allow adapting the transmission rate (or the number of layers subscribed for a layered multicast session) or by arranging for a receiver to leave the session if the loss rate is unacceptably high.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Alternatively, this payload format may also be used in networks that provide quality-of-service guarantees. If enhanced service is being used, receivers <span class="bcp14">SHOULD</span> monitor packet loss to ensure that the service that was requested is actually being delivered. If enhanced service is not used, then users of this payload <span class="bcp14">SHOULD</span> assume a best-effort service and behave accordingly.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">In addition, <span>[<a href="#RFC8083" class="cite xref">RFC8083</a>]</span> is an update to <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> that defines criteria for when one is required to stop sending RTP Packet Streams and which can be used for relevant applications.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">Finally, <span>[<a href="#RFC8085" class="cite xref">RFC8085</a>]</span> provides additional information on the best practices for applying congestion control to UDP streams.<a href="#section-6-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-payload-params">
@@ -2211,8 +2210,8 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.23">sampling:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24">
-                <p id="section-7.1-3.8.1.24.1">Signals the color difference signal sub-sampling structure.<a href="#section-7.1-3.8.1.24.1" class="pilcrow">¶</a></p>
-<p id="section-7.1-3.8.1.24.2">Signals utilizing the non-constant luminance <code>Y'C'B C'R</code> signal format of <span>[<a href="#BT601-7" class="cite xref">BT601-7</a>]</span>, <span>[<a href="#BT709-6" class="cite xref">BT709-6</a>]</span>, <span>[<a href="#BT2020-2" class="cite xref">BT2020-2</a>]</span>, or <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span> <span class="bcp14">SHALL</span> use the appropriate one of the following values for the Media Type Parameter "sampling":<a href="#section-7.1-3.8.1.24.2" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.24.1">Specifies the color difference signal sub-sampling structure. Valid values and their specification are the following:<a href="#section-7.1-3.8.1.24.1" class="pilcrow">¶</a></p>
+<p id="section-7.1-3.8.1.24.2">For signals utilizing the non-constant luminance <code>Y'C'B C'R</code> signal format of <span>[<a href="#BT601-7" class="cite xref">BT601-7</a>]</span>, <span>[<a href="#BT709-6" class="cite xref">BT709-6</a>]</span>, <span>[<a href="#BT2020-2" class="cite xref">BT2020-2</a>]</span>, or <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span>:<a href="#section-7.1-3.8.1.24.2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.3">
                   <dt id="section-7.1-3.8.1.24.3.1"><code>YCbCr-4:4:4</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.3.2">
@@ -2230,7 +2229,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </dd>
                 <dd class="break"></dd>
 </dl>
-<p id="section-7.1-3.8.1.24.4">Signals utilizing the Constant Luminance <code>Y'C C'BC C'RC</code> signal format of <span>[<a href="#BT2020-2" class="cite xref">BT2020-2</a>]</span> <span class="bcp14">SHALL</span> use the appropriate one of the following values for the Media Type Parameter "sampling":<a href="#section-7.1-3.8.1.24.4" class="pilcrow">¶</a></p>
+<p id="section-7.1-3.8.1.24.4">For signals utilizing the constant luminance <code>Y'C C'BC C'RC</code> signal format of <span>[<a href="#BT2020-2" class="cite xref">BT2020-2</a>]</span>:<a href="#section-7.1-3.8.1.24.4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.5">
                   <dt id="section-7.1-3.8.1.24.5.1"><code>CLYCbCr-4:4:4</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.5.2">
@@ -2248,7 +2247,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </dd>
                 <dd class="break"></dd>
 </dl>
-<p id="section-7.1-3.8.1.24.6">Signals utilizing the constant intensity <code>I CT CP</code> signal format of <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span> <span class="bcp14">SHALL</span> use the appropriate one of the following values for the Media Type Parameter "sampling":<a href="#section-7.1-3.8.1.24.6" class="pilcrow">¶</a></p>
+<p id="section-7.1-3.8.1.24.6">For signals utilizing the constant intensity <code>I CT CP</code> signal format of <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span>:<a href="#section-7.1-3.8.1.24.6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.7">
                   <dt id="section-7.1-3.8.1.24.7.1"><code>ICtCp-4:4:4</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.7.2">
@@ -2274,7 +2273,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </dd>
                 <dd class="break"></dd>
 </dl>
-<p id="section-7.1-3.8.1.24.10">Signals utilizing the 4:4:4 <code>X' Y' Z'</code> signal format (such as defined in <span>[<a href="#SMPTE428-1" class="cite xref">SMPTE428-1</a>]</span>) <span class="bcp14">SHALL</span> use the following value for the Media Type Parameter "sampling":<a href="#section-7.1-3.8.1.24.10" class="pilcrow">¶</a></p>
+<p id="section-7.1-3.8.1.24.10">For signals utilizing the 4:4:4 <code>X' Y' Z'</code> signal format (such as defined in <span>[<a href="#SMPTE428-1" class="cite xref">SMPTE428-1</a>]</span>):<a href="#section-7.1-3.8.1.24.10" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.11">
                   <dt id="section-7.1-3.8.1.24.11.1"><code>XYZ</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.11.2">
@@ -2282,7 +2281,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </dd>
                 <dd class="break"></dd>
 </dl>
-<p id="section-7.1-3.8.1.24.12">Key signals as defined in <span>[<a href="#SMPTE157" class="cite xref">SMPTE157</a>]</span> <span class="bcp14">SHALL</span> use the value key for the Media Type Parameter "sampling". The key signal is represented as a single component:<a href="#section-7.1-3.8.1.24.12" class="pilcrow">¶</a></p>
+<p id="section-7.1-3.8.1.24.12">For single-component key signals (such as defined in <span>[<a href="#SMPTE157" class="cite xref">SMPTE157</a>]</span>):<a href="#section-7.1-3.8.1.24.12" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.13">
                   <dt id="section-7.1-3.8.1.24.13.1"><code>KEY</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.13.2">
@@ -2597,15 +2596,15 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="ISO21122-1">[ISO21122-1]</dt>
         <dd>
-<span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Information technology - JPEG XS low-latency lightweight image coding system - Part 1: Core coding system"</span>, <span class="seriesInfo">ISO/IEC IS 21122-1</span>. </dd>
+<span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Information technology - JPEG XS low-latency lightweight image coding system - Part 1: Core coding system"</span>, <span class="seriesInfo">ISO/IEC IS 21122-1:2024</span>, <time datetime="2024-07" class="refDate">July 2024</time>, <span>&lt;<a href="https://www.iso.org/standard/85247.html">https://www.iso.org/standard/85247.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="ISO21122-2">[ISO21122-2]</dt>
         <dd>
-<span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Information technology - JPEG XS low-latency lightweight image coding system - Part 2: Profiles and buffer models"</span>, <span class="seriesInfo">ISO/IEC IS 21122-2</span>. </dd>
+<span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Information technology - JPEG XS low-latency lightweight image coding system - Part 2: Profiles and buffer models"</span>, <span class="seriesInfo">ISO/IEC IS 21122-2:2024</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://www.iso.org/standard/85250.html">https://www.iso.org/standard/85250.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="ISO21122-3">[ISO21122-3]</dt>
         <dd>
-<span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Information technology - JPEG XS low-latency lightweight image coding system - Part 3: Transport and container formats"</span>, <span class="seriesInfo">ISO/IEC IS 21122-3</span>. </dd>
+<span class="refAuthor">ISO/IEC</span>, <span class="refTitle">"Information technology - JPEG XS low-latency lightweight image coding system - Part 3: Transport and container formats"</span>, <span class="seriesInfo">ISO/IEC IS 21122-3:2024</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://www.iso.org/standard/86420.html">https://www.iso.org/standard/86420.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2630,14 +2629,6 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <dt id="RFC6838">[RFC6838]</dt>
         <dd>
 <span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8083">[RFC8083]</dt>
-        <dd>
-<span class="refAuthor">Perkins, C.</span> and <span class="refAuthor">V. Singh</span>, <span class="refTitle">"Multimedia Congestion Control: Circuit Breakers for Unicast RTP Sessions"</span>, <span class="seriesInfo">RFC 8083</span>, <span class="seriesInfo">DOI 10.17487/RFC8083</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8083">https://www.rfc-editor.org/rfc/rfc8083</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8085">[RFC8085]</dt>
-        <dd>
-<span class="refAuthor">Eggert, L.</span>, <span class="refAuthor">Fairhurst, G.</span>, and <span class="refAuthor">G. Shepherd</span>, <span class="refTitle">"UDP Usage Guidelines"</span>, <span class="seriesInfo">BCP 145</span>, <span class="seriesInfo">RFC 8085</span>, <span class="seriesInfo">DOI 10.17487/RFC8085</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8085">https://www.rfc-editor.org/rfc/rfc8085</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
@@ -2712,6 +2703,14 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Perkins, C.</span> and <span class="refAuthor">M. Westerlund</span>, <span class="refTitle">"Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution"</span>, <span class="seriesInfo">RFC 7202</span>, <span class="seriesInfo">DOI 10.17487/RFC7202</span>, <time datetime="2014-04" class="refDate">April 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7202">https://www.rfc-editor.org/rfc/rfc7202</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8083">[RFC8083]</dt>
+        <dd>
+<span class="refAuthor">Perkins, C.</span> and <span class="refAuthor">V. Singh</span>, <span class="refTitle">"Multimedia Congestion Control: Circuit Breakers for Unicast RTP Sessions"</span>, <span class="seriesInfo">RFC 8083</span>, <span class="seriesInfo">DOI 10.17487/RFC8083</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8083">https://www.rfc-editor.org/rfc/rfc8083</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8085">[RFC8085]</dt>
+        <dd>
+<span class="refAuthor">Eggert, L.</span>, <span class="refAuthor">Fairhurst, G.</span>, and <span class="refAuthor">G. Shepherd</span>, <span class="refTitle">"UDP Usage Guidelines"</span>, <span class="seriesInfo">BCP 145</span>, <span class="seriesInfo">RFC 8085</span>, <span class="seriesInfo">DOI 10.17487/RFC8085</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8085">https://www.rfc-editor.org/rfc/rfc8085</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8888">[RFC8888]</dt>
         <dd>
 <span class="refAuthor">Sarker, Z.</span>, <span class="refAuthor">Perkins, C.</span>, <span class="refAuthor">Singh, V.</span>, and <span class="refAuthor">M. Ramalho</span>, <span class="refTitle">"RTP Control Protocol (RTCP) Feedback for Congestion Control"</span>, <span class="seriesInfo">RFC 8888</span>, <span class="seriesInfo">DOI 10.17487/RFC8888</span>, <time datetime="2021-01" class="refDate">January 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8888">https://www.rfc-editor.org/rfc/rfc8888</a>&gt;</span>. </dd>
@@ -2769,9 +2768,9 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Tim Bruylants</span></div>
 <div dir="auto" class="left"><span class="org">intoPIX S.A.</span></div>
-<div dir="auto" class="left"><span class="street-address">Rue Emile Francqui 9</span></div>
+<div dir="auto" class="left"><span class="street-address">Rue de Rodeuhaie 1</span></div>
 <div dir="auto" class="left">
-<span class="postal-code">B-1435</span> <span class="locality">Mont-Saint-Guibert</span>
+<span class="postal-code">B-1348</span> <span class="locality">Louvain-la-Neuve</span>
 </div>
 <div dir="auto" class="left"><span class="country-name">Belgium</span></div>
 <div class="tel">
@@ -2811,9 +2810,9 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Corentin Damman Geeroms</span></div>
 <div dir="auto" class="left"><span class="org">intoPIX S.A.</span></div>
-<div dir="auto" class="left"><span class="street-address">Rue Emile Francqui 9</span></div>
+<div dir="auto" class="left"><span class="street-address">Rue de Rodeuhaie 1</span></div>
 <div dir="auto" class="left">
-<span class="postal-code">B-1435</span> <span class="locality">Mont-Saint-Guibert</span>
+<span class="postal-code">B-1348</span> <span class="locality">Louvain-la-Neuve</span>
 </div>
 <div dir="auto" class="left"><span class="country-name">Belgium</span></div>
 <div class="tel">
