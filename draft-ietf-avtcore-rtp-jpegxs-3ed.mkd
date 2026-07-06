@@ -287,10 +287,10 @@ The payload header consists of the following fields:
 
 {: vspace="0"}
 Transmission mode (`T`) \[1 bit\]:
-: The `T` bit SHALL indicate whether the transmitter guarantees sequential packet transmission or whether packets may be transmitted out of order. This information allows a receiver to dimension its input buffer(s) accordingly. If `T=0`, nothing can be assumed about the transmission order and the transmitter may send out its packets in any order. If `T=1`, the transmitter SHALL send out the packets as a monotonically increasing sequence according to the F, SEP, and P fields. The `T` bit value SHALL be identical for all packets of the RTP stream. Note that even with `T=1`, packets may still arrive out of order relative to the sequence in which they were sent.
+: The `T` bit indicates whether the transmitter guarantees sequential packet transmission or whether packets may be transmitted out of order. This information allows a receiver to dimension its input buffer(s) accordingly. The `T` bit SHALL be set to 0 if nothing can be assumed about the transmission order and the transmitter may send out its packets in any order. If `T=1`, the transmitter SHALL send out the packets as a monotonically increasing sequence according to the `F`, `SEP`, and `P` fields. The `T` bit value SHALL be identical for all packets of the RTP stream. Note that even with `T=1`, packets may still arrive out of order relative to the sequence in which they were sent.
 
 pacKetization mode (`K`) \[1 bit\]:
-: The `K` bit SHALL indicate which packetization mode is used. `K=0` indicates codestream packetization mode, while `K=1` indicates slice packetization mode. In the case that the Transmission mode (`T`) is set to 0 (arbitrary sending order), then `K` SHALL be set to 1 (slice packetization mode). The `K` bit value SHALL be identical for all packets of the RTP stream.
+: The `K` bit indicates which packetization mode is used. `K` SHALL be set to 0 to indicate codestream packetization mode is used, whereas `K` SHALL be set to 1 to indicate that slice packetization mode is used. In the case that the Transmission mode (`T`) is set to 0 (arbitrary sending order), then `K` SHALL be set to 1 (slice packetization mode). The `K` bit value SHALL be identical for all packets of the RTP stream.
 
 Last (`L`) \[1 bit\]:
 : The `L` bit SHALL be set to 1 to indicate that a packet is the last packet of a packetization unit. The `L` bit SHALL be set to 0 for all other packets. As the end of the video frame also ends the packet containing the last unit of the video frame, the `L` bit SHALL be set to 1 whenever the `M` bit is set to 1. In the codestream packetization mode, the `L` bit and `M` bit get an equivalent meaning, so they SHALL have identical values in each packet.
@@ -298,13 +298,13 @@ Last (`L`) \[1 bit\]:
 Interlaced information (`I`) \[2 bits\]:
 : These two `I` bits are used to indicate how the JPEG XS frame is scanned (progressive or interlaced). In case of an interlaced frame, they also indicate which JPEG XS picture segment the payload is part of (first or second).
 
-  00:   The payload is progressively scanned.
+  00:   The `I` bits SHALL be set to 00 to indicate that payload is progressively scanned.
 
   01:   This value is reserved for future use.
 
-  10:   The payload is part of the first JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.
+  10:   The `I` bits SHALL be set to 10 to indicate that the payload is part of the first JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.
 
-  11:   The payload is part of the second JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.
+  11:   The `I` bits SHALL be set to 11 to indicate that the payload is part of the second JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.
 
 `F` counter \[5 bits\]:
 : The Frame (`F`) counter identifies the video frame number modulo 32 to which a packet belongs. Frame numbers SHALL increment by 1 for each video frame transmitted. The frame number, in addition to the timestamp, may help the decoder manage its input buffer and bring packets back into their natural order. For interlaced frames, both fields SHALL have the same `F` counter value.
@@ -424,7 +424,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |  +---------------------------------+  |  SEP counter=0
 |  |        SLH or SLI Marker        |  |  P counter=0
 |  +---------------------------------+  |
-|  :       Entropy Coded Data        :  |
+|  :       Slice Payload Data        :  |
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=00
 +==========[ PU #3: Slice #2 ]==========+
 |               Slice #2                |  SEP counter=1
@@ -470,7 +470,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |  +---------------------------------+  |  SEP counter=0
 |  |        SLH or SLI Marker        |  |  P counter=0
 |  +---------------------------------+  |
-|  :       Entropy Coded Data        :  |
+|  :       Slice Payload Data        :  |
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=10
 +====[ PU #3: Slice #2 (1st field) ]====+
 |              Slice #2                 |  SEP counter=1
@@ -512,7 +512,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |  +---------------------------------+  |  SEP counter=0
 |  |        SLH or SLI Marker        |  |  P counter=0
 |  +---------------------------------+  |
-|  :      Entropy Coded Data         :  |
+|  :       Slice Payload Data        :  |
 |  +---------------------------------+  |  M=0, T=0, K=1, L=1, I=11
 +===[ PU #N+3: Slice #2 (2nd field) ]===+
 |               Slice #2                |  SEP counter=1
