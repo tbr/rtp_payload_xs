@@ -52,7 +52,7 @@ JPEG XS codestream:
 : A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to {{ISO21122-1}}.
 
 JPEG XS codestream header:
-: A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but only metadata such as the video frame dimension and component precision.
+: A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but only metadata such as the video frame (progressive) or field (interlaced) dimension and component precision.
 
 JPEG XS frame:
 : In the case of progressive video, a single JPEG XS picture segment. In the case of interlaced video, the concatenation of two JPEG XS picture segments.
@@ -142,7 +142,7 @@ In the case of an interlaced video stream, each JPEG XS frame consists of two co
 
 Note that {{sec_payload_data}} further mandates that the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame SHALL have the same respective layouts.
 
-Note that the interlaced mode, as signaled by the `frat` field {{ISO21122-3}} in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value SHALL also be identical in both picture segments.
+Note that the interlaced mode, as signaled by the `frat` field {{ISO21122-3}} in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value SHALL be identical in both picture segments.
 
 Note that the `frat` field {{ISO21122-3}} in the Video Support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.
 
