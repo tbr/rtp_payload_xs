@@ -1,6 +1,6 @@
 ---
 title: RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-date: 2026-07-09
+date: 2026-08-18
 docname: draft-ietf-avtcore-rtp-jpegxs-3ed-04
 abbrev: RTP Payload Format for JPEG XS
 
@@ -75,6 +75,10 @@ Marker segment:
 Packetization unit:
 : A portion of an ADU whose boundaries coincide with boundaries of RTP packet payloads (excluding payload header), i.e., the first (or respectively, last) byte of a packetization unit is the first (or respectively, last) byte of an RTP packet payload (excluding its payload header).
 
+Progressive segmented Frame (PsF):
+: A method of representing progressive video as two segments formatted similarly to interlaced fields, with the odd lines in one field and the even lines in the other field.
+Technically, the segments are equivalent to interlaced fields, but unlike native interlaced video, both fields originate from the same progressive frame and represent the same point in time.
+
 SLH (Slice header) marker:
 : A marker that represents a slice header, as defined in {{ISO21122-1}}.
 
@@ -126,7 +130,7 @@ A JPEG XS codestream not using the TDC coding mode can be decoded independently 
 
 While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. The metadata that allows such interpretation is for the purpose of this payload format signaled in the Video Support box and the Color Specification box, which are taken from {{ISO21122-3}}. These boxes contain the necessary information that is otherwise missing in the raw codestream and allows for correct interpretation and rendering of the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in {{ISO21122-3}}.
 
-The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel used, and optionally the buffer model and the mastering display metadata.
+The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel/fbblevel used, and optionally the buffer model and the mastering display metadata.
 
 Note that the profile and level/sublevel/fbblevel, specified respectively by the `Ppih` and `Plev` fields {{ISO21122-2}}, specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer(s) when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the `Ppih` and `Plev` fields, are defined in {{ISO21122-2}}.
 
@@ -136,9 +140,11 @@ The Color Specification box indicates the color primaries, transfer characterist
 
 The concatenation of a Video Support box, a Color Specification box, and a JPEG XS codestream forms a JPEG XS picture segment.
 
-In the case of a progressive video stream, each JPEG XS frame consists of one single JPEG XS picture segment.
+In the case of a progressive video stream, each JPEG XS frame consists of a single JPEG XS picture segment.
 
 In the case of an interlaced video stream, each JPEG XS frame consists of two concatenated JPEG XS picture segments. Each JPEG XS picture segment corresponds exclusively to one of the two fields of the interlaced frame.
+
+Packetization of a PsF video stream SHALL follow the same packetization as an interlaced video stream. Each PsF frame consists of two concatenated JPEG XS picture segments. One picture segment corresponds exclusively to the field containing the odd-numbered lines of the progressive frame, and the other picture segment corresponds exclusively to the field containing the even-numbered lines of the progressive frame. Unless explicitly stated otherwise, all provisions, requirements, and procedures specified for interlaced video streams in this document SHALL also apply to PsF video streams.
 
 Note that {{sec_payload_data}} further mandates that the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame SHALL have the same respective layouts.
 
@@ -261,7 +267,7 @@ Payload Type (`PT`) \[7 bits\]:
 : The payload type is a dynamically allocated payload type field that designates the payload as JPEG XS video.
 
 Timestamp \[32 bits\]:
-: The RTP timestamp is set to the sampling timestamp of the content (see also {{RFC3550}} and {{RFC4175}}). A 90 kHz clock rate SHALL be used. If the sampling instant does not correspond to an integer value of the clock, the value SHALL be rounded up to the next lowest integer, with no ambiguity.
+: The RTP timestamp is set to the sampling timestamp of the content (see also {{RFC3550}} and {{RFC4175}}). A 90 kHz clock rate SHALL be used. If the sampling instant does not correspond to an integer value of the clock, the value SHALL be set to the smallest integer greater than the sampling instant, with no ambiguity.
 
   For progressive video, the timestamp denotes the sampling instant of the frame to which the RTP packet belongs. Packets SHALL NOT include data from multiple frames, and all packets belonging to the same frame SHALL have the same timestamp.
 
@@ -322,7 +328,7 @@ Slice and Extended Packet (`SEP`) counter \[11 bits\]:
 {: #sec_payload_data}
 ## Payload Data
 
-The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets SHALL NOT change. Moreover, any changed value in the boxes SHOULD NOT violate any restrictions imposed by the application layer.
+The payload data of a JPEG XS RTP stream consists of a concatenation of multiple JPEG XS frames, each consisting of one (for progressive video) or two (for interlaced video) JPEG XS picture segments. Within the RTP stream, all of the Video Support boxes and all of the Color Specification boxes SHALL retain their respective layouts for each JPEG XS picture segment across all JPEG XS frames, for the entirety of the JPEG XS RTP stream. Thus, each Video Support box in the RTP stream SHALL define the same sub boxes, in the same order. The effective values in the boxes are allowed to change under the condition that their relative byte offsets SHALL NOT change. Moreover, any changed value in the boxes SHALL NOT violate any restrictions imposed by the application layer.
 
 Each JPEG XS frame is represented by one or more packetization unit(s), as explained in {{sec_rtp_packetization}}. {{fig_cs_pack_mode_prog}} depicts this layout for a progressive video frame in the codestream packetization mode, {{fig_cs_pack_mode_int}} depicts this layout for an interlaced video frame in the codestream packetization mode, {{fig_sl_pack_mode_prog}} depicts this layout for a progressive video frame in the slice packetization mode, and {{fig_sl_pack_mode_int}} depicts this layout for an interlaced video frame in the slice packetization mode. The Frame (`F`) counter value is not indicated because the value is constant for all packetization units of a given video frame.
 
@@ -547,7 +553,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 {: #sec-traffic-shaping}
 # Traffic Shaping and Delivery Timing
 
-In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHOULD signal the compliance with the media type parameter TP.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.
+In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHALL signal the compliance with the media type parameter TP as described in {{SMPTE2110-21}}.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.
 
 # Congestion Control Considerations
 
@@ -592,28 +598,28 @@ Optional parameters:
   : This parameter specifies the configured transmission mode as defined by the Transmission mode (`T`) bit in the payload header of {{sec_payload_header_usage}}. If specified, this value SHALL be equal to the `T` bit value configured in the RTP stream (i.e., 0 for out-of-order-allowed or 1 for sequential-only). If not specified, a value 1 (sequential-only) SHALL be assumed and the T bit SHALL be set to 1.
 
   profile:
-  : The JPEG XS profile {{ISO21122-2}} in use. Any white space Unicode character in the profile name SHALL be omitted. Examples of valid profile names are 'Main444.12', 'High444.12', 'CHigh444.12', or 'TDC444.12'.
+  : The JPEG XS profile in use, as specified in {{ISO21122-2}}. Any Unicode white-space characters in the profile name SHALL be omitted. Examples of valid profile names include 'Main444.12', 'High444.12', 'CHigh444.12', and 'TDC444.12'. When present, this parameter SHALL identify the same JPEG XS profile as the one signaled in the JPEG XS picture segment.
 
   level:
-  : The JPEG XS level {{ISO21122-2}} in use. Any white space Unicode character in the level name SHALL be omitted. Examples of valid levels are '2k-1' or '4k-2'.
+  : The JPEG XS level in use, as specified in {{ISO21122-2}}. Any white space Unicode character in the level name SHALL be omitted. Examples of valid levels are '2k-1' or '4k-2'. When present, this parameter SHALL identify the same JPEG XS level as the one signaled in the JPEG XS picture segment.
 
   sublevel:
-  : The JPEG XS sublevel {{ISO21122-2}} in use. Any white space Unicode character in the sublevel name SHALL be omitted. Examples of valid sublevels are 'Sublev3bpp' or 'Sublev6bpp'.
+  : The JPEG XS sublevel in use, as specified in {{ISO21122-2}}. Any white space Unicode character in the sublevel name SHALL be omitted. Examples of valid sublevels are 'Sublev3bpp' or 'Sublev6bpp'. When present, this parameter SHALL identify the same JPEG XS sublevel as the one signaled in the JPEG XS picture segment.
 
   fbblevel:
-  : The JPEG XS frame buffer level {{ISO21122-2}} in use. Any white space Unicode character in the fbblevel name SHALL be omitted. Examples of valid frame buffer levels are 'Fbblev3bpp' or 'Fbblev12bpp'.
+  : The JPEG XS frame buffer level in use, as specified in {{ISO21122-2}}, when using the TDC coding mode. Any white space Unicode character in the fbblevel name SHALL be omitted. Examples of valid frame buffer levels are 'Fbblev3bpp' or 'Fbblev12bpp'. This parameter SHALL only be allowed when using the TDC coding mode. When present, this parameter SHALL identify the same JPEG XS fbblevel as the one signaled in the JPEG XS picture segment.
 
   depth:
-  : Determines the number of bits per sample. This is an integer with typical values including 8, 10, 12, and 16.
+  : Determines the number of bits per sample. This is an integer with typical values including 8, 10, 12, and 16. When present, this parameter SHALL match with the information signaled in the JPEG XS picture segment.
 
   width:
-  : Determines the number of pixels per line. This is an integer between 1 and 32767, inclusive.
+  : Determines the number of pixels per line. This is an integer between 1 and 32767, inclusive. When present, this parameter SHALL match with the information signaled in the JPEG XS picture segment.
 
   height:
-  : Determines the number of lines per video frame. This is an integer between 1 and 32767, inclusive.
+  : Determines the number of lines per video frame. This is an integer between 1 and 32767, inclusive. When present, this parameter SHALL match with the information signaled in the JPEG XS picture segment.
 
   exactframerate:
-  : Signals the video frame rate in frames per second. Integer frame rates SHALL be signaled as a single decimal number (e.g., "25") whilst non-integer frame rates SHALL be signaled as a ratio of two integer decimal numbers separated by a "forward-slash" character (e.g., "30000/1001"), utilizing the numerically smallest numerator value possible.
+  : Signals the video frame rate in frames per second. Integer frame rates SHALL be signaled as a single decimal number (e.g., "25") whilst non-integer frame rates SHALL be signaled as a ratio of two integer decimal numbers separated by a "forward-slash" character (e.g., "30000/1001"), utilizing the numerically smallest numerator value possible. When present, this parameter SHALL identify the same frame rate as the one signaled in the JPEG XS picture segment.
 
   interlace:
   : If this parameter name is present, it indicates that the video is interlaced, or that the video is Progressive segmented Frame (PsF). If this parameter name is not present, the progressive video format SHALL be assumed.

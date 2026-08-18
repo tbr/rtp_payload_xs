@@ -83,8 +83,7 @@ normative:
       -
         org: 'ISO/IEC'
     seriesinfo:
-      "ISO/IEC": 'IS 21122-1:2024'
-    date: "July 2024"
+      "ISO/IEC": 'IS 21122-1'
   ISO21122-2:
     title: 'Information technology - JPEG XS low-latency lightweight image coding system - Part 2: Profiles and buffer models'
     target: 'https://www.iso.org/standard/85250.html'
@@ -92,8 +91,7 @@ normative:
       -
         org: 'ISO/IEC'
     seriesinfo:
-      "ISO/IEC": 'IS 21122-2:2024'
-    date: "August 2024"
+      "ISO/IEC": 'IS 21122-2'
   ISO21122-3:
     title: 'Information technology - JPEG XS low-latency lightweight image coding system - Part 3: Transport and container formats'
     target: 'https://www.iso.org/standard/86420.html'
@@ -101,8 +99,17 @@ normative:
       -
         org: 'ISO/IEC'
     seriesinfo:
-      "ISO/IEC": 'IS 21122-3:2024'
-    date: "August 2024"
+      "ISO/IEC": 'IS 21122-3'
+  SMPTE2110-21:
+    title: "SMPTE Standard - Professional Media Over Managed IP Networks: Traffic Shaping and Delivery Timing for Video"
+    target: 'https://doi.org/10.5594/SMPTE.ST2110-21.2022'
+    author:
+      -
+        org: 'SMPTE'
+    seriesinfo:
+      "SMPTE": 'ST 2110-21:2022'
+      DOI: 10.5594/SMPTE.ST2110-21.2022
+    date: "Decempber 2022"
 
 informative:
   RFC3711:
@@ -240,12 +247,4 @@ informative:
       "SMPTE": 'RP 2077:2013'
       DOI: 10.5594/SMPTE.RP2077.2013
     date: "November 2013"
-  SMPTE2110-21:
-    title: "SMPTE Standard - Professional Media Over Managed IP Networks: Traffic Shaping and Delivery Timing for Video"
-    author:
-      -
-        org: 'SMPTE'
-    seriesinfo:
-      "SMPTE": 'ST 2110-21:2017'
-      DOI: 10.5594/SMPTE.ST2110-21.2017
-    date: "November 2017"
+  

@@ -6,11 +6,11 @@ avtcore                                                     T. Bruylants
 Internet-Draft                                                   intoPIX
 Obsoletes: 9134 (if approved)                                 T. Richter
 Intended status: Standards Track                          Fraunhofer IIS
-Expires: 10 January 2027                               C. Damman Geeroms
+Expires: 21 February 2027                              C. Damman Geeroms
                                                                  intoPIX
                                                              A. Descampe
                                                                UCLouvain
-                                                             9 July 2026
+                                                          20 August 2026
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 January 2027.
+   This Internet-Draft will expire on 21 February 2027.
 
 Copyright Notice
 
@@ -170,8 +170,8 @@ Table of Contents
       A sequence of bytes, starting with an SOC marker, at the beginning
       of each JPEG XS codestream encoded in multiple markers and marker
       segments, that does not carry entropy coded data, but only
-      metadata such as the video frame dimension and component
-      precision.
+      metadata such as the video frame (progressive) or field
+      (interlaced) dimension and component precision.
 
    JPEG XS frame:
       In the case of progressive video, a single JPEG XS picture
@@ -204,6 +204,14 @@ Table of Contents
       (or respectively, last) byte of a packetization unit is the first
       (or respectively, last) byte of an RTP packet payload (excluding
       its payload header).
+
+   Progressive segmented Frame (PsF):
+      A method of representing progressive video as two segments
+      formatted similarly to interlaced fields, with the odd lines in
+      one field and the even lines in the other field.  Technically, the
+      segments are equivalent to interlaced fields, but unlike native
+      interlaced video, both fields originate from the same progressive
+      frame and represent the same point in time.
 
    SLH (Slice header) marker:
       A marker that represents a slice header, as defined in
@@ -319,8 +327,9 @@ Table of Contents
    The Video Support box provides information on the maximum bit rate,
    the frame rate, the interlaced mode (progressive or interlaced), the
    colour subsampling format, the informative timecode of the current
-   JPEG XS frame or field, the profile, the level/sublevel used, and
-   optionally the buffer model and the mastering display metadata.
+   JPEG XS frame or field, the profile, the level/sublevel/fbblevel
+   used, and optionally the buffer model and the mastering display
+   metadata.
 
    Note that the profile and level/sublevel/fbblevel, specified
    respectively by the Ppih and Plev fields [ISO21122-2], specify limits
@@ -346,12 +355,22 @@ Table of Contents
    and a JPEG XS codestream forms a JPEG XS picture segment.
 
    In the case of a progressive video stream, each JPEG XS frame
-   consists of one single JPEG XS picture segment.
+   consists of a single JPEG XS picture segment.
 
    In the case of an interlaced video stream, each JPEG XS frame
    consists of two concatenated JPEG XS picture segments.  Each JPEG XS
    picture segment corresponds exclusively to one of the two fields of
    the interlaced frame.
+
+   Packetization of a PsF video stream SHALL follow the same
+   packetization as an interlaced video stream.  Each PsF frame consists
+   of two concatenated JPEG XS picture segments.  One picture segment
+   corresponds exclusively to the field containing the odd-numbered
+   lines of the progressive frame, and the other picture segment
+   corresponds exclusively to the field containing the even-numbered
+   lines of the progressive frame.  Unless explicitly stated otherwise,
+   all provisions, requirements, and procedures specified for interlaced
+   video streams in this document SHALL also apply to PsF video streams.
 
    Note that Section 4.4 further mandates that the Video Support boxes
    and all of the Color Specification boxes in both picture segments of
@@ -360,8 +379,8 @@ Table of Contents
    Note that the interlaced mode, as signaled by the frat field
    [ISO21122-3] in the Video Support box, indicates either progressive,
    interlaced top-field-first, or interlaced bottom-field-first mode.
-   Thus, in the case of interlaced video, its value SHALL also be
-   identical in both picture segments.
+   Thus, in the case of interlaced video, its value SHALL be identical
+   in both picture segments.
 
    Note that the frat field [ISO21122-3] in the Video Support box always
    signals the frame rate, even in the case of interlaced video.  This
@@ -536,8 +555,8 @@ Table of Contents
       The RTP timestamp is set to the sampling timestamp of the content
       (see also [RFC3550] and [RFC4175]).  A 90 kHz clock rate SHALL be
       used.  If the sampling instant does not correspond to an integer
-      value of the clock, the value SHALL be rounded up to the next
-      lowest integer, with no ambiguity.
+      value of the clock, the value SHALL be set to the smallest integer
+      greater than the sampling instant, with no ambiguity.
 
       For progressive video, the timestamp denotes the sampling instant
       of the frame to which the RTP packet belongs.  Packets SHALL NOT
@@ -676,7 +695,7 @@ Table of Contents
    the RTP stream SHALL define the same sub boxes, in the same order.
    The effective values in the boxes are allowed to change under the
    condition that their relative byte offsets SHALL NOT change.
-   Moreover, any changed value in the boxes SHOULD NOT violate any
+   Moreover, any changed value in the boxes SHALL NOT violate any
    restrictions imposed by the application layer.
 
    Each JPEG XS frame is represented by one or more packetization
@@ -914,10 +933,10 @@ Table of Contents
    receivers, it is RECOMMENDED to implement traffic shaping and
    delivery timing in accordance with the Network Compatibility Model
    compliance definitions specified in [SMPTE2110-21].  In such a case,
-   the session description SHOULD signal the compliance with the media
-   type parameter TP.  The actual applied traffic shaping and timing
-   delivery mechanism is outside the scope of this memo and does not
-   influence the payload packetization.
+   the session description SHALL signal the compliance with the media
+   type parameter TP as described in [SMPTE2110-21].  The actual applied
+   traffic shaping and timing delivery mechanism is outside the scope of
+   this memo and does not influence the payload packetization.
 
 6.  Congestion Control Considerations
 
@@ -996,32 +1015,50 @@ Table of Contents
          specified, a value 1 (sequential-only) SHALL be assumed and the
          T bit SHALL be set to 1.
 
-      profile:  The JPEG XS profile [ISO21122-2] in use.  Any white
-         space Unicode character in the profile name SHALL be omitted.
-         Examples of valid profile names are 'Main444.12', 'High444.12',
-         'CHigh444.12', or 'TDC444.12'.
+      profile:  The JPEG XS profile in use, as specified in
+         [ISO21122-2].  Any Unicode white-space characters in the
+         profile name SHALL be omitted.  Examples of valid profile names
+         include 'Main444.12', 'High444.12', 'CHigh444.12', and
+         'TDC444.12'.  When present, this parameter SHALL identify the
+         same JPEG XS profile as the one signaled in the JPEG XS picture
+         segment.
 
-      level:  The JPEG XS level [ISO21122-2] in use.  Any white space
-         Unicode character in the level name SHALL be omitted.  Examples
-         of valid levels are '2k-1' or '4k-2'.
+      level:  The JPEG XS level in use, as specified in [ISO21122-2].
+         Any white space Unicode character in the level name SHALL be
+         omitted.  Examples of valid levels are '2k-1' or '4k-2'.  When
+         present, this parameter SHALL identify the same JPEG XS level
+         as the one signaled in the JPEG XS picture segment.
 
-      sublevel:  The JPEG XS sublevel [ISO21122-2] in use.  Any white
-         space Unicode character in the sublevel name SHALL be omitted.
-         Examples of valid sublevels are 'Sublev3bpp' or 'Sublev6bpp'.
+      sublevel:  The JPEG XS sublevel in use, as specified in
+         [ISO21122-2].  Any white space Unicode character in the
+         sublevel name SHALL be omitted.  Examples of valid sublevels
+         are 'Sublev3bpp' or 'Sublev6bpp'.  When present, this parameter
+         SHALL identify the same JPEG XS sublevel as the one signaled in
+         the JPEG XS picture segment.
 
-      fbblevel:  The JPEG XS frame buffer level [ISO21122-2] in use.
-         Any white space Unicode character in the fbblevel name SHALL be
-         omitted.  Examples of valid frame buffer levels are
-         'Fbblev3bpp' or 'Fbblev12bpp'.
+      fbblevel:  The JPEG XS frame buffer level in use, as specified in
+         [ISO21122-2], when using the TDC coding mode.  Any white space
+         Unicode character in the fbblevel name SHALL be omitted.
+         Examples of valid frame buffer levels are 'Fbblev3bpp' or
+         'Fbblev12bpp'.  This parameter SHALL only be allowed when using
+         the TDC coding mode.  When present, this parameter SHALL
+         identify the same JPEG XS fbblevel as the one signaled in the
+         JPEG XS picture segment.
 
       depth:  Determines the number of bits per sample.  This is an
-         integer with typical values including 8, 10, 12, and 16.
+         integer with typical values including 8, 10, 12, and 16.  When
+         present, this parameter SHALL match with the information
+         signaled in the JPEG XS picture segment.
 
       width:  Determines the number of pixels per line.  This is an
-         integer between 1 and 32767, inclusive.
+         integer between 1 and 32767, inclusive.  When present, this
+         parameter SHALL match with the information signaled in the JPEG
+         XS picture segment.
 
       height:  Determines the number of lines per video frame.  This is
-         an integer between 1 and 32767, inclusive.
+         an integer between 1 and 32767, inclusive.  When present, this
+         parameter SHALL match with the information signaled in the JPEG
+         XS picture segment.
 
       exactframerate:  Signals the video frame rate in frames per
          second.  Integer frame rates SHALL be signaled as a single
@@ -1029,6 +1066,8 @@ Table of Contents
          SHALL be signaled as a ratio of two integer decimal numbers
          separated by a "forward-slash" character (e.g., "30000/1001"),
          utilizing the numerically smallest numerator value possible.
+         When present, this parameter SHALL identify the same frame rate
+         as the one signaled in the JPEG XS picture segment.
 
       interlace:  If this parameter name is present, it indicates that
          the video is interlaced, or that the video is Progressive
@@ -1398,19 +1437,19 @@ Table of Contents
    [ISO21122-1]
               ISO/IEC, "Information technology - JPEG XS low-latency
               lightweight image coding system - Part 1: Core coding
-              system", ISO/IEC IS 21122-1:2024, July 2024,
+              system", ISO/IEC IS 21122-1, n.d.,
               <https://www.iso.org/standard/85247.html>.
 
    [ISO21122-2]
               ISO/IEC, "Information technology - JPEG XS low-latency
               lightweight image coding system - Part 2: Profiles and
-              buffer models", ISO/IEC IS 21122-2:2024, August 2024,
+              buffer models", ISO/IEC IS 21122-2, n.d.,
               <https://www.iso.org/standard/85250.html>.
 
    [ISO21122-3]
               ISO/IEC, "Information technology - JPEG XS low-latency
               lightweight image coding system - Part 3: Transport and
-              container formats", ISO/IEC IS 21122-3:2024, August 2024,
+              container formats", ISO/IEC IS 21122-3, n.d.,
               <https://www.iso.org/standard/86420.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -1450,6 +1489,13 @@ Table of Contents
               Session Description Protocol", RFC 8866,
               DOI 10.17487/RFC8866, January 2021,
               <https://www.rfc-editor.org/rfc/rfc8866>.
+
+   [SMPTE2110-21]
+              SMPTE, "SMPTE Standard - Professional Media Over Managed
+              IP Networks: Traffic Shaping and Delivery Timing for
+              Video", SMPTE ST 2110-21:2022,
+              DOI 10.5594/SMPTE.ST2110-21.2022, December 2022,
+              <https://doi.org/10.5594/SMPTE.ST2110-21.2022>.
 
 13.2.  Informative References
 
@@ -1564,13 +1610,6 @@ Table of Contents
               Mapping", SMPTE RP 2077:2013,
               DOI 10.5594/SMPTE.RP2077.2013, November 2013,
               <https://doi.org/10.5594/SMPTE.RP2077.2013>.
-
-   [SMPTE2110-21]
-              SMPTE, "SMPTE Standard - Professional Media Over Managed
-              IP Networks: Traffic Shaping and Delivery Timing for
-              Video", SMPTE ST 2110-21:2017,
-              DOI 10.5594/SMPTE.ST2110-21.2017, November 2017,
-              <https://doi.org/10.5594/SMPTE.ST2110-21.2017>.
 
    [SMPTE240M]
               SMPTE, "SMPTE Standard - For Television - 1125-Line High-
