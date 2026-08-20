@@ -628,7 +628,7 @@ Optional parameters:
   : If this parameter name is present, and the interlace parameter name is also present, then the video is a Progressive segmented Frame (PsF). Signaling of this parameter without the interlace parameter is forbidden.
 
   sampling:
-  : Specifies the color difference signal sub-sampling structure. Valid values and their specification are the following:
+  : Specifies the color difference signal subsampling structure. Valid values and their specification are the following:
 
     For signals utilizing the non-constant luminance `Y'C'B C'R` signal format of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, or {{BT2100-2}}:
 
@@ -678,7 +678,7 @@ Optional parameters:
     `KEY`
     : (Samples of the key signal)
 
-    Signals utilizing a color sub-sampling other than what is defined here SHALL use the following value for the Media Type Parameter "sampling":
+    Signals utilizing a color subsampling other than what is defined here SHALL use the following value for the Media Type Parameter "sampling":
 
     `UNSPECIFIED`
     : (Sampling signaled by the payload)
