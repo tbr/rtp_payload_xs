@@ -67,7 +67,7 @@ author:
     country: Belgium
     phone: +32 10 47 27 87
     email: antonin.descampe@uclouvain.be
-    uri: https://uclouvain.be/antonin.descampe
+    uri: https://uclouvain.be/
 
 normative:
   RFC3264:
