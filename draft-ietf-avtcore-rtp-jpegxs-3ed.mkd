@@ -666,7 +666,7 @@ Optional parameters:
     Signals utilizing the 4:4:4 `R' G' B'` or RGB signal format (such as that of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, {{BT2100-2}}, {{SMPTE2065-1}}, or {{SMPTE2065-3}}) SHALL use the following value for the Media Type Parameter "sampling":
 
     `RGB`
-    : (RGB or R' G' B' samples)
+    : (RGB or `R' G' B'` samples)
 
     For signals utilizing the 4:4:4 `X' Y' Z'` signal format (such as defined in {{SMPTE428-1}}):
 
