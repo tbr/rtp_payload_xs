@@ -1,7 +1,7 @@
 ---
 title: RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-date: 2026-08-18
-docname: draft-ietf-avtcore-rtp-jpegxs-3ed-04
+date: 2026-08-24
+docname: draft-ietf-avtcore-rtp-jpegxs-3ed-05
 abbrev: RTP Payload Format for JPEG XS
 
 stand_alone: yes
@@ -99,7 +99,7 @@ Video Support (VS) box:
 
 # Media Format Description
 
-This section explains the terminology and concepts used in this memo specific to JPEG XS as specified in {{ISO21122-1}}, {{ISO21122-2}}, and {{ISO21122-3}}.
+This section explains the terminology and concepts used in this document specific to JPEG XS as specified in {{ISO21122-1}}, {{ISO21122-2}}, and {{ISO21122-3}}.
 
 ## Data Structures
 
@@ -553,7 +553,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 {: #sec-traffic-shaping}
 # Traffic Shaping and Delivery Timing
 
-In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHALL signal the compliance with the media type parameter TP as described in {{SMPTE2110-21}}.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.
+In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHALL signal the compliance with the media type parameter TP as described in {{SMPTE2110-21}}.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this document and does not influence the payload packetization.
 
 # Congestion Control Considerations
 
@@ -824,10 +824,16 @@ Because this document obsoletes {{RFC9134}}, IANA is asked to change all registr
 
 # Security Considerations
 
-RTP packets using the payload format defined in this memo are subject to the security considerations discussed in {{RFC3550}} and in any applicable RTP profile such as RTP/AVP {{RFC3551}}, RTP/AVPF {{RFC4585}}, RTP/SAVP {{RFC3711}}, or RTP/SAVPF {{RFC5124}}. This implies that confidentiality of the media streams is achieved by encryption.
+RTP packets using the payload format defined in this document are subject to the security considerations of {{RFC3550}} and any applicable RTP profile, such as RTP/AVP {{RFC3551}}, RTP/AVPF {{RFC4585}}, RTP/SAVP {{RFC3711}}, or RTP/SAVPF {{RFC5124}}. Thus, confidentiality of the media streams is achieved through encryption.
 
-However, as "Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution" {{RFC7202}} discusses, it is not an RTP payload format's responsibility to discuss or mandate what solutions are used to meet the basic security goals like confidentiality, integrity, and source authenticity for RTP in general. This responsibility lies on anyone using RTP in an application. They can find guidance on available security mechanisms and important considerations in "Options for Securing RTP Sessions" {{RFC7201}}. Applications SHOULD use one or more appropriate strong security
-mechanisms.
+As discussed in "Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution" {{RFC7202}}, RTP payload formats neither specify nor mandate the mechanisms used to provide confidentiality, integrity, and source authentication. The responsibility for selecting and deploying appropriate security mechanisms rests with the applications using RTP. Guidance on available mechanisms can be found in "Options for Securing RTP Sessions" {{RFC7201}}, although parts of that document are now dated.
+
+Applications SHOULD use current, well-maintained security mechanisms. Examples include:
+
+- (D)TLS-based protection: {{RFC9325}} provides current recommendations for the use of TLS 1.3 and DTLS.
+- IPsec-based protection: See {{RFC4303}} for Encapsulating Security Payload (ESP) and {{RFC7296}} for Internet Key Exchange Protocol Version 2 (IKEv2).
+
+This document does not mandate a specific security mechanism. Applications are responsible for selecting security solutions that provide confidentiality, integrity, and source authentication in accordance with current best practices.
 
 Implementations of this RTP payload format SHALL ensure the decoder is robust against malicious or malformed payloads and ensure that they do not cause the decoder to overrun its allocated memory or otherwise misbehave. An overrun in allocated memory could lead to arbitrary code execution by an attacker. The same applies to the encoder, even though problems in encoders are typically rarer.
 

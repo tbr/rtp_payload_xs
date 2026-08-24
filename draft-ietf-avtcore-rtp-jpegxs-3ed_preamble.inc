@@ -114,14 +114,17 @@ normative:
 informative:
   RFC3711:
   RFC4175:
+  RFC4303:
   RFC4585:
   RFC5124:
   RFC7201:
   RFC7202:
+  RFC7296:
   RFC8083:
   RFC8085:
   RFC8888:
   RFC9134:
+  RFC9325:
   BT1886-0:
     title: 'Reference electro-optical transfer function for flat panel displays used in HDTV studio production'
     target: 'https://www.itu.int/rec/R-REC-BT.1886-0-201103-I/en'
