@@ -49,13 +49,13 @@ Frame Buffer Bandwidth (FBB):
 : The bandwidth defined in {{ISO21122-2}} needed to read from and write to the internal frame buffer when employing the TDC coding mode. This bandwidth is modeled and capped based on an FBB level parameter.
 
 JPEG XS codestream:
-: A sequence of bytes representing a compressed video frame (progressive) or field (interlaced), formatted according to {{ISO21122-1}}.
+: A sequence of bytes representing a compressed video frame (progressive), segment (PsF), or field (interlaced), formatted according to {{ISO21122-1}}.
 
 JPEG XS codestream header:
 : A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but only metadata such as the video frame (progressive) or field (interlaced) dimension and component precision.
 
 JPEG XS frame:
-: In the case of progressive video, a single JPEG XS picture segment. In the case of interlaced video, the concatenation of two JPEG XS picture segments.
+: In the case of progressive video, a single JPEG XS picture segment. In the case of interlaced and PsF video, the concatenation of two JPEG XS picture segments.
 
 JPEG XS header segment:
 : The concatenation of a Video Support box {{ISO21122-3}}, a Color Specification box {{ISO21122-3}}, and a JPEG XS codestream header.
