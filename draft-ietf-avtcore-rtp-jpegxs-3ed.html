@@ -20,7 +20,7 @@
 <meta content="transport" name="keyword">
 <meta content="real-time" name="keyword">
 <meta content="protocol" name="keyword">
-<meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-04" name="ietf.draft">
+<meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-05" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.23.1
     Python 3.11.9
@@ -1221,11 +1221,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RTP Payload Format for JPEG XS</td>
-<td class="right">August 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bruylants, et al.</td>
-<td class="center">Expires 21 February 2027</td>
+<td class="center">Expires 13 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1235,18 +1235,18 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">avtcore</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-avtcore-rtp-jpegxs-3ed-04</dd>
+<dd class="internet-draft">draft-ietf-avtcore-rtp-jpegxs-3ed-05</dd>
 <dt class="label-obsoletes">Obsoletes:</dt>
 <dd class="obsoletes">
 <a href="https://www.rfc-editor.org/rfc/rfc9134" class="eref">9134</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-20" class="published">20 August 2026</time>
+<time datetime="2026-09-09" class="published">9 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-21">21 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-13">13 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1293,7 +1293,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1550,7 +1550,7 @@ Technically, the segments are equivalent to interlaced fields, but unlike native
       <h2 id="name-media-format-description">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-media-format-description" class="section-name selfRef">Media Format Description</a>
       </h2>
-<p id="section-3-1">This section explains the terminology and concepts used in this memo specific to JPEG XS as specified in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>, <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, and <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">This section explains the terminology and concepts used in this document specific to JPEG XS as specified in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>, <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, and <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="data-structures">
 <section id="section-3.1">
         <h3 id="name-data-structures">
@@ -2102,7 +2102,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
       <h2 id="name-traffic-shaping-and-deliver">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-traffic-shaping-and-deliver" class="section-name selfRef">Traffic Shaping and Delivery Timing</a>
       </h2>
-<p id="section-5-1">In order to facilitate proper synchronization between senders and receivers, it is <span class="bcp14">RECOMMENDED</span> to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span>. In such a case, the session description <span class="bcp14">SHALL</span> signal the compliance with the media type parameter TP as described in <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span>.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this memo and does not influence the payload packetization.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">In order to facilitate proper synchronization between senders and receivers, it is <span class="bcp14">RECOMMENDED</span> to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span>. In such a case, the session description <span class="bcp14">SHALL</span> signal the compliance with the media type parameter TP as described in <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span>.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this document and does not influence the payload packetization.<a href="#section-5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="congestion-control-considerations">
@@ -2217,7 +2217,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.23">sampling:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24">
-                <p id="section-7.1-3.8.1.24.1">Specifies the color difference signal sub-sampling structure. Valid values and their specification are the following:<a href="#section-7.1-3.8.1.24.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.24.1">Specifies the color difference signal subsampling structure. Valid values and their specification are the following:<a href="#section-7.1-3.8.1.24.1" class="pilcrow">¶</a></p>
 <p id="section-7.1-3.8.1.24.2">For signals utilizing the non-constant luminance <code>Y'C'B C'R</code> signal format of <span>[<a href="#BT601-7" class="cite xref">BT601-7</a>]</span>, <span>[<a href="#BT709-6" class="cite xref">BT709-6</a>]</span>, <span>[<a href="#BT2020-2" class="cite xref">BT2020-2</a>]</span>, or <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span>:<a href="#section-7.1-3.8.1.24.2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.3">
                   <dt id="section-7.1-3.8.1.24.3.1"><code>YCbCr-4:4:4</code></dt>
@@ -2276,7 +2276,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.9">
                   <dt id="section-7.1-3.8.1.24.9.1"><code>RGB</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.9.2">
-                    <p id="section-7.1-3.8.1.24.9.2.1">(RGB or R' G' B' samples)<a href="#section-7.1-3.8.1.24.9.2.1" class="pilcrow">¶</a></p>
+                    <p id="section-7.1-3.8.1.24.9.2.1">(RGB or <code>R' G' B'</code> samples)<a href="#section-7.1-3.8.1.24.9.2.1" class="pilcrow">¶</a></p>
 </dd>
                 <dd class="break"></dd>
 </dl>
@@ -2296,7 +2296,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 </dd>
                 <dd class="break"></dd>
 </dl>
-<p id="section-7.1-3.8.1.24.14">Signals utilizing a color sub-sampling other than what is defined here <span class="bcp14">SHALL</span> use the following value for the Media Type Parameter "sampling":<a href="#section-7.1-3.8.1.24.14" class="pilcrow">¶</a></p>
+<p id="section-7.1-3.8.1.24.14">Signals utilizing a color subsampling other than what is defined here <span class="bcp14">SHALL</span> use the following value for the Media Type Parameter "sampling":<a href="#section-7.1-3.8.1.24.14" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1.24.15">
                   <dt id="section-7.1-3.8.1.24.15.1"><code>UNSPECIFIED</code></dt>
                   <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.24.15.2">
@@ -2542,13 +2542,22 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
       <h2 id="name-security-considerations">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-10-1">RTP packets using the payload format defined in this memo are subject to the security considerations discussed in <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> and in any applicable RTP profile such as RTP/AVP <span>[<a href="#RFC3551" class="cite xref">RFC3551</a>]</span>, RTP/AVPF <span>[<a href="#RFC4585" class="cite xref">RFC4585</a>]</span>, RTP/SAVP <span>[<a href="#RFC3711" class="cite xref">RFC3711</a>]</span>, or RTP/SAVPF <span>[<a href="#RFC5124" class="cite xref">RFC5124</a>]</span>. This implies that confidentiality of the media streams is achieved by encryption.<a href="#section-10-1" class="pilcrow">¶</a></p>
-<p id="section-10-2">However, as "Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution" <span>[<a href="#RFC7202" class="cite xref">RFC7202</a>]</span> discusses, it is not an RTP payload format's responsibility to discuss or mandate what solutions are used to meet the basic security goals like confidentiality, integrity, and source authenticity for RTP in general. This responsibility lies on anyone using RTP in an application. They can find guidance on available security mechanisms and important considerations in "Options for Securing RTP Sessions" <span>[<a href="#RFC7201" class="cite xref">RFC7201</a>]</span>. Applications <span class="bcp14">SHOULD</span> use one or more appropriate strong security
-mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
-<p id="section-10-3">Implementations of this RTP payload format <span class="bcp14">SHALL</span> ensure the decoder is robust against malicious or malformed payloads and ensure that they do not cause the decoder to overrun its allocated memory or otherwise misbehave. An overrun in allocated memory could lead to arbitrary code execution by an attacker. The same applies to the encoder, even though problems in encoders are typically rarer.<a href="#section-10-3" class="pilcrow">¶</a></p>
-<p id="section-10-4">This payload format and the JPEG XS encoding do not exhibit any substantial non-uniformity, either in output or in complexity to perform the decoding operation; thus, they are unlikely to pose a denial-of-service threat due to the receipt of pathological datagrams.<a href="#section-10-4" class="pilcrow">¶</a></p>
-<p id="section-10-5">This payload format and the JPEG XS encoding do not contain code that is executable.<a href="#section-10-5" class="pilcrow">¶</a></p>
-<p id="section-10-6">It is important to note that high-definition (HD) or ultra-high-definition (UHD) video that is encoded with JPEG XS can have significant bandwidth requirements (typically more than 1 Gbps for UHD video, especially if using high framerate). This is sufficient to cause potential for denial of service if transmitted onto most currently available Internet paths.<a href="#section-10-6" class="pilcrow">¶</a></p>
+<p id="section-10-1">RTP packets using the payload format defined in this document are subject to the security considerations of <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> and any applicable RTP profile, such as RTP/AVP <span>[<a href="#RFC3551" class="cite xref">RFC3551</a>]</span>, RTP/AVPF <span>[<a href="#RFC4585" class="cite xref">RFC4585</a>]</span>, RTP/SAVP <span>[<a href="#RFC3711" class="cite xref">RFC3711</a>]</span>, or RTP/SAVPF <span>[<a href="#RFC5124" class="cite xref">RFC5124</a>]</span>. Thus, confidentiality of the media streams is achieved through encryption.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2">As discussed in "Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution" <span>[<a href="#RFC7202" class="cite xref">RFC7202</a>]</span>, RTP payload formats neither specify nor mandate the mechanisms used to provide confidentiality, integrity, and source authentication. The responsibility for selecting and deploying appropriate security mechanisms rests with the applications using RTP. Guidance on available mechanisms can be found in "Options for Securing RTP Sessions" <span>[<a href="#RFC7201" class="cite xref">RFC7201</a>]</span>, although parts of that document are now dated.<a href="#section-10-2" class="pilcrow">¶</a></p>
+<p id="section-10-3">Applications <span class="bcp14">SHOULD</span> use current, well-maintained security mechanisms. Examples include:<a href="#section-10-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-10-4.1">
+          <p id="section-10-4.1.1">(D)TLS-based protection: <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>]</span> provides current recommendations for the use of TLS 1.3 and DTLS.<a href="#section-10-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-10-4.2">
+          <p id="section-10-4.2.1">IPsec-based protection: See <span>[<a href="#RFC4303" class="cite xref">RFC4303</a>]</span> for Encapsulating Security Payload (ESP) and <span>[<a href="#RFC7296" class="cite xref">RFC7296</a>]</span> for Internet Key Exchange Protocol Version 2 (IKEv2).<a href="#section-10-4.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-10-5">This document does not mandate a specific security mechanism. Applications are responsible for selecting security solutions that provide confidentiality, integrity, and source authentication in accordance with current best practices.<a href="#section-10-5" class="pilcrow">¶</a></p>
+<p id="section-10-6">Implementations of this RTP payload format <span class="bcp14">SHALL</span> ensure the decoder is robust against malicious or malformed payloads and ensure that they do not cause the decoder to overrun its allocated memory or otherwise misbehave. An overrun in allocated memory could lead to arbitrary code execution by an attacker. The same applies to the encoder, even though problems in encoders are typically rarer.<a href="#section-10-6" class="pilcrow">¶</a></p>
+<p id="section-10-7">This payload format and the JPEG XS encoding do not exhibit any substantial non-uniformity, either in output or in complexity to perform the decoding operation; thus, they are unlikely to pose a denial-of-service threat due to the receipt of pathological datagrams.<a href="#section-10-7" class="pilcrow">¶</a></p>
+<p id="section-10-8">This payload format and the JPEG XS encoding do not contain code that is executable.<a href="#section-10-8" class="pilcrow">¶</a></p>
+<p id="section-10-9">It is important to note that high-definition (HD) or ultra-high-definition (UHD) video that is encoded with JPEG XS can have significant bandwidth requirements (typically more than 1 Gbps for UHD video, especially if using high framerate). This is sufficient to cause potential for denial of service if transmitted onto most currently available Internet paths.<a href="#section-10-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-op-cons">
@@ -2698,6 +2707,10 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Gharai, L.</span> and <span class="refAuthor">C. Perkins</span>, <span class="refTitle">"RTP Payload Format for Uncompressed Video"</span>, <span class="seriesInfo">RFC 4175</span>, <span class="seriesInfo">DOI 10.17487/RFC4175</span>, <time datetime="2005-09" class="refDate">September 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4175">https://www.rfc-editor.org/rfc/rfc4175</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC4303">[RFC4303]</dt>
+        <dd>
+<span class="refAuthor">Kent, S.</span>, <span class="refTitle">"IP Encapsulating Security Payload (ESP)"</span>, <span class="seriesInfo">RFC 4303</span>, <span class="seriesInfo">DOI 10.17487/RFC4303</span>, <time datetime="2005-12" class="refDate">December 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4303">https://www.rfc-editor.org/rfc/rfc4303</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC4585">[RFC4585]</dt>
         <dd>
 <span class="refAuthor">Ott, J.</span>, <span class="refAuthor">Wenger, S.</span>, <span class="refAuthor">Sato, N.</span>, <span class="refAuthor">Burmeister, C.</span>, and <span class="refAuthor">J. Rey</span>, <span class="refTitle">"Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"</span>, <span class="seriesInfo">RFC 4585</span>, <span class="seriesInfo">DOI 10.17487/RFC4585</span>, <time datetime="2006-07" class="refDate">July 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4585">https://www.rfc-editor.org/rfc/rfc4585</a>&gt;</span>. </dd>
@@ -2714,6 +2727,10 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Perkins, C.</span> and <span class="refAuthor">M. Westerlund</span>, <span class="refTitle">"Securing the RTP Framework: Why RTP Does Not Mandate a Single Media Security Solution"</span>, <span class="seriesInfo">RFC 7202</span>, <span class="seriesInfo">DOI 10.17487/RFC7202</span>, <time datetime="2014-04" class="refDate">April 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7202">https://www.rfc-editor.org/rfc/rfc7202</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7296">[RFC7296]</dt>
+        <dd>
+<span class="refAuthor">Kaufman, C.</span>, <span class="refAuthor">Hoffman, P.</span>, <span class="refAuthor">Nir, Y.</span>, <span class="refAuthor">Eronen, P.</span>, and <span class="refAuthor">T. Kivinen</span>, <span class="refTitle">"Internet Key Exchange Protocol Version 2 (IKEv2)"</span>, <span class="seriesInfo">STD 79</span>, <span class="seriesInfo">RFC 7296</span>, <span class="seriesInfo">DOI 10.17487/RFC7296</span>, <time datetime="2014-10" class="refDate">October 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7296">https://www.rfc-editor.org/rfc/rfc7296</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8083">[RFC8083]</dt>
         <dd>
 <span class="refAuthor">Perkins, C.</span> and <span class="refAuthor">V. Singh</span>, <span class="refTitle">"Multimedia Congestion Control: Circuit Breakers for Unicast RTP Sessions"</span>, <span class="seriesInfo">RFC 8083</span>, <span class="seriesInfo">DOI 10.17487/RFC8083</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8083">https://www.rfc-editor.org/rfc/rfc8083</a>&gt;</span>. </dd>
@@ -2729,6 +2746,10 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <dt id="RFC9134">[RFC9134]</dt>
         <dd>
 <span class="refAuthor">Bruylants, T.</span>, <span class="refAuthor">Descampe, A.</span>, <span class="refAuthor">Damman, C.</span>, and <span class="refAuthor">T. Richter</span>, <span class="refTitle">"RTP Payload Format for ISO/IEC 21122 (JPEG XS)"</span>, <span class="seriesInfo">RFC 9134</span>, <span class="seriesInfo">DOI 10.17487/RFC9134</span>, <time datetime="2021-10" class="refDate">October 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9134">https://www.rfc-editor.org/rfc/rfc9134</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9325">[RFC9325]</dt>
+        <dd>
+<span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Saint-Andre, P.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">BCP 195</span>, <span class="seriesInfo">RFC 9325</span>, <span class="seriesInfo">DOI 10.17487/RFC9325</span>, <time datetime="2022-11" class="refDate">November 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9325">https://www.rfc-editor.org/rfc/rfc9325</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SMPTE157">[SMPTE157]</dt>
         <dd>
@@ -2853,7 +2874,7 @@ mechanisms.<a href="#section-10-2" class="pilcrow">¶</a></p>
 </div>
 <div class="url">
 <span>URI:</span>
-<a href="https://uclouvain.be/antonin.descampe" class="url">https://uclouvain.be/antonin.descampe</a>
+<a href="https://uclouvain.be/" class="url">https://uclouvain.be/</a>
 </div>
 </address>
 </section>
