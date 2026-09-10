@@ -124,7 +124,7 @@ The JPEG XS codestream format, including the definition of all markers, is furth
 
 As defined in {{ISO21122-1}}, slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header SHALL be either an SLH or an SLI marker. The last byte of a slice in the codestream SHALL immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).
 
-A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in {{ISO21122-1}}. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).
+A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in {{ISO21122-1}}. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced and PsF video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).
 
 ## Video Support box and Color Specification box
 
@@ -148,7 +148,7 @@ Packetization of a PsF video stream SHALL follow the same packetization as an in
 
 Note that {{sec_payload_data}} further mandates that the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame SHALL have the same respective layouts.
 
-Note that the interlaced mode, as signaled by the `frat` field {{ISO21122-3}} in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced video, its value SHALL be identical in both picture segments.
+Note that the interlaced mode, as signaled by the `frat` field {{ISO21122-3}} in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced and PsF video, its value SHALL be identical in both picture segments.
 
 Note that the `frat` field {{ISO21122-3}} in the Video Support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.
 
@@ -553,7 +553,7 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 {: #sec-traffic-shaping}
 # Traffic Shaping and Delivery Timing
 
-In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model compliance definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHALL signal the compliance with the media type parameter TP as described in {{SMPTE2110-21}}.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this document and does not influence the payload packetization.
+In order to facilitate proper synchronization between senders and receivers, it is RECOMMENDED to implement traffic shaping and delivery timing in accordance with the Network Compatibility Model Compliance Definitions specified in {{SMPTE2110-21}}. In such a case, the session description SHALL signal the conformance with the media type parameter TP as described in {{SMPTE2110-21}}.  The actual applied traffic shaping and timing delivery mechanism is outside the scope of this document and does not influence the payload packetization.
 
 # Congestion Control Considerations
 
