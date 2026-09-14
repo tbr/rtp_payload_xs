@@ -321,7 +321,7 @@ Slice and Extended Packet (`SEP`) counter \[11 bits\]:
 
   *  In the case of codestream packetization mode (`K=0`), this counter resets whenever the Packet counter resets (see {{sec_payload_data}}) and increments by 1 whenever the Packet counter overruns.
 
-  *  In the case of slice packetization mode (`K=1`), this counter identifies the slice modulo 2047 to which the packet contributes. If the data belongs to the JPEG XS header segment, this field SHALL have its maximal value, namely `2047=0x07ff`. Otherwise, it is the slice index modulo 2047. Slice indices are counted from 0 (corresponding to the top of the video frame).
+  *  In the case of slice packetization mode (`K=1`), this counter identifies the slice modulo 2047 to which the packet contributes. If the data belongs to the JPEG XS header segment, this field SHALL have its maximal value, namely `2047=0x07ff`. Otherwise, it is the slice index modulo 2047. Slice indices are counted from 0 (corresponding to the top of the picture segment).
 
 `P` counter \[11 bits\]:
 : The Packet (`P`) counter identifies the packet number modulo 2048 within the current packetization unit. It is set to 0 at the start of the packetization unit and incremented by 1 for every subsequent packet (if any) belonging to the same unit. Practically, if codestream packetization mode is enabled, this field counts the packets within a JPEG XS picture segment and is extended by the `SEP` counter when it overruns. If slice packetization mode is enabled, this field counts the packets within a slice or within the JPEG XS header segment.
@@ -617,7 +617,7 @@ Optional parameters:
   : Determines the number of pixels per line. This is an integer between 1 and 32767, inclusive. When present, this parameter SHALL match the information signaled in the JPEG XS picture segment.
 
   height:
-  : Determines the number of lines per video frame. This is an integer between 1 and 32767, inclusive. When present, this parameter SHALL match with the information signaled in the JPEG XS picture segment.
+  : Determines the number of lines per video frame. This is an integer between 1 and 32767, inclusive. For interlaced and PsF video streams, this parameter signals the number of lines of the full video frame, which is twice the height signaled in each JPEG XS codestream header. When present, this parameter SHALL be consistent with the information signaled in the JPEG XS picture segment.
 
   exactframerate:
   : Signals the video frame rate in frames per second. Integer frame rates SHALL be signaled as a single decimal number (e.g., "25") whilst non-integer frame rates SHALL be signaled as a ratio of two integer decimal numbers separated by a "forward-slash" character (e.g., "30000/1001"), utilizing the numerically smallest numerator value possible. When present, this parameter SHALL identify the same frame rate as the one signaled in the JPEG XS picture segment.
