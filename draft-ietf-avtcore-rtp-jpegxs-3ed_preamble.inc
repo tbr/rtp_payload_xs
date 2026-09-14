@@ -109,7 +109,7 @@ normative:
     seriesinfo:
       "SMPTE": 'ST 2110-21:2022'
       DOI: 10.5594/SMPTE.ST2110-21.2022
-    date: "Decempber 2022"
+    date: "December 2022"
 
 informative:
   RFC3711:
