@@ -92,7 +92,7 @@ Start of Codestream (SOC) marker:
 : A marker that consists of the two bytes `0xff10` indicating the start of a JPEG XS codestream, as defined in {{ISO21122-1}}. The SOC marker is considered an integral part of the JPEG XS codestream header.
 
 Temporal Differential Coding (TDC):
-: An inter-frame coding mode used by certain JPEG XS profiles, as defined in {{ISO21122-2}}.
+: An inter-frame coding mode defined in {{ISO21122-1}} and used by certain JPEG XS profiles specified in {{ISO21122-2}}.
 
 Video Support (VS) box:
 : An ISO Video Support box, as defined in {{ISO21122-3}}, that includes metadata required to play back a JPEG XS stream; such metadata could include its maximum bit rate, its subsampling structure, its buffer model, and its frame rate.
