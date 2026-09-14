@@ -6,11 +6,11 @@ avtcore                                                     T. Bruylants
 Internet-Draft                                                   intoPIX
 Obsoletes: 9134 (if approved)                                 T. Richter
 Intended status: Standards Track                          Fraunhofer IIS
-Expires: 14 March 2027                                 C. Damman Geeroms
+Expires: 18 March 2027                                 C. Damman Geeroms
                                                                  intoPIX
                                                              A. Descampe
                                                                UCLouvain
-                                                       10 September 2026
+                                                       14 September 2026
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 March 2027.
+   This Internet-Draft will expire on 18 March 2027.
 
 Copyright Notice
 
@@ -1068,14 +1068,17 @@ Table of Contents
          as the one signaled in the JPEG XS picture segment.
 
       interlace:  If this parameter name is present, it indicates that
-         the video is interlaced, or that the video is Progressive
-         segmented Frame (PsF).  If this parameter name is not present,
-         the progressive video format SHALL be assumed.
+         the video stream is interlaced or Progressive segmented Frame
+         (PsF) (see Section 3.4).  If the segmented parameter name is
+         also present, the video stream is Progressive segmented Frame
+         (PsF); otherwise, it is interlaced.  If the interlace parameter
+         name is not present, the video stream SHALL be assumed to be
+         progressive.
 
       segmented:  If this parameter name is present, and the interlace
-         parameter name is also present, then the video is a Progressive
-         segmented Frame (PsF).  Signaling of this parameter without the
-         interlace parameter is forbidden.
+         parameter name is also present, then the video stream is
+         Progressive segmented Frame (PsF).  Signaling of this parameter
+         name without the interlace parameter name is forbidden.
 
       sampling:  Specifies the color difference signal subsampling
          structure.  Valid values and their specification are the
