@@ -232,7 +232,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 ~~~~~~~~~~
 {: #fig_ex_sl_packetization title="Example of Slice Packetization Mode"}
 
-In a constant bitrate (CBR) scenario of JPEG XS, the codestream packetization mode guarantees that a JPEG XS RTP stream will produce both a constant number of bytes per video frame and a constant number of RTP packets per video frame.  However, to provide similar guarantees with JPEG XS in a variable bitrate (VBR) mode or when using the slice packetization mode (for either CBR or VBR), additional mechanisms are needed. This can involve a constraint at the rate allocation stage in the JPEG XS encoder to impose a CBR at the slice level, the usage of padding data, or the insertion of empty RTP packets (i.e., an RTP packet whose payload data is empty). But, management of the amount of produced packets per video frame depends on the application and not a strict requirement of this RTP payload specification.
+In a constant bitrate (CBR) scenario of JPEG XS, the codestream packetization mode guarantees that a JPEG XS RTP stream will produce both a constant number of bytes per video frame and a constant number of RTP packets per video frame.  However, to provide similar guarantees with JPEG XS in a variable bitrate (VBR) mode or when using the slice packetization mode (for either CBR or VBR), additional mechanisms are needed. This can involve a constraint at the rate allocation stage in the JPEG XS encoder to impose a CBR at the slice level, the usage of padding data, or the insertion of empty RTP packets (i.e., an RTP packet whose payload data is empty). But, management of the number of packets produced per video frame is application dependent and not a strict requirement of this RTP payload specification.
 
 ## RTP Header Usage
 
@@ -346,27 +346,27 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |  +---------------------------------+  |
 +- - - - - - - - - - - - - - - - - - - -+
 |          JPEG XS codestream           |
-:             (part 1/q)                :  M=0, K=0, L=0, I=00
+:             (part 1/q)                :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=0
 |             (part 2/q)                |  P counter=1
-:                                       :  M=0, K=0, L=0, I=00
+:                                       :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=0
 |             (part 3/q)                |  P counter=2
-:                                       :  M=0, K=0, L=0, I=00
+:                                       :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=1
 |            (part 2049/q)              |  P counter=0
-:                                       :  M=0, K=0, L=0, I=00
+:                                       :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=(q-1) div 2048
 |             (part q/q)                |  P counter=(q-1) mod 2048
-:                                       :  M=1, K=0, L=1, I=00
+:                                       :  M=1, T=1, K=0, L=1, I=00
 +=======================================+
 ~~~~~~~~~~
 {: #fig_cs_pack_mode_prog title="Example of JPEG XS Payload Data using Codestream Packetization Mode with Progressive Video Frames"}
@@ -378,41 +378,40 @@ Each JPEG XS frame is represented by one or more packetization unit(s), as expla
 |        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |     JPEG XS codestream (1st field)    |
-:             (part 1/q)                :  M=0, K=0, L=0, I=10
+:             (part 1/q)                :  M=0, T=1, K=0, L=0, I=10
 +---------------------------------------+
 |     JPEG XS codestream (1st field)    |  SEP counter=0
 |             (part 2/q)                |  P counter=1
-:                                       :  M=0, K=0, L=0, I=10
+:                                       :  M=0, T=1, K=0, L=0, I=10
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |     JPEG XS codestream (1st field)    |  SEP counter=1
 |            (part 2049/q)              |  P counter=0
-:                                       :  M=0, K=0, L=0, I=10
+:                                       :  M=0, T=1, K=0, L=0, I=10
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |     JPEG XS codestream (1st field)    |  SEP counter=(q-1) div 2048
 |             (part q/q)                |  P counter=(q-1) mod 2048
-:                                       :  M=1, K=0, L=1, I=10
+:                                       :  M=1, T=1, K=0, L=1, I=10
 +=====[ Packetization unit (PU) #2 ]====+
 |           Video Support box           |  SEP counter=0
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
 |        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |     JPEG XS codestream (2nd field)    |
-|             (part 1/q)                |
-:                                       :  M=0, K=0, L=0, I=11
+:             (part 1/r)                :  M=0, T=1, K=0, L=0, I=11
 +---------------------------------------+
 |     JPEG XS codestream (2nd field)    |  SEP counter=0
-|             (part 2/q)                |  P counter=1
-:                                       :  M=0, K=0, L=0, I=11
+|             (part 2/r)                |  P counter=1
+:                                       :  M=0, T=1, K=0, L=0, I=11
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
-|     JPEG XS codestream (2nd field)    |  SEP counter=(q-1) div 2048
-|             (part q/q)                |  P counter=(q-1) mod 2048
-:                                       :  M=1, K=0, L=1, I=11
+|     JPEG XS codestream (2nd field)    |  SEP counter=(r-1) div 2048
+|             (part r/r)                |  P counter=(r-1) mod 2048
+:                                       :  M=1, T=1, K=0, L=1, I=11
 +=======================================+
 ~~~~~~~~~~
 {: #fig_cs_pack_mode_int title="Example of JPEG XS Payload Data using Codestream Packetization Mode with Interlaced Video Frames"}
