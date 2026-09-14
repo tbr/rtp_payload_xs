@@ -792,7 +792,7 @@ The media type video/jxsv string is mapped to fields in the Session Description 
 
 All parameters of the media format SHALL correspond to the parameters of the payload. In case of discrepancies between payload parameter values and SDP fields, the values from the payload data SHALL prevail.
 
-The receiver SHALL ignore any parameter that is not defined in {{sec-media-type-reg}}.
+The receiver SHALL ignore any parameter that is neither defined in {{sec-media-type-reg}} nor defined by another specification applicable to the session, such as the TP parameter of {{SMPTE2110-21}} (see {{sec-traffic-shaping}}).
 
 An example SDP mapping for JPEG XS video is as follows:
 
