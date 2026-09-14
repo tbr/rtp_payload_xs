@@ -11,7 +11,7 @@
 <meta content="Antonin Descampe" name="author">
 <meta content="
        This document specifies a Real-Time Transport Protocol (RTP) payload format for transport of a video signal encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency and low-complexity video coding system. Employing this format allows achieving encoding-decoding latencies confined to a fraction of a video frame. 
-       This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing conforming implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to its implementers and users. 
+       This document revises RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing conforming implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications for implementers and users. 
     " name="description">
 <meta content="xml2rfc 3.23.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
@@ -20,7 +20,7 @@
 <meta content="transport" name="keyword">
 <meta content="real-time" name="keyword">
 <meta content="protocol" name="keyword">
-<meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-06" name="ietf.draft">
+<meta content="draft-ietf-avtcore-rtp-jpegxs-3ed-07" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.23.1
     Python 3.11.9
@@ -1235,7 +1235,7 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">avtcore</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-ietf-avtcore-rtp-jpegxs-3ed-06</dd>
+<dd class="internet-draft">draft-ietf-avtcore-rtp-jpegxs-3ed-07</dd>
 <dt class="label-obsoletes">Obsoletes:</dt>
 <dd class="obsoletes">
 <a href="https://www.rfc-editor.org/rfc/rfc9134" class="eref">9134</a> (if approved)</dd>
@@ -1272,7 +1272,7 @@ li > p:last-of-type:only-child {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document specifies a Real-Time Transport Protocol (RTP) payload format for transport of a video signal encoded with JPEG XS (ISO/IEC 21122). JPEG XS is a low-latency and low-complexity video coding system. Employing this format allows achieving encoding-decoding latencies confined to a fraction of a video frame.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">This document is a necessary revision of RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing conforming implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications to its implementers and users.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document revises RFC 9134 to incorporate support for new features introduced in the third edition of JPEG XS. Most notably, it contains the necessary provisions to support the TDC coding mode. This document obsoletes RFC 9134; however, the revised payload format is designed to ensure that existing conforming implementations of RFC 9134 remain valid under the updated specification. Additionally, this document consolidates the errata of RFC 9134 and includes improvements and clarifications for implementers and users.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1443,7 +1443,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <span class="break"></span><dl class="dlNewline" id="section-2-2">
         <dt id="section-2-2.1">Application Data Unit (ADU):</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.2">
-          <p id="section-2-2.2.1">The unit of source data provided as payload to the transport layer. In this RTP payload definition, it corresponds to a single JPEG XS video frame.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.2.1">The unit of source data provided as payload to the transport layer. In this RTP payload definition, it corresponds to a single JPEG XS frame.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.3">Color Specification (CS) box:</dt>
@@ -1468,7 +1468,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dd class="break"></dd>
 <dt id="section-2-2.11">JPEG XS codestream header:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.12">
-          <p id="section-2-2.12.1">A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but only metadata such as the video frame (progressive) or field (interlaced) dimension and component precision.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.12.1">A sequence of bytes, starting with an SOC marker, at the beginning of each JPEG XS codestream encoded in multiple markers and marker segments, that does not carry entropy coded data, but only metadata such as the video frame (progressive) or field (interlaced and PsF) dimension and component precision.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.13">JPEG XS frame:</dt>
@@ -1527,14 +1527,14 @@ Technically, the segments are equivalent to interlaced fields, but unlike native
           <p id="section-2-2.34.1">The smallest independently decodable unit of a JPEG XS codestream, bearing in mind that it decodes to wavelet coefficients, which still require inverse wavelet filtering before visualization.<a href="#section-2-2.34.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.35">Start of a Codestream (SOC) marker:</dt>
+<dt id="section-2-2.35">Start of Codestream (SOC) marker:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.36">
           <p id="section-2-2.36.1">A marker that consists of the two bytes <code>0xff10</code> indicating the start of a JPEG XS codestream, as defined in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>. The SOC marker is considered an integral part of the JPEG XS codestream header.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.37">Temporal Differential Coding (TDC):</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.38">
-          <p id="section-2-2.38.1">An inter-frame coding mode used by certain JPEG XS profiles, as defined in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.38.1">An inter-frame coding mode defined in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span> and used by certain JPEG XS profiles specified in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.39">Video Support (VS) box:</dt>
@@ -1581,7 +1581,7 @@ Technically, the segments are equivalent to interlaced fields, but unlike native
         </ul>
 <p id="section-3.2-3">The JPEG XS codestream format, including the definition of all markers, is further provided in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>. It represents sample values of a single picture, without any interpretation relative to a color space.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <p id="section-3.2-4">As defined in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>, slices are represented in the codestream as contiguous sequences of bytes, always beginning with a slice header followed by one or more precincts, and optionally including slice-based extension markers. The slice header <span class="bcp14">SHALL</span> be either an SLH or an SLI marker. The last byte of a slice in the codestream <span class="bcp14">SHALL</span> immediately precede either an SLH or SLI marker (indicating the start of the next slice) or an EOC marker (in the case of the final slice).<a href="#section-3.2-4" class="pilcrow">¶</a></p>
-<p id="section-3.2-5">A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced and PsF video streams, two separate frame buffers are maintained, one for each video field (i.e. video fields are independent of each other).<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+<p id="section-3.2-5">A JPEG XS codestream not using the TDC coding mode can be decoded independently as a stand-alone picture (a video frame or field). However, a codestream that employs the TDC coding mode has a potential dependency on the contents stored in a frame buffer as described in <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>. This frame buffer holds a quantized version of all wavelet coefficients that were reconstructed from decoding the previous codestream. For progressive video streams, a single frame buffer is maintained. For interlaced and PsF video streams, two separate frame buffers are maintained, one for each video field (i.e., video fields are independent of each other).<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="video-support-box-and-color-specification-box">
@@ -1590,8 +1590,8 @@ Technically, the segments are equivalent to interlaced fields, but unlike native
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-video-support-box-and-color" class="section-name selfRef">Video Support box and Color Specification box</a>
         </h3>
 <p id="section-3.3-1">While the information defined in the codestream is sufficient to reconstruct the sample values of one picture, the interpretation of the samples remains undefined by the codestream itself. The metadata that allows such interpretation is for the purpose of this payload format signaled in the Video Support box and the Color Specification box, which are taken from <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span>. These boxes contain the necessary information that is otherwise missing in the raw codestream and allows for correct interpretation and rendering of the JPEG XS stream. The layout and syntax of these boxes, together with their content, are defined in <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span>.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the colour subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel/fbblevel used, and optionally the buffer model and the mastering display metadata.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">Note that the profile and level/sublevel/fbblevel, specified respectively by the <code>Ppih</code> and <code>Plev</code> fields <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer(s) when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevel, along with the associated values for the <code>Ppih</code> and <code>Plev</code> fields, are defined in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">The Video Support box provides information on the maximum bit rate, the frame rate, the interlaced mode (progressive or interlaced), the color subsampling format, the informative timecode of the current JPEG XS frame or field, the profile, the level/sublevel/fbblevel used, and optionally the buffer model and the mastering display metadata.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">Note that the profile and level/sublevel/fbblevel, specified respectively by the <code>Ppih</code> and <code>Plev</code> fields <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, specify limits on the capabilities needed to decode the codestream and handle the output. Profiles represent a limit on the required algorithmic features and parameter ranges used in the codestream. The combination of level and sublevel defines a lower bound on the required throughput for a decoder in the visual (or decoded) domain and the codestream (or coded) domain, respectively. The frame buffer bandwidth (FBB) level defines a lower bound on the required bandwidth to read from and write to the frame buffer(s) when using the TDC coding mode. The actual defined profiles and levels/sublevels/fbblevels, along with the associated values for the <code>Ppih</code> and <code>Plev</code> fields, are defined in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
 <p id="section-3.3-4">The Color Specification box indicates the color primaries, transfer characteristics, matrix coefficients, and video full range flag needed to specify the color space of the video stream.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1604,7 +1604,7 @@ Technically, the segments are equivalent to interlaced fields, but unlike native
 <p id="section-3.4-2">In the case of a progressive video stream, each JPEG XS frame consists of a single JPEG XS picture segment.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
 <p id="section-3.4-3">In the case of an interlaced video stream, each JPEG XS frame consists of two concatenated JPEG XS picture segments. Each JPEG XS picture segment corresponds exclusively to one of the two fields of the interlaced frame.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 <p id="section-3.4-4">Packetization of a PsF video stream <span class="bcp14">SHALL</span> follow the same packetization as an interlaced video stream. Each PsF frame consists of two concatenated JPEG XS picture segments. One picture segment corresponds exclusively to the field containing the odd-numbered lines of the progressive frame, and the other picture segment corresponds exclusively to the field containing the even-numbered lines of the progressive frame. Unless explicitly stated otherwise, all provisions, requirements, and procedures specified for interlaced video streams in this document <span class="bcp14">SHALL</span> also apply to PsF video streams.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
-<p id="section-3.4-5">Note that <a href="#sec_payload_data" class="auto internal xref">Section 4.4</a> further mandates that the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame <span class="bcp14">SHALL</span> have the same respective layouts.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.4-5">Note that <a href="#sec_payload_data" class="auto internal xref">Section 4.4</a> further mandates that all of the Video Support boxes and all of the Color Specification boxes in both picture segments of each JPEG XS frame <span class="bcp14">SHALL</span> have the same respective layouts.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
 <p id="section-3.4-6">Note that the interlaced mode, as signaled by the <code>frat</code> field <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span> in the Video Support box, indicates either progressive, interlaced top-field-first, or interlaced bottom-field-first mode. Thus, in the case of interlaced and PsF video, its value <span class="bcp14">SHALL</span> be identical in both picture segments.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
 <p id="section-3.4-7">Note that the <code>frat</code> field <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span> in the Video Support box always signals the frame rate, even in the case of interlaced video. This should not be confused with the field rate.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 </section>
@@ -1713,7 +1713,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 <a href="#name-example-of-slice-packetizat" class="selfRef">Example of Slice Packetization Mode</a>
           </figcaption></figure>
 </div>
-<p id="section-4.1-7">In a constant bitrate (CBR) scenario of JPEG XS, the codestream packetization mode guarantees that a JPEG XS RTP stream will produce both a constant number of bytes per video frame and a constant number of RTP packets per video frame.  However, to provide similar guarantees with JPEG XS in a variable bitrate (VBR) mode or when using the slice packetization mode (for either CBR or VBR), additional mechanisms are needed. This can involve a constraint at the rate allocation stage in the JPEG XS encoder to impose a CBR at the slice level, the usage of padding data, or the insertion of empty RTP packets (i.e., an RTP packet whose payload data is empty). But, management of the amount of produced packets per video frame depends on the application and not a strict requirement of this RTP payload specification.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">In a constant bitrate (CBR) scenario of JPEG XS, the codestream packetization mode guarantees that a JPEG XS RTP stream will produce both a constant number of bytes per video frame and a constant number of RTP packets per video frame.  However, to provide similar guarantees with JPEG XS in a variable bitrate (VBR) mode or when using the slice packetization mode (for either CBR or VBR), additional mechanisms are needed. This can involve a constraint at the rate allocation stage in the JPEG XS encoder to impose a CBR at the slice level, the usage of padding data, or the insertion of empty RTP packets (i.e., an RTP packet whose payload data is empty). But, management of the number of packets produced per video frame is application dependent and not a strict requirement of this RTP payload specification.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="rtp-header-usage">
@@ -1804,13 +1804,13 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           <dd class="break"></dd>
 <dt id="section-4.3-4.5">Last (<code>L</code>) [1 bit]:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.6">
-            <p id="section-4.3-4.6.1">The <code>L</code> bit <span class="bcp14">SHALL</span> be set to 1 to indicate that a packet is the last packet of a packetization unit. The <code>L</code> bit <span class="bcp14">SHALL</span> be set to 0 for all other packets. As the end of the video frame also ends the packet containing the last unit of the video frame, the <code>L</code> bit <span class="bcp14">SHALL</span> be set to 1 whenever the <code>M</code> bit is set to 1. In the codestream packetization mode, the <code>L</code> bit and <code>M</code> bit get an equivalent meaning, so they <span class="bcp14">SHALL</span> have identical values in each packet.<a href="#section-4.3-4.6.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-4.6.1">The <code>L</code> bit <span class="bcp14">SHALL</span> be set to 1 to indicate that a packet is the last packet of a packetization unit. The <code>L</code> bit <span class="bcp14">SHALL</span> be set to 0 for all other packets. As the end of a JPEG XS picture segment also ends the packet containing its last packetization unit, the <code>L</code> bit <span class="bcp14">SHALL</span> be set to 1 whenever the <code>M</code> bit is set to 1. In the codestream packetization mode, the <code>L</code> bit and <code>M</code> bit get an equivalent meaning, so they <span class="bcp14">SHALL</span> have identical values in each packet.<a href="#section-4.3-4.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.3-4.7">Interlaced information (<code>I</code>) [2 bits]:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.8">
             <p id="section-4.3-4.8.1">These two <code>I</code> bits are used to indicate how the JPEG XS frame is scanned (progressive or interlaced). In case of an interlaced frame, they also indicate which JPEG XS picture segment the payload is part of (first or second).<a href="#section-4.3-4.8.1" class="pilcrow">¶</a></p>
-<p id="section-4.3-4.8.2">00:   The <code>I</code> bits <span class="bcp14">SHALL</span> be set to 00 to indicate that payload is progressively scanned.<a href="#section-4.3-4.8.2" class="pilcrow">¶</a></p>
+<p id="section-4.3-4.8.2">00:   The <code>I</code> bits <span class="bcp14">SHALL</span> be set to 00 to indicate that the payload is progressively scanned.<a href="#section-4.3-4.8.2" class="pilcrow">¶</a></p>
 <p id="section-4.3-4.8.3">01:   This value is reserved for future use.<a href="#section-4.3-4.8.3" class="pilcrow">¶</a></p>
 <p id="section-4.3-4.8.4">10:   The <code>I</code> bits <span class="bcp14">SHALL</span> be set to 10 to indicate that the payload is part of the first JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.<a href="#section-4.3-4.8.4" class="pilcrow">¶</a></p>
 <p id="section-4.3-4.8.5">11:   The <code>I</code> bits <span class="bcp14">SHALL</span> be set to 11 to indicate that the payload is part of the second JPEG XS picture segment of an interlaced video frame. The height specified in the included JPEG XS codestream header is half of the height of the entire displayed video frame.<a href="#section-4.3-4.8.5" class="pilcrow">¶</a></p>
@@ -1830,7 +1830,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
                 <p id="section-4.3-4.12.2.1.1">In the case of codestream packetization mode (<code>K=0</code>), this counter resets whenever the Packet counter resets (see <a href="#sec_payload_data" class="auto internal xref">Section 4.4</a>) and increments by 1 whenever the Packet counter overruns.<a href="#section-4.3-4.12.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-4.3-4.12.2.2">
-                <p id="section-4.3-4.12.2.2.1">In the case of slice packetization mode (<code>K=1</code>), this counter identifies the slice modulo 2047 to which the packet contributes. If the data belongs to the JPEG XS header segment, this field <span class="bcp14">SHALL</span> have its maximal value, namely <code>2047=0x07ff</code>. Otherwise, it is the slice index modulo 2047. Slice indices are counted from 0 (corresponding to the top of the video frame).<a href="#section-4.3-4.12.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.3-4.12.2.2.1">In the case of slice packetization mode (<code>K=1</code>), this counter identifies the slice modulo 2047 to which the packet contributes. If the data belongs to the JPEG XS header segment, this field <span class="bcp14">SHALL</span> have its maximal value, namely <code>2047=0x07ff</code>. Otherwise, it is the slice index modulo 2047. Slice indices are counted from 0 (corresponding to the top of the picture segment).<a href="#section-4.3-4.12.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </dd>
@@ -1867,27 +1867,27 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 |  +---------------------------------+  |
 +- - - - - - - - - - - - - - - - - - - -+
 |          JPEG XS codestream           |
-:             (part 1/q)                :  M=0, K=0, L=0, I=00
+:             (part 1/q)                :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=0
 |             (part 2/q)                |  P counter=1
-:                                       :  M=0, K=0, L=0, I=00
+:                                       :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=0
 |             (part 3/q)                |  P counter=2
-:                                       :  M=0, K=0, L=0, I=00
+:                                       :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=1
 |            (part 2049/q)              |  P counter=0
-:                                       :  M=0, K=0, L=0, I=00
+:                                       :  M=0, T=1, K=0, L=0, I=00
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |          JPEG XS codestream           |  SEP counter=(q-1) div 2048
 |             (part q/q)                |  P counter=(q-1) mod 2048
-:                                       :  M=1, K=0, L=1, I=00
+:                                       :  M=1, T=1, K=0, L=1, I=00
 +=======================================+
 </pre>
 </div>
@@ -1905,41 +1905,40 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 |        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |     JPEG XS codestream (1st field)    |
-:             (part 1/q)                :  M=0, K=0, L=0, I=10
+:             (part 1/q)                :  M=0, T=1, K=0, L=0, I=10
 +---------------------------------------+
 |     JPEG XS codestream (1st field)    |  SEP counter=0
 |             (part 2/q)                |  P counter=1
-:                                       :  M=0, K=0, L=0, I=10
+:                                       :  M=0, T=1, K=0, L=0, I=10
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |     JPEG XS codestream (1st field)    |  SEP counter=1
 |            (part 2049/q)              |  P counter=0
-:                                       :  M=0, K=0, L=0, I=10
+:                                       :  M=0, T=1, K=0, L=0, I=10
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
 |     JPEG XS codestream (1st field)    |  SEP counter=(q-1) div 2048
 |             (part q/q)                |  P counter=(q-1) mod 2048
-:                                       :  M=1, K=0, L=1, I=10
+:                                       :  M=1, T=1, K=0, L=1, I=10
 +=====[ Packetization unit (PU) #2 ]====+
 |           Video Support box           |  SEP counter=0
 +- - - - - - - - - - - - - - - - - - - -+  P counter=0
 |        Color Specification box        |
 +- - - - - - - - - - - - - - - - - - - -+
 |     JPEG XS codestream (2nd field)    |
-|             (part 1/q)                |
-:                                       :  M=0, K=0, L=0, I=11
+:             (part 1/r)                :  M=0, T=1, K=0, L=0, I=11
 +---------------------------------------+
 |     JPEG XS codestream (2nd field)    |  SEP counter=0
-|             (part 2/q)                |  P counter=1
-:                                       :  M=0, K=0, L=0, I=11
+|             (part 2/r)                |  P counter=1
+:                                       :  M=0, T=1, K=0, L=0, I=11
 +---------------------------------------+
 :                 ...                   :
 +---------------------------------------+
-|     JPEG XS codestream (2nd field)    |  SEP counter=(q-1) div 2048
-|             (part q/q)                |  P counter=(q-1) mod 2048
-:                                       :  M=1, K=0, L=1, I=11
+|     JPEG XS codestream (2nd field)    |  SEP counter=(r-1) div 2048
+|             (part r/r)                |  P counter=(r-1) mod 2048
+:                                       :  M=1, T=1, K=0, L=1, I=11
 +=======================================+
 </pre>
 </div>
@@ -2122,7 +2121,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
       <h2 id="name-payload-format-parameters">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-payload-format-parameters" class="section-name selfRef">Payload Format Parameters</a>
       </h2>
-<p id="section-7-1">This section specifies the required and optional parameters of the payload format and/or the RTP stream. All parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see <a href="#sec_payload_header_usage" class="auto internal xref">Section 4.3</a>) or in the JPEG XS header segment. When provided, their respective values <span class="bcp14">SHALL</span> be consistent with the payload.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">This section specifies the required and optional parameters of the payload format and/or the RTP stream. With the exception of the <code>rate</code> parameter, all parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see <a href="#sec_payload_header_usage" class="auto internal xref">Section 4.3</a>) or in the JPEG XS header segment. When provided, their respective values <span class="bcp14">SHALL</span> be consistent with the payload.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="sec-media-type-reg">
 <section id="section-7.1">
         <h3 id="name-media-type-registration">
@@ -2151,7 +2150,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
               <dd class="break"></dd>
 <dt id="section-7.1-3.6.1.3">packetmode:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.6.1.4">
-                <p id="section-7.1-3.6.1.4.1">This parameter specifies the configured packetization mode as defined by the pacKetization mode (K) bit in the payload header of <a href="#sec_payload_header_usage" class="auto internal xref">Section 4.3</a>. This value <span class="bcp14">SHALL</span> be equal to the K-bit value configured in the RTP stream (i.e., 0 for codestream or 1 for slice).<a href="#section-7.1-3.6.1.4.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.6.1.4.1">This parameter specifies the configured packetization mode as defined by the pacKetization mode (K) bit in the payload header of <a href="#sec_payload_header_usage" class="auto internal xref">Section 4.3</a>. This value <span class="bcp14">SHALL</span> be equal to the <code>K</code>-bit value configured in the RTP stream (i.e., 0 for codestream or 1 for slice).<a href="#section-7.1-3.6.1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -2162,12 +2161,12 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
             <span class="break"></span><dl class="dlParallel" id="section-7.1-3.8.1">
               <dt id="section-7.1-3.8.1.1">transmode:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.2">
-                <p id="section-7.1-3.8.1.2.1">This parameter specifies the configured transmission mode as defined by the Transmission mode (<code>T</code>) bit in the payload header of <a href="#sec_payload_header_usage" class="auto internal xref">Section 4.3</a>. If specified, this value <span class="bcp14">SHALL</span> be equal to the <code>T</code> bit value configured in the RTP stream (i.e., 0 for out-of-order-allowed or 1 for sequential-only). If not specified, a value 1 (sequential-only) <span class="bcp14">SHALL</span> be assumed and the T bit <span class="bcp14">SHALL</span> be set to 1.<a href="#section-7.1-3.8.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.2.1">This parameter specifies the configured transmission mode as defined by the Transmission mode (<code>T</code>) bit in the payload header of <a href="#sec_payload_header_usage" class="auto internal xref">Section 4.3</a>. If specified, this value <span class="bcp14">SHALL</span> be equal to the <code>T</code>-bit value configured in the RTP stream (i.e., 0 for out-of-order-allowed or 1 for sequential-only). If not specified, a value 1 (sequential-only) <span class="bcp14">SHALL</span> be assumed and the T bit <span class="bcp14">SHALL</span> be set to 1.<a href="#section-7.1-3.8.1.2.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.3">profile:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.4">
-                <p id="section-7.1-3.8.1.4.1">The JPEG XS profile in use, as specified in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>. Any Unicode white-space characters in the profile name <span class="bcp14">SHALL</span> be omitted. Examples of valid profile names include 'Main444.12', 'High444.12', 'CHigh444.12', and 'TDC444.12'. When present, this parameter <span class="bcp14">SHALL</span> identify the same JPEG XS profile as the one signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.4.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.4.1">The JPEG XS profile in use, as specified in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>. Any white space Unicode character in the profile name <span class="bcp14">SHALL</span> be omitted. Examples of valid profile names include 'Main444.12', 'High444.12', 'CHigh444.12', and 'TDC444.12'. When present, this parameter <span class="bcp14">SHALL</span> identify the same JPEG XS profile as the one signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.4.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.5">level:</dt>
@@ -2182,22 +2181,22 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.9">fbblevel:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.10">
-                <p id="section-7.1-3.8.1.10.1">The JPEG XS frame buffer level in use, as specified in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, when using the TDC coding mode. Any white space Unicode character in the fbblevel name <span class="bcp14">SHALL</span> be omitted. Examples of valid frame buffer levels are 'Fbblev3bpp' or 'Fbblev12bpp'. This parameter <span class="bcp14">SHALL</span> only be allowed when using the TDC coding mode. When present, this parameter <span class="bcp14">SHALL</span> identify the same JPEG XS fbblevel as the one signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.10.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.10.1">The JPEG XS frame buffer bandwidth (FBB) level in use, as specified in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, when using the TDC coding mode. Any white space Unicode character in the fbblevel name <span class="bcp14">SHALL</span> be omitted. Examples of valid frame buffer bandwidth levels are 'Fbblev3bpp' or 'Fbblev12bpp'. This parameter <span class="bcp14">SHALL</span> only be present when the TDC coding mode is used. When present, this parameter <span class="bcp14">SHALL</span> identify the same JPEG XS fbblevel as the one signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.10.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.11">depth:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.12">
-                <p id="section-7.1-3.8.1.12.1">Determines the number of bits per sample. This is an integer with typical values including 8, 10, 12, and 16. When present, this parameter <span class="bcp14">SHALL</span> match with the information signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.12.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.12.1">Determines the number of bits per sample. This is an integer with typical values including 8, 10, 12, and 16. When present, this parameter <span class="bcp14">SHALL</span> match the information signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.12.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.13">width:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.14">
-                <p id="section-7.1-3.8.1.14.1">Determines the number of pixels per line. This is an integer between 1 and 32767, inclusive. When present, this parameter <span class="bcp14">SHALL</span> match with the information signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.14.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.14.1">Determines the number of pixels per line. This is an integer between 1 and 32767, inclusive. When present, this parameter <span class="bcp14">SHALL</span> match the information signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.14.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.15">height:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.16">
-                <p id="section-7.1-3.8.1.16.1">Determines the number of lines per video frame. This is an integer between 1 and 32767, inclusive. When present, this parameter <span class="bcp14">SHALL</span> match with the information signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.16.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.16.1">Determines the number of lines per video frame. This is an integer between 1 and 32767, inclusive. For interlaced and PsF video streams, this parameter signals the number of lines of the full video frame, which is twice the height signaled in each JPEG XS codestream header. When present, this parameter <span class="bcp14">SHALL</span> be consistent with the information signaled in the JPEG XS picture segment.<a href="#section-7.1-3.8.1.16.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.17">exactframerate:</dt>
@@ -2413,7 +2412,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
               <dd class="break"></dd>
 <dt id="section-7.1-3.8.1.29">RANGE:</dt>
               <dd style="margin-left: 1.5em" id="section-7.1-3.8.1.30">
-                <p id="section-7.1-3.8.1.30.1">This parameter <span class="bcp14">SHOULD</span> be used to signal the encoding range of the sample values within the stream. When paired with <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span> colorimetry, this parameter has two allowed values, <code>NARROW</code> and <code>FULL</code>, corresponding to the ranges specified in TABLE 9 of <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span>. In any other context, this parameter has three allowed values: <code>NARROW</code>, <code>FULLPROTECT</code>, and <code>FULL</code>, which correspond to the ranges specified in <span>[<a href="#SMPTE2077" class="cite xref">SMPTE2077</a>]</span>. In the absence of this parameter, and for all but the <code>UNSPECIFIED</code> colorimetry, <code>NARROW</code> <span class="bcp14">SHALL</span> be the assumed value. When paired with the UNSPECIFIED colorimetry, <code>FULL</code> <span class="bcp14">SHALL</span> be the default assumed value.<a href="#section-7.1-3.8.1.30.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-3.8.1.30.1">This parameter <span class="bcp14">SHOULD</span> be used to signal the encoding range of the sample values within the stream. When paired with <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span> colorimetry, this parameter has two allowed values, <code>NARROW</code> and <code>FULL</code>, corresponding to the ranges specified in Table 9 of <span>[<a href="#BT2100-2" class="cite xref">BT2100-2</a>]</span>. In any other context, this parameter has three allowed values: <code>NARROW</code>, <code>FULLPROTECT</code>, and <code>FULL</code>, which correspond to the ranges specified in <span>[<a href="#SMPTE2077" class="cite xref">SMPTE2077</a>]</span>. In the absence of this parameter, and for all but the <code>UNSPECIFIED</code> colorimetry, <code>NARROW</code> <span class="bcp14">SHALL</span> be the assumed value. When paired with the <code>UNSPECIFIED</code> colorimetry, <code>FULL</code> <span class="bcp14">SHALL</span> be the assumed value.<a href="#section-7.1-3.8.1.30.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -2436,7 +2435,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
           <dd class="break"></dd>
 <dt id="section-7.1-3.15">Published specification:</dt>
           <dd style="margin-left: 1.5em" id="section-7.1-3.16">
-            <p id="section-7.1-3.16.1">See the References section of [RFCXXXX]<a href="#section-7.1-3.16.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.16.1">See the References section of [RFCXXXX].<a href="#section-7.1-3.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-7.1-3.17">Applications that use this media type:</dt>
@@ -2500,7 +2499,7 @@ Packet #P  | Hdr | Slice #N  (part q/q) + EOC marker     |
 <p id="section-8.1-3">The media subtype ("jxsv") goes in SDP "a=rtpmap" as the encoding name, followed by a slash ("/") and the required parameter "rate" corresponding to the RTP timestamp clock rate (which for the payload format defined in this document <span class="bcp14">SHALL</span> be 90000).<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <p id="section-8.1-4">The required parameter "packetmode" and any of the additional optional parameters, as described in <a href="#sec-media-type-reg" class="auto internal xref">Section 7.1</a>, go in the SDP media format description, being the "a=fmtp" attribute (Format Parameters), by copying them directly from the media type string as a semicolon-separated list of parameter=value pairs.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
 <p id="section-8.1-5">All parameters of the media format <span class="bcp14">SHALL</span> correspond to the parameters of the payload. In case of discrepancies between payload parameter values and SDP fields, the values from the payload data <span class="bcp14">SHALL</span> prevail.<a href="#section-8.1-5" class="pilcrow">¶</a></p>
-<p id="section-8.1-6">The receiver <span class="bcp14">SHALL</span> ignore any parameter that is not defined in <a href="#sec-media-type-reg" class="auto internal xref">Section 7.1</a>.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
+<p id="section-8.1-6">The receiver <span class="bcp14">SHALL</span> ignore any parameter that is neither defined in <a href="#sec-media-type-reg" class="auto internal xref">Section 7.1</a> nor defined by another specification applicable to the session, such as the TP parameter of <span>[<a href="#SMPTE2110-21" class="cite xref">SMPTE2110-21</a>]</span> (see <a href="#sec-traffic-shaping" class="auto internal xref">Section 5</a>).<a href="#section-8.1-6" class="pilcrow">¶</a></p>
 <p id="section-8.1-7">An example SDP mapping for JPEG XS video is as follows:<a href="#section-8.1-7" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-8.1-8">
 <pre>
@@ -2554,7 +2553,7 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
 </li>
       </ul>
 <p id="section-10-5">This document does not mandate a specific security mechanism. Applications are responsible for selecting security solutions that provide confidentiality, integrity, and source authentication in accordance with current best practices.<a href="#section-10-5" class="pilcrow">¶</a></p>
-<p id="section-10-6">Implementations of this RTP payload format <span class="bcp14">SHALL</span> ensure the decoder is robust against malicious or malformed payloads and ensure that they do not cause the decoder to overrun its allocated memory or otherwise misbehave. An overrun in allocated memory could lead to arbitrary code execution by an attacker. The same applies to the encoder, even though problems in encoders are typically rarer.<a href="#section-10-6" class="pilcrow">¶</a></p>
+<p id="section-10-6">Implementations of this RTP payload format <span class="bcp14">SHALL</span> ensure that the decoder is robust against malicious or malformed payloads, so that such payloads do not cause the decoder to overrun its allocated memory or otherwise misbehave. An overrun in allocated memory could lead to arbitrary code execution by an attacker. The same applies to the encoder, even though problems in encoders are typically rarer.<a href="#section-10-6" class="pilcrow">¶</a></p>
 <p id="section-10-7">This payload format and the JPEG XS encoding do not exhibit any substantial non-uniformity, either in output or in complexity to perform the decoding operation; thus, they are unlikely to pose a denial-of-service threat due to the receipt of pathological datagrams.<a href="#section-10-7" class="pilcrow">¶</a></p>
 <p id="section-10-8">This payload format and the JPEG XS encoding do not contain code that is executable.<a href="#section-10-8" class="pilcrow">¶</a></p>
 <p id="section-10-9">It is important to note that high-definition (HD) or ultra-high-definition (UHD) video that is encoded with JPEG XS can have significant bandwidth requirements (typically more than 1 Gbps for UHD video, especially if using high framerate). This is sufficient to cause potential for denial of service if transmitted onto most currently available Internet paths.<a href="#section-10-9" class="pilcrow">¶</a></p>
@@ -2565,16 +2564,16 @@ a=fmtp:112 packetmode=0;sampling=YCbCr-4:2:2;
       <h2 id="name-operational-considerations">
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
       </h2>
-<p id="section-11-1">This document is an update to <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and has been designed to minimize operational impact on existing deployments.<a href="#section-11-1" class="pilcrow">¶</a></p>
-<p id="section-11-2">The RTP packetization, header formats, and overall payload structure remain unchanged compared to <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>. As a result, existing implementations conforming with <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> remain compatible with this specification and continue to interoperate without modification when operating in modes defined by <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>.<a href="#section-11-2" class="pilcrow">¶</a></p>
+<p id="section-11-1">This document revises and obsoletes <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> and has been designed to minimize operational impact on existing deployments.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-2">The RTP packetization, header formats, and overall payload structure remain unchanged compared to <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>. As a result, existing implementations conforming to <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span> remain compatible with this specification and continue to interoperate without modification when operating in modes defined by <span>[<a href="#RFC9134" class="cite xref">RFC9134</a>]</span>.<a href="#section-11-2" class="pilcrow">¶</a></p>
 <p id="section-11-3">The primary changes introduced by this document are limited to support for new features defined in the third edition of the JPEG XS standard (<span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span>, <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span>, and <span>[<a href="#ISO21122-3" class="cite xref">ISO21122-3</a>]</span>), most notably the Temporal Differential Coding (TDC) mode. These extensions are designed to be backward-compatible and do not affect the decoding of non-TDC streams.<a href="#section-11-3" class="pilcrow">¶</a></p>
 <p id="section-11-4">In particular:<a href="#section-11-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11-5.1">
-          <p id="section-11-5.1.1">For TDC profiles, <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span> relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content. This distinction is not directly relevant to this specification, and for the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in <a href="#sec_rtp_packetization" class="auto internal xref">Section 4.1</a>. Yet, this document was updated to reflect the possibility for using either SLH and SLI markers.<a href="#section-11-5.1.1" class="pilcrow">¶</a></p>
+          <p id="section-11-5.1.1">For TDC profiles, <span>[<a href="#ISO21122-1" class="cite xref">ISO21122-1</a>]</span> relies on a specific slice header marker called SLI, in addition to the original SLH marker. The SLI marker indicates that the slice encodes TDC-enabled content. This distinction is not directly relevant to this specification, and for the purposes of this RFC, both the SLH and SLI markers serve the same function: to define the boundaries of packetization units when using the Slice Packetization mode, as described in <a href="#sec_rtp_packetization" class="auto internal xref">Section 4.1</a>. Yet, this document was updated to reflect the possibility of using either SLH or SLI markers.<a href="#section-11-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-11-5.2">
-          <p id="section-11-5.2.1">In addition to the level and sublevel, the TDC coding mode introduces an fbblevel in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span> that needs to be supported as an optional payload parameter. A new parameter for signaling the fbblevel is defined in <a href="#sec-payload-params" class="auto internal xref">Section 7</a>.<a href="#section-11-5.2.1" class="pilcrow">¶</a></p>
+          <p id="section-11-5.2.1">In addition to the level and sublevel, the TDC coding mode introduces an fbblevel in <span>[<a href="#ISO21122-2" class="cite xref">ISO21122-2</a>]</span> that needs to be supported as an optional payload parameter. A new parameter for signaling the fbblevel is defined in <a href="#sec-media-type-reg" class="auto internal xref">Section 7.1</a>.<a href="#section-11-5.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-11-5.3">
           <p id="section-11-5.3.1">This document now provides more clarifications and improved descriptions for correctly handling interlaced video.<a href="#section-11-5.3.1" class="pilcrow">¶</a></p>

@@ -14,7 +14,7 @@ Expires: 18 March 2027                                 C. Damman Geeroms
 
 
              RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-                  draft-ietf-avtcore-rtp-jpegxs-3ed-06
+                  draft-ietf-avtcore-rtp-jpegxs-3ed-07
 
 Abstract
 
@@ -24,15 +24,14 @@ Abstract
    system.  Employing this format allows achieving encoding-decoding
    latencies confined to a fraction of a video frame.
 
-   This document is a necessary revision of RFC 9134 to incorporate
-   support for new features introduced in the third edition of JPEG XS.
-   Most notably, it contains the necessary provisions to support the TDC
-   coding mode.  This document obsoletes RFC 9134; however, the revised
-   payload format is designed to ensure that existing conforming
-   implementations of RFC 9134 remain valid under the updated
-   specification.  Additionally, this document consolidates the errata
-   of RFC 9134 and includes improvements and clarifications to its
-   implementers and users.
+   This document revises RFC 9134 to incorporate support for new
+   features introduced in the third edition of JPEG XS.  Most notably,
+   it contains the necessary provisions to support the TDC coding mode.
+   This document obsoletes RFC 9134; however, the revised payload format
+   is designed to ensure that existing conforming implementations of RFC
+   9134 remain valid under the updated specification.  Additionally,
+   this document consolidates the errata of RFC 9134 and includes
+   improvements and clarifications for implementers and users.
 
 Status of This Memo
 
@@ -141,7 +140,7 @@ Table of Contents
    Application Data Unit (ADU):
       The unit of source data provided as payload to the transport
       layer.  In this RTP payload definition, it corresponds to a single
-      JPEG XS video frame.
+      JPEG XS frame.
 
    Color Specification (CS) box:
       An ISO Color Specification box defined in [ISO21122-3] that
@@ -169,7 +168,7 @@ Table of Contents
       of each JPEG XS codestream encoded in multiple markers and marker
       segments, that does not carry entropy coded data, but only
       metadata such as the video frame (progressive) or field
-      (interlaced) dimension and component precision.
+      (interlaced and PsF) dimension and component precision.
 
    JPEG XS frame:
       In the case of progressive video, a single JPEG XS picture
@@ -224,15 +223,15 @@ Table of Contents
       bearing in mind that it decodes to wavelet coefficients, which
       still require inverse wavelet filtering before visualization.
 
-   Start of a Codestream (SOC) marker:
+   Start of Codestream (SOC) marker:
       A marker that consists of the two bytes 0xff10 indicating the
       start of a JPEG XS codestream, as defined in [ISO21122-1].  The
       SOC marker is considered an integral part of the JPEG XS
       codestream header.
 
    Temporal Differential Coding (TDC):
-      An inter-frame coding mode used by certain JPEG XS profiles, as
-      defined in [ISO21122-2].
+      An inter-frame coding mode defined in [ISO21122-1] and used by
+      certain JPEG XS profiles specified in [ISO21122-2].
 
    Video Support (VS) box:
       An ISO Video Support box, as defined in [ISO21122-3], that
@@ -307,7 +306,7 @@ Table of Contents
    decoding the previous codestream.  For progressive video streams, a
    single frame buffer is maintained.  For interlaced and PsF video
    streams, two separate frame buffers are maintained, one for each
-   video field (i.e. video fields are independent of each other).
+   video field (i.e., video fields are independent of each other).
 
 3.3.  Video Support box and Color Specification box
 
@@ -324,7 +323,7 @@ Table of Contents
 
    The Video Support box provides information on the maximum bit rate,
    the frame rate, the interlaced mode (progressive or interlaced), the
-   colour subsampling format, the informative timecode of the current
+   color subsampling format, the informative timecode of the current
    JPEG XS frame or field, the profile, the level/sublevel/fbblevel
    used, and optionally the buffer model and the mastering display
    metadata.
@@ -340,7 +339,7 @@ Table of Contents
    bandwidth (FBB) level defines a lower bound on the required bandwidth
    to read from and write to the frame buffer(s) when using the TDC
    coding mode.  The actual defined profiles and levels/sublevels/
-   fbblevel, along with the associated values for the Ppih and Plev
+   fbblevels, along with the associated values for the Ppih and Plev
    fields, are defined in [ISO21122-2].
 
    The Color Specification box indicates the color primaries, transfer
@@ -370,9 +369,10 @@ Table of Contents
    all provisions, requirements, and procedures specified for interlaced
    video streams in this document SHALL also apply to PsF video streams.
 
-   Note that Section 4.4 further mandates that the Video Support boxes
-   and all of the Color Specification boxes in both picture segments of
-   each JPEG XS frame SHALL have the same respective layouts.
+   Note that Section 4.4 further mandates that all of the Video Support
+   boxes and all of the Color Specification boxes in both picture
+   segments of each JPEG XS frame SHALL have the same respective
+   layouts.
 
    Note that the interlaced mode, as signaled by the frat field
    [ISO21122-3] in the Video Support box, indicates either progressive,
@@ -502,9 +502,9 @@ Table of Contents
    the rate allocation stage in the JPEG XS encoder to impose a CBR at
    the slice level, the usage of padding data, or the insertion of empty
    RTP packets (i.e., an RTP packet whose payload data is empty).  But,
-   management of the amount of produced packets per video frame depends
-   on the application and not a strict requirement of this RTP payload
-   specification.
+   management of the number of packets produced per video frame is
+   application dependent and not a strict requirement of this RTP
+   payload specification.
 
 4.2.  RTP Header Usage
 
@@ -617,8 +617,8 @@ Table of Contents
    Last (L) [1 bit]:
       The L bit SHALL be set to 1 to indicate that a packet is the last
       packet of a packetization unit.  The L bit SHALL be set to 0 for
-      all other packets.  As the end of the video frame also ends the
-      packet containing the last unit of the video frame, the L bit
+      all other packets.  As the end of a JPEG XS picture segment also
+      ends the packet containing its last packetization unit, the L bit
       SHALL be set to 1 whenever the M bit is set to 1.  In the
       codestream packetization mode, the L bit and M bit get an
       equivalent meaning, so they SHALL have identical values in each
@@ -630,7 +630,7 @@ Table of Contents
       frame, they also indicate which JPEG XS picture segment the
       payload is part of (first or second).
 
-      00: The I bits SHALL be set to 00 to indicate that payload is
+      00: The I bits SHALL be set to 00 to indicate that the payload is
       progressively scanned.
 
       01: This value is reserved for future use.
@@ -668,7 +668,7 @@ Table of Contents
          segment, this field SHALL have its maximal value, namely
          2047=0x07ff.  Otherwise, it is the slice index modulo 2047.
          Slice indices are counted from 0 (corresponding to the top of
-         the video frame).
+         the picture segment).
 
    P counter [11 bits]:
       The Packet (P) counter identifies the packet number modulo 2048
@@ -719,27 +719,27 @@ Table of Contents
    |  +---------------------------------+  |
    +- - - - - - - - - - - - - - - - - - - -+
    |          JPEG XS codestream           |
-   :             (part 1/q)                :  M=0, K=0, L=0, I=00
+   :             (part 1/q)                :  M=0, T=1, K=0, L=0, I=00
    +---------------------------------------+
    |          JPEG XS codestream           |  SEP counter=0
    |             (part 2/q)                |  P counter=1
-   :                                       :  M=0, K=0, L=0, I=00
+   :                                       :  M=0, T=1, K=0, L=0, I=00
    +---------------------------------------+
    |          JPEG XS codestream           |  SEP counter=0
    |             (part 3/q)                |  P counter=2
-   :                                       :  M=0, K=0, L=0, I=00
+   :                                       :  M=0, T=1, K=0, L=0, I=00
    +---------------------------------------+
    :                 ...                   :
    +---------------------------------------+
    |          JPEG XS codestream           |  SEP counter=1
    |            (part 2049/q)              |  P counter=0
-   :                                       :  M=0, K=0, L=0, I=00
+   :                                       :  M=0, T=1, K=0, L=0, I=00
    +---------------------------------------+
    :                 ...                   :
    +---------------------------------------+
    |          JPEG XS codestream           |  SEP counter=(q-1) div 2048
    |             (part q/q)                |  P counter=(q-1) mod 2048
-   :                                       :  M=1, K=0, L=1, I=00
+   :                                       :  M=1, T=1, K=0, L=1, I=00
    +=======================================+
 
          Figure 6: Example of JPEG XS Payload Data using Codestream
@@ -751,41 +751,40 @@ Table of Contents
    |        Color Specification box        |
    +- - - - - - - - - - - - - - - - - - - -+
    |     JPEG XS codestream (1st field)    |
-   :             (part 1/q)                :  M=0, K=0, L=0, I=10
+   :             (part 1/q)                :  M=0, T=1, K=0, L=0, I=10
    +---------------------------------------+
    |     JPEG XS codestream (1st field)    |  SEP counter=0
    |             (part 2/q)                |  P counter=1
-   :                                       :  M=0, K=0, L=0, I=10
+   :                                       :  M=0, T=1, K=0, L=0, I=10
    +---------------------------------------+
    :                 ...                   :
    +---------------------------------------+
    |     JPEG XS codestream (1st field)    |  SEP counter=1
    |            (part 2049/q)              |  P counter=0
-   :                                       :  M=0, K=0, L=0, I=10
+   :                                       :  M=0, T=1, K=0, L=0, I=10
    +---------------------------------------+
    :                 ...                   :
    +---------------------------------------+
    |     JPEG XS codestream (1st field)    |  SEP counter=(q-1) div 2048
    |             (part q/q)                |  P counter=(q-1) mod 2048
-   :                                       :  M=1, K=0, L=1, I=10
+   :                                       :  M=1, T=1, K=0, L=1, I=10
    +=====[ Packetization unit (PU) #2 ]====+
    |           Video Support box           |  SEP counter=0
    +- - - - - - - - - - - - - - - - - - - -+  P counter=0
    |        Color Specification box        |
    +- - - - - - - - - - - - - - - - - - - -+
    |     JPEG XS codestream (2nd field)    |
-   |             (part 1/q)                |
-   :                                       :  M=0, K=0, L=0, I=11
+   :             (part 1/r)                :  M=0, T=1, K=0, L=0, I=11
    +---------------------------------------+
    |     JPEG XS codestream (2nd field)    |  SEP counter=0
-   |             (part 2/q)                |  P counter=1
-   :                                       :  M=0, K=0, L=0, I=11
+   |             (part 2/r)                |  P counter=1
+   :                                       :  M=0, T=1, K=0, L=0, I=11
    +---------------------------------------+
    :                 ...                   :
    +---------------------------------------+
-   |     JPEG XS codestream (2nd field)    |  SEP counter=(q-1) div 2048
-   |             (part q/q)                |  P counter=(q-1) mod 2048
-   :                                       :  M=1, K=0, L=1, I=11
+   |     JPEG XS codestream (2nd field)    |  SEP counter=(r-1) div 2048
+   |             (part r/r)                |  P counter=(r-1) mod 2048
+   :                                       :  M=1, T=1, K=0, L=1, I=11
    +=======================================+
 
          Figure 7: Example of JPEG XS Payload Data using Codestream
@@ -975,11 +974,12 @@ Table of Contents
 7.  Payload Format Parameters
 
    This section specifies the required and optional parameters of the
-   payload format and/or the RTP stream.  All parameters are
-   declarative, meaning that the information signaled by the parameters
-   is also present in the payload data, namely in the payload header
-   (see Section 4.3) or in the JPEG XS header segment.  When provided,
-   their respective values SHALL be consistent with the payload.
+   payload format and/or the RTP stream.  With the exception of the rate
+   parameter, all parameters are declarative, meaning that the
+   information signaled by the parameters is also present in the payload
+   data, namely in the payload header (see Section 4.3) or in the JPEG
+   XS header segment.  When provided, their respective values SHALL be
+   consistent with the payload.
 
 7.1.  Media Type Registration
 
@@ -1008,18 +1008,17 @@ Table of Contents
       transmode:  This parameter specifies the configured transmission
          mode as defined by the Transmission mode (T) bit in the payload
          header of Section 4.3.  If specified, this value SHALL be equal
-         to the T bit value configured in the RTP stream (i.e., 0 for
+         to the T-bit value configured in the RTP stream (i.e., 0 for
          out-of-order-allowed or 1 for sequential-only).  If not
          specified, a value 1 (sequential-only) SHALL be assumed and the
          T bit SHALL be set to 1.
 
       profile:  The JPEG XS profile in use, as specified in
-         [ISO21122-2].  Any Unicode white-space characters in the
-         profile name SHALL be omitted.  Examples of valid profile names
-         include 'Main444.12', 'High444.12', 'CHigh444.12', and
-         'TDC444.12'.  When present, this parameter SHALL identify the
-         same JPEG XS profile as the one signaled in the JPEG XS picture
-         segment.
+         [ISO21122-2].  Any white space Unicode character in the profile
+         name SHALL be omitted.  Examples of valid profile names include
+         'Main444.12', 'High444.12', 'CHigh444.12', and 'TDC444.12'.
+         When present, this parameter SHALL identify the same JPEG XS
+         profile as the one signaled in the JPEG XS picture segment.
 
       level:  The JPEG XS level in use, as specified in [ISO21122-2].
          Any white space Unicode character in the level name SHALL be
@@ -1034,28 +1033,31 @@ Table of Contents
          SHALL identify the same JPEG XS sublevel as the one signaled in
          the JPEG XS picture segment.
 
-      fbblevel:  The JPEG XS frame buffer level in use, as specified in
-         [ISO21122-2], when using the TDC coding mode.  Any white space
-         Unicode character in the fbblevel name SHALL be omitted.
-         Examples of valid frame buffer levels are 'Fbblev3bpp' or
-         'Fbblev12bpp'.  This parameter SHALL only be allowed when using
-         the TDC coding mode.  When present, this parameter SHALL
-         identify the same JPEG XS fbblevel as the one signaled in the
-         JPEG XS picture segment.
+      fbblevel:  The JPEG XS frame buffer bandwidth (FBB) level in use,
+         as specified in [ISO21122-2], when using the TDC coding mode.
+         Any white space Unicode character in the fbblevel name SHALL be
+         omitted.  Examples of valid frame buffer bandwidth levels are
+         'Fbblev3bpp' or 'Fbblev12bpp'.  This parameter SHALL only be
+         present when the TDC coding mode is used.  When present, this
+         parameter SHALL identify the same JPEG XS fbblevel as the one
+         signaled in the JPEG XS picture segment.
 
       depth:  Determines the number of bits per sample.  This is an
          integer with typical values including 8, 10, 12, and 16.  When
-         present, this parameter SHALL match with the information
-         signaled in the JPEG XS picture segment.
+         present, this parameter SHALL match the information signaled in
+         the JPEG XS picture segment.
 
       width:  Determines the number of pixels per line.  This is an
          integer between 1 and 32767, inclusive.  When present, this
-         parameter SHALL match with the information signaled in the JPEG
-         XS picture segment.
+         parameter SHALL match the information signaled in the JPEG XS
+         picture segment.
 
       height:  Determines the number of lines per video frame.  This is
-         an integer between 1 and 32767, inclusive.  When present, this
-         parameter SHALL match with the information signaled in the JPEG
+         an integer between 1 and 32767, inclusive.  For interlaced and
+         PsF video streams, this parameter signals the number of lines
+         of the full video frame, which is twice the height signaled in
+         each JPEG XS codestream header.  When present, this parameter
+         SHALL be consistent with the information signaled in the JPEG
          XS picture segment.
 
       exactframerate:  Signals the video frame rate in frames per
@@ -1195,14 +1197,14 @@ Table of Contents
       RANGE:  This parameter SHOULD be used to signal the encoding range
          of the sample values within the stream.  When paired with
          [BT2100-2] colorimetry, this parameter has two allowed values,
-         NARROW and FULL, corresponding to the ranges specified in TABLE
-         9 of [BT2100-2].  In any other context, this parameter has
-         three allowed values: NARROW, FULLPROTECT, and FULL, which
+         NARROW and FULL, corresponding to the ranges specified in
+         Table 9 of [BT2100-2].  In any other context, this parameter
+         has three allowed values: NARROW, FULLPROTECT, and FULL, which
          correspond to the ranges specified in [SMPTE2077].  In the
          absence of this parameter, and for all but the UNSPECIFIED
          colorimetry, NARROW SHALL be the assumed value.  When paired
-         with the UNSPECIFIED colorimetry, FULL SHALL be the default
-         assumed value.
+         with the UNSPECIFIED colorimetry, FULL SHALL be the assumed
+         value.
 
    Encoding considerations:
       This media type is framed in RTP and contains binary data; see
@@ -1215,7 +1217,7 @@ Table of Contents
       None
 
    Published specification:
-      See the References section of [RFCXXXX]
+      See the References section of [RFCXXXX].
 
    Applications that use this media type:
       Any application that transmits video over RTP (like SMPTE ST
@@ -1273,8 +1275,9 @@ Table of Contents
    values and SDP fields, the values from the payload data SHALL
    prevail.
 
-   The receiver SHALL ignore any parameter that is not defined in
-   Section 7.1.
+   The receiver SHALL ignore any parameter that is neither defined in
+   Section 7.1 nor defined by another specification applicable to the
+   session, such as the TP parameter of [SMPTE2110-21] (see Section 5).
 
    An example SDP mapping for JPEG XS video is as follows:
 
@@ -1355,12 +1358,12 @@ Table of Contents
    provide confidentiality, integrity, and source authentication in
    accordance with current best practices.
 
-   Implementations of this RTP payload format SHALL ensure the decoder
-   is robust against malicious or malformed payloads and ensure that
-   they do not cause the decoder to overrun its allocated memory or
-   otherwise misbehave.  An overrun in allocated memory could lead to
-   arbitrary code execution by an attacker.  The same applies to the
-   encoder, even though problems in encoders are typically rarer.
+   Implementations of this RTP payload format SHALL ensure that the
+   decoder is robust against malicious or malformed payloads, so that
+   such payloads do not cause the decoder to overrun its allocated
+   memory or otherwise misbehave.  An overrun in allocated memory could
+   lead to arbitrary code execution by an attacker.  The same applies to
+   the encoder, even though problems in encoders are typically rarer.
 
    This payload format and the JPEG XS encoding do not exhibit any
    substantial non-uniformity, either in output or in complexity to
@@ -1380,12 +1383,12 @@ Table of Contents
 
 11.  Operational Considerations
 
-   This document is an update to [RFC9134] and has been designed to
-   minimize operational impact on existing deployments.
+   This document revises and obsoletes [RFC9134] and has been designed
+   to minimize operational impact on existing deployments.
 
    The RTP packetization, header formats, and overall payload structure
    remain unchanged compared to [RFC9134].  As a result, existing
-   implementations conforming with [RFC9134] remain compatible with this
+   implementations conforming to [RFC9134] remain compatible with this
    specification and continue to interoperate without modification when
    operating in modes defined by [RFC9134].
 
@@ -1406,12 +1409,12 @@ Table of Contents
       serve the same function: to define the boundaries of packetization
       units when using the Slice Packetization mode, as described in
       Section 4.1.  Yet, this document was updated to reflect the
-      possibility for using either SLH and SLI markers.
+      possibility of using either SLH or SLI markers.
 
    *  In addition to the level and sublevel, the TDC coding mode
       introduces an fbblevel in [ISO21122-2] that needs to be supported
       as an optional payload parameter.  A new parameter for signaling
-      the fbblevel is defined in Section 7.
+      the fbblevel is defined in Section 7.1.
 
    *  This document now provides more clarifications and improved
       descriptions for correctly handling interlaced video.
