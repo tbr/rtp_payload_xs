@@ -571,7 +571,7 @@ Finally, {{RFC8085}} provides additional information on the best practices for a
 {: #sec-payload-params}
 # Payload Format Parameters
 
-This section specifies the required and optional parameters of the payload format and/or the RTP stream. All parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see {{sec_payload_header_usage}}) or in the JPEG XS header segment. When provided, their respective values SHALL be consistent with the payload.
+This section specifies the required and optional parameters of the payload format and/or the RTP stream. With the exception of the `rate` parameter, all parameters are declarative, meaning that the information signaled by the parameters is also present in the payload data, namely in the payload header (see {{sec_payload_header_usage}}) or in the JPEG XS header segment. When provided, their respective values SHALL be consistent with the payload.
 
 {: #sec-media-type-reg}
 ## Media Type Registration
