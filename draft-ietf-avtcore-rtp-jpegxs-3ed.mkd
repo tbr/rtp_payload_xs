@@ -1,6 +1,6 @@
 ---
 title: RTP Payload Format for ISO/IEC 21122 (JPEG XS)
-date: 2026-09-18
+date: 2026-09-22
 docname: draft-ietf-avtcore-rtp-jpegxs-3ed-08
 abbrev: RTP Payload Format for JPEG XS
 
@@ -630,7 +630,7 @@ Optional parameters:
   sampling:
   : Specifies the color difference signal subsampling structure. Valid values and their specification are the following:
 
-    For signals utilizing the non-constant luminance `Y'C'B C'R` signal format of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, or {{BT2100-2}}:
+    For signals utilizing the non-constant luminance `Y'C'B C'R` signal format of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, or {{BT2100-3}}:
 
     `YCbCr-4:4:4`
     : (4:4:4 sampling)
@@ -652,7 +652,7 @@ Optional parameters:
     `CLYCbCr-4:2:0`
     : (4:2:0 sampling)
 
-    For signals utilizing the constant intensity `I CT CP` signal format of {{BT2100-2}}:
+    For signals utilizing the constant intensity `I CT CP` signal format of {{BT2100-3}}:
 
     `ICtCp-4:4:4`
     : (4:4:4 sampling)
@@ -663,7 +663,7 @@ Optional parameters:
     `ICtCp-4:2:0`
     : (4:2:0 sampling)
 
-    Signals utilizing the 4:4:4 `R' G' B'` or RGB signal format (such as that of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, {{BT2100-2}}, {{SMPTE2065-1}}, or {{SMPTE2065-3}}) SHALL use the following value for the Media Type Parameter "sampling":
+    Signals utilizing the 4:4:4 `R' G' B'` or RGB signal format (such as that of {{BT601-7}}, {{BT709-6}}, {{BT2020-2}}, {{BT2100-3}}, {{SMPTE2065-1}}, or {{SMPTE2065-3}}) SHALL use the following value for the Media Type Parameter "sampling":
 
     `RGB`
     : (RGB or `R' G' B'` samples)
@@ -705,7 +705,7 @@ Optional parameters:
     : {{BT2020-2}}.
 
     `BT2100`:
-    : {{BT2100-2}}, Table 2 titled "System colorimetry".
+    : {{BT2100-3}}, Table 2 titled "System colorimetry".
 
     `ST2065-1`:
     : Academy Color Encoding Specification (ACES) {{SMPTE2065-1}}.
@@ -719,7 +719,7 @@ Optional parameters:
     `UNSPECIFIED`:
     : Colorimetry SHALL either be signaled in the payload by the Color Specification box of {{ISO21122-3}}, or be manually coordinated between sender and receiver.
 
-    Signals utilizing the {{BT2100-2}} colorimetry SHOULD also signal the representational range using the optional parameter RANGE defined below.  Signals utilizing the `UNSPECIFIED` colorimetry might require manual coordination between the sender and the receiver.
+    Signals utilizing the {{BT2100-3}} colorimetry SHOULD also signal the representational range using the optional parameter RANGE defined below.  Signals utilizing the `UNSPECIFIED` colorimetry might require manual coordination between the sender and the receiver.
 
   TCS:
   : Transfer Characteristic System. This parameter specifies the transfer characteristic system of the video samples.  Valid values and their specification are the following:
@@ -728,16 +728,16 @@ Optional parameters:
     : Standard Dynamic Range video streams that utilize the Optical Electrical Transfer Function (OETF) of {{BT709-6}} or {{BT2020-2}}. Such streams SHALL be assumed to target the Electro-Optical Transfer Function (EOTF) specified in {{BT1886-0}}.
 
     `PQ`:
-    : High dynamic range video streams that utilize the Perceptual Quantization system of {{BT2100-2}}.
+    : High dynamic range video streams that utilize the Perceptual Quantization system of {{BT2100-3}}.
 
     `HLG`:
-    : High dynamic range video streams that utilize the Hybrid Log-Gamma system of {{BT2100-2}}.
+    : High dynamic range video streams that utilize the Hybrid Log-Gamma system of {{BT2100-3}}.
 
     `UNSPECIFIED`:
     : Video streams whose transfer characteristics SHALL either be signaled by the payload as specified in {{ISO21122-3}}, or be manually coordinated between sender and receiver.
 
   RANGE:
-  : This parameter SHOULD be used to signal the encoding range of the sample values within the stream. When paired with {{BT2100-2}} colorimetry, this parameter has two allowed values, `NARROW` and `FULL`, corresponding to the ranges specified in Table 9 of {{BT2100-2}}. In any other context, this parameter has three allowed values: `NARROW`, `FULLPROTECT`, and `FULL`, which correspond to the ranges specified in {{SMPTE2077}}. In the absence of this parameter, and for all but the `UNSPECIFIED` colorimetry, `NARROW` SHALL be the assumed value. When paired with the `UNSPECIFIED` colorimetry, `FULL` SHALL be the assumed value.
+  : This parameter SHOULD be used to signal the encoding range of the sample values within the stream. When paired with {{BT2100-3}} colorimetry, this parameter has two allowed values, `NARROW` and `FULL`, corresponding to the ranges specified in Table 9 of {{BT2100-3}}. In any other context, this parameter has three allowed values: `NARROW`, `FULLPROTECT`, and `FULL`, which correspond to the ranges specified in {{SMPTE2077}}. In the absence of this parameter, and for all but the `UNSPECIFIED` colorimetry, `NARROW` SHALL be the assumed value. When paired with the `UNSPECIFIED` colorimetry, `FULL` SHALL be the assumed value.
 
 Encoding considerations:
 : This media type is framed in RTP and contains binary data; see Section 4.8 of {{RFC6838}}.

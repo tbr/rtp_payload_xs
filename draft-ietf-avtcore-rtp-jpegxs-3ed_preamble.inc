@@ -179,15 +179,15 @@ informative:
     seriesinfo:      
       "ITU-R": 'Recommendation BT.2020-2'
     date: "October 2015"
-  BT2100-2:
+  BT2100-3:
     title: 'Image parameter values for high dynamic range television for use in production and international programme exchange'
-    target: 'https://www.itu.int/rec/R-REC-BT.2100-2-201807-I/en'
+    target: 'https://www.itu.int/rec/R-REC-BT.2100-3-202502-I/en'
     author:
       -
         org: 'ITU-R'
     seriesinfo:      
       "ITU-R": 'Recommendation BT.2100-2'
-    date: "July 2018"
+    date: "February 2025"
   ISO11664-1:
     title: 'Colorimetry - Part 1: CIE standard colorimetric observers'
     target: 'https://www.iso.org/standard/74164.html'
